@@ -1,0 +1,29 @@
+# Header
+menu:
+  主页: /
+  存档: /archives
+  作品集: /works
+  关于我: /about
+rss: /atom.xml
+
+# Content
+excerpt_link: 继续阅读
+fancybox: true
+
+# Sidebar
+sidebar: right
+widgets:
+- category
+- tag
+- tagcloud
+- archive
+- recent_posts
+- link
+- weibo
+
+# Miscellaneous
+google_analytics:
+baidu_analytics: true
+favicon: /favicon.png
+twitter:
+google_plus:

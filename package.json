@@ -1,0 +1,9 @@
+{
+  "name": "hexo",
+  "version": "2.5.1",
+  "private": true,
+  "dependencies": {
+    "hexo-math": "^1.0.0",
+    "hexo-broken-link-checker": "^1.0.1"
+  }
+}
