@@ -18,8 +18,8 @@ widgets:
 - tagcloud
 - archive
 - recent_posts
-- link
 - weibo
+- link
 
 # Miscellaneous
 google_analytics:

@@ -47,7 +47,7 @@ category_map:
   果粉手札: ios
   工巧匠心: ticks
   编程之美: programming
-  描云绘鲤: image-proc
+  绘云描鲤: image-processing
   软硬兼施: embedded
   他山之石: digest
   我笔我心: essay
@@ -79,7 +79,7 @@ time_format: H:mm:ss
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 0
+per_page: 8
 pagination_dir: page
 
 # Disqus
@@ -96,15 +96,8 @@ exclude_generator:
 plugins:
 - hexo-generator-feed
 - hexo-generator-sitemap
-- hexo-broken-link-checker
 - hexo-math
 
-#hexo-broken-link-checker plugin
-link_checker:
-   enabled: false
-   storage_dir: temp/link_checker
-   silent_logs: false
-      
 # Markdown
 ## https://github.com/chjj/marked
 markdown:
