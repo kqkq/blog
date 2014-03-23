@@ -14,7 +14,7 @@ fancybox: false
 * 关注我的[新浪微博](http://weibo.com/kqwd)并发送私信
 * 在本网站感兴趣的页面下留言
 * 通过QQ号284388369与我交流，加好友请写附言
-* 电子邮件：<iframe height="22px" src="/about/mail.html"></iframe>
+* 电子邮件：<img style="display: inline;" src="/images/email.png">
 
 
 ## 通信地址
