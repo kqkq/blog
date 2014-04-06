@@ -22,8 +22,9 @@ widgets:
 - link
 
 # Miscellaneous
-google_analytics:
+host_name: kuangqi.me
+google_analytics: UA-49728497-1
 baidu_analytics: true
 favicon: /favicon.png
-twitter:
+twitter: kuangqi
 google_plus:
