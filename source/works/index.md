@@ -55,10 +55,16 @@ date: 2014-03-19 22:55:48
 
 ### 中文版：
 
-* 书名：《Arduino实战》
+* 书名：[《Arduino实战》](http://www.ptpress.com.cn/Book.aspx?id=37499)
 * 译者：况琪
 * 出版社/出版年：人民邮电出版社，2014
 * ISBN：978-7-115-34331-4
+* 评论、购买此书：
+	- [豆瓣读书](http://book.douban.com/subject/25856541/)
+	- [京东](http://item.jd.com/11425435.html)
+	- [当当](http://product.dangdang.com/23441437.html)
+	- [亚马逊](http://www.amazon.cn/dp/B00J0DYAUY)
+	- [ChinaPub互动出版网](http://product.china-pub.com/3769624)
 
 您可以查看[《Arduino实战》译者序](/essay/arduino-in-action-translators-preface/)。
 
@@ -68,7 +74,7 @@ date: 2014-03-19 22:55:48
 
 ### 英文原版：
 
-* 书名：[*Tools and Techniques for Engineering Wizardry*](http://as.wiley.com/WileyCDA/WileyTitle/productCd-1118549368.html)
+* 书名：[*Exploring Arduino - Tools and Techniques for Engineering Wizardry*](http://as.wiley.com/WileyCDA/WileyTitle/productCd-1118549368.html)
 * 作者：Jeremy Blum
 * 出版社/出版年：Wiley，2013
 * ISBN：978-1-118-54936-0
