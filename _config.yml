@@ -113,5 +113,5 @@ markdown:
 ## Docs: http://zespia.tw/hexo/docs/deployment.html
 deploy:
   type: github
-  repo: https://github.com/kqkq/blog.git
-  branch: gh-pages
+  repo: https://gitcafe.com/kqkq/blog.git
+  branch: gitcafe-pages
