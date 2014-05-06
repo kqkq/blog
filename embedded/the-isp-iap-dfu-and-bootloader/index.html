@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>关于ISP、IAP、DFU和bootloader | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="og:type" content="blog">
+<meta name="og:title" content="关于ISP、IAP、DFU和bootloader">
+<meta name="og:url" content="http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/">
+<meta name="og:image">
+<meta name="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta name="og:description" content="这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：
+在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-the-isp-iap-dfu-and-bootloader" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/the-isp-iap-dfu-and-bootloader/" class="article-date">
+  <time datetime="2012-08-27T11:46:22.000Z" itemprop="datePublished">2012年8月27日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于ISP、IAP、DFU和bootloader
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：</p>
+<p>在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。另外在编程器里的也有一个MCU，这其中使用软件产生这个时序，从而对目标芯片进行编程。电脑通过串口把程序发到编程器，编程器按照规定的时序把程序送入目标芯片。</p>
+<a id="more"></a>
+
+<p>但是这种编程模式有几个问题，首先就是需要为特定的芯片购买特定的编程器。这种编程器通常比较昂贵，且只能用于特定型号的MCU. 对于企业来说，编程器的成本算不了什么，但更大的问题是，编程时我们必须把待编程的芯片从产品上拆下来，插到编程器上，编程后再安装回产品中。这种方法对于双列直插式的芯片也许是可行的。但对于现在日益流行的表面贴装技术是很不可行的，尤其是BGA封装的芯片，通常需要专业设备才能拆卸，拆下后需要重新植球才能焊接。。。为了更新固件而将其从高密度的PCB板上拆下来，是非常不可行的。</p>
+<p>为了能不把芯片拆下来就更新程序，人们发明了一种叫ISP的技术，即在系统编程。在系统编程就是通过串口或者其他通用的通用通信接口，为芯片编程。在产品上可以预留一个串口，需要更新时，只要把产品插到电脑上，通过串口把程序传到芯片里，就完成了更新操作。ISP技术的实现，其实就是依赖于芯片在出厂时预先烧写的bootloader程序，bootloader还有很多不同的叫法，比如ISP服务程序（STC宏晶的51单片机这么叫）、bootstrap（MSP430的BSL编程这么叫）等等。但本质上都是相同的。bootloader在芯片复位（或者上电）时，会优先于用户自己的代码启动。这段代码会首先检测芯片的指定引脚上有没有特定的信号，如果没有，则跳入用户程序执行。否则就按照bootloader特定的通信协议，与计算机进行握手，并最终触发计算机将新的程序通过通用接口（如串口）传送到芯片。然后bootloader通过软件的方式（当然需要硬件支持），擦除用户程序区，将新的程序写入到指定的位置。另外提到的是，bootloader是由各个芯片厂家自己写的，因此不是通用的。尽管都是用串口，但通信协议是不同的。比如像国产垃圾STC单片机，通信协议甚至是保密的。因此通常需要厂家提供的专用ISP软件（flash loader）才能给芯片编程。</p>
+<p>另外，比ISP更先进一点的一个技术叫IAP，即在应用编程。IAP技术允许用户程序修改flash。说白了IAP就是允许用户自定义bootloader，或者说有2个bootloader，一个bootloader是芯片出厂时固化的，另一个是用户自定义的。自定义的bootloader在固化的bootloader之后启动。也许你就要问了，用户自定义的bootloader不就是用户程序吗？其实它跟普通用户程序的区别就是它不会那么容易的被擦除。。。一般是先用专用软件，调用固化的bootloader，来写入自定义的bootloader，然后自定义的bootloader利用能写flash的能力，来给芯片写入新的程序。<br>为什么需要自定义bootloader呢？默认的bootloader需要在固定引脚，通过串口，以固定的协议传送程序。如果你对这个过程的任何一点不满意，那你就要自定义bootloader喽~</p>
+<p>再说说DFU，这个名词通常是针对USB设备说的。因为现在的设备基本都是USB了，没用串口的了。。。很多MCU也内置了USB的支持。DFU是Device Firmware Upgrade的缩写，在我的理解中，DFU模式就是支持USB的bootloader。。。DFU模式通常需要特定的驱动程序，因为现在的芯片USB接口通常工作于VCP（Virtual COM Port）模式，插到电脑上后会虚拟成一个串口设备。而DFU模式则于此不同。VCP模式下，PC端是一个串口驱动程序，MCU端是用户程序。而DFU模式下，PC端是DFU驱动程序，MCU端是bootloader。DFU模式的bootloader通常是用户自定义的，并通过固化的bootloader由串口刷入。</p>
+<p>进入bootloader程序通常有两种方式，一种是硬件复位（或者掉电），即按板上的复位按钮。芯片复位后会先执行bootloader。第二种方式是以软复位的方式进入的，软复位通常是通过PC发送一串指定的指令，用户程序中会通过中断服务程序检测到并处理这些指令。满足触发条件后，芯片将执行软复位，并将指定的地址装入PC寄存器，从而通过软件的方式跳入bootloader程序。</p>
+<p>最后我们来看一下Arduino和Maple板子的刷写方式。</p>
+<p>Arduino板上有两个MCU，一个是我们都知道的执行程序的那个MCU，它里面刷写了Arduino自定义的bootloader。另外一个是USB接口附近的一个QFN封装的小芯片，它也是一片MCU，只不过是带USB支持的。在这里它完成USB转串口的功能。更重要的是，它可以监测PC发来的指令流，其中就包含了复位指令。收到USB发来的复位指令后，它会在目标MCU的复位脚加一个负脉冲，使得目标MCU复位，进而将下载指令流放到目标MCU的串口上。使得目标MCU的bootloader检测到，从而完成下载。<br>Maple只有一个MCU，因此从USB收到下载指令后，只不过复位的不是别的芯片，而是复位自己。将自己复位到DFU模式，从而利用bootloader从USB下载程序。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/" data-id="hot7umml0524q5uz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/essay/a-discussion-with-the-president-of-bnu/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          董奇校长座谈会-我的发言稿（未删节）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/embedded/jlink-clone-and-cm4-board/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">山寨J-Link V8仿真器与Cortex-M4开发板之不得不吐的槽</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">三月 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">七月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">六月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">五月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12">十二月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">十月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">八月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">四月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02">二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">一月 2012</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">十二月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10">十月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">九月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08">八月 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">六月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">五月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">二月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">一月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">十二月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">十月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07">七月 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05">五月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03">三月 2010</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02">二月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01">一月 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/12">十二月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09">九月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07">七月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06">六月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05">五月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02">二月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11">十一月 2007</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/silkscreen-in-allegro/">如何在Allegro PCB Editor中正确地添加丝印</a>
+          </li>
+        
+          <li>
+            <a href="/essay/arduino-in-action-translators-preface/">《Arduino实战》译者序</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/add-weibo-show-in-hexo/">在Hexo博客中添加微博秀</a>
+          </li>
+        
+          <li>
+            <a href="/ios/ios-development-without-idp/">Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略</a>
+          </li>
+        
+          <li>
+            <a href="/ios/flush-dns-cache-on-osx/">在Mac OS X下刷新DNS缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Advertisement</h3>
+    <div class="widget-weibo" style="height:250px;">
+    <div height="100px"></div>
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- 边栏广告 -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-7369855808070117"
+        data-ad-slot="6736518548"
+        data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 况琪<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1461 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[The Bloom of Youth | 锦瑟华年]]></title>
+  <subtitle><![CDATA[那些刻骨铭心的日子原本就云淡风轻]]></subtitle>
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://kuangqi.me/"/>
+  <updated>2014-05-06T16:47:49.948Z</updated>
+  <id>http://kuangqi.me/</id>
+  
+  <author>
+    <name><![CDATA[况琪]]></name>
+    <email><![CDATA[hello@kuangqi.me]]></email>
+  </author>
+  
+  <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[如何在Allegro PCB Editor中正确地添加丝印]]></title>
+    <link href="http://kuangqi.me/embedded/silkscreen-in-allegro/"/>
+    <id>http://kuangqi.me/embedded/silkscreen-in-allegro/</id>
+    <published>2014-04-30T16:39:55.000Z</published>
+    <updated>2014-04-30T17:16:37.000Z</updated>
+    <content type="html"><![CDATA[<p>在Allegro PCB Editor中，很多Class和Subclass都包含了丝印层，那么要如何添加和管理丝印层，又应该如何正确地生成丝印层的光绘文件呢？我们常用的丝印层位于下列Class/Subclass当中。</p>
+<h3 id="Board_Geometry_-_Silkscreen">Board Geometry - Silkscreen</h3>
+<p>板级的丝印层，一般用于添加板子上的说明性文字标注、版权信息、产品或公司Logo等等。</p>
+<h3 id="Package_Geometry_-_Silkscreen">Package Geometry - Silkscreen</h3>
+<p>器件级的丝印层，用于器件本身的标注，比如标注集成电路的1号引脚、标注电解电容和二极管的极性等等。这些丝印信息一般情况下由器件封装自带，所以很少在PCB中手动修改，如果封装中的丝印信息有误，应该直接修改器件封装中的信息，这样才便于复用。</p>
+<a id="more"></a>
+
+<h3 id="Components_-_RefDes_-_Silkscreen">Components - RefDes - Silkscreen</h3>
+<p>这个才是真正的专门用于器件的索引编号的丝印层。与坑爹的自动丝印层（Autosilk）不同，这个层的信息可以可靠地保持，调整后的索引编号不会随着元件位置的变动而变动。</p>
+<h3 id="Manufacturing_-_Autosilk">Manufacturing - Autosilk</h3>
+<p>自动丝印层，也就是由软件自动生成的丝印层。在“于博士”的Cadence教程当中，就将这个层作为了主要的丝印层。这样做可能是为了照顾初学者。这个层由软件自动生成，软件生成的丝印层非常乱，所有的索引编号都需要手动调整。然而，当你对元件以及元件周围的线路做出任何调整时，附近的丝印会重新自动生成，自己精心调整的丝印就会重新变得乱七八糟，这就使得这个层非常坑爹。</p>
+<p>生成的内容杂乱，手动调整复杂、甚至无法可靠地保持调整后的状态。这个层在实际生产中显然没有什么实用价值，因此<strong>不推荐使用</strong>。</p>
+<hr>
+<p>下面来讨论一下丝印的光绘文件中都应该包含哪些层。想必经过上述描述，思路已经比较清晰了。实际PCB上的丝印其实可以分成三大类：</p>
+<ol>
+<li>板上的说明性文字、Logo、版权信息等</li>
+<li>辅助元件安装的正负极标志、光学定位点、1号引脚标记等</li>
+<li>元器件的索引编号</li>
+</ol>
+<p>另外，为了方便在制造时审阅丝印文件，有时也将板框加入到丝印层中。综上，在生成丝印的光绘文件时，推荐使用下列组合</p>
+<ul>
+<li>Board Geometry<ul>
+<li>Silkscreen_Top/Silkscreen_Bottom</li>
+<li>Outline(可选)</li>
+</ul>
+</li>
+<li>Package Geometry<ul>
+<li>Silkscreen_Top/Silkscreen_Bottom</li>
+</ul>
+</li>
+<li>Components<ul>
+<li>RefDes<ul>
+<li>Silkscreen_Top/Silkscreen_Bottom</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    <summary type="html"><![CDATA[<p>在Allegro PCB Editor中，很多Class和Subclass都包含了丝印层，那么要如何添加和管理丝印层，又应该如何正确地生成丝印层的光绘文件呢？我们常用的丝印层位于下列Class/Subclass当中。</p>
+<h3 id="Board_Geometry_-_Silkscreen">Board Geometry - Silkscreen</h3>
+<p>板级的丝印层，一般用于添加板子上的说明性文字标注、版权信息、产品或公司Logo等等。</p>
+<h3 id="Package_Geometry_-_Silkscreen">Package Geometry - Silkscreen</h3>
+<p>器件级的丝印层，用于器件本身的标注，比如标注集成电路的1号引脚、标注电解电容和二极管的极性等等。这些丝印信息一般情况下由器件封装自带，所以很少在PCB中手动修改，如果封装中的丝印信息有误，应该直接修改器件封装中的信息，这样才便于复用。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[《Arduino实战》译者序]]></title>
+    <link href="http://kuangqi.me/essay/arduino-in-action-translators-preface/"/>
+    <id>http://kuangqi.me/essay/arduino-in-action-translators-preface/</id>
+    <published>2014-03-22T16:51:49.000Z</published>
+    <updated>2014-03-22T16:51:51.000Z</updated>
+    <content type="html"><![CDATA[<p>每个人的心中都会藏着一个关于改变世界的小小梦想，每一个敢于向这个目标迈出哪怕只是一小步的人，都是我心目中的英雄。然而有这么一些人，他们会为软件编写一些小插件，他们为操作系统订制个性的主题，他们改装键盘和鼠标，为它们添加酷炫的LED灯……他们不满足于商场买回来的成品，总觉得那些工业化生产的东西缺少一点个性和人情味，他们不妥协，他们用自己的方法在现实世界中修修补补并乐此不疲，他们有一个相同的名字——创客。创客不必是身怀绝技的科技精英，也不必是腰缠万贯的富翁，有人用多彩的十字绣装点日常的衣物，有人用璀璨的水钻制作精致的手机壳，有人在橡皮上雕刻个性的图案，将它印在书本的扉页上……他们都在对身边世界进行小小的改造，他们都是创客。只要你心怀梦想，只要你不甘平庸，只要你有想法并付诸实践，你就是创客。欢迎你加入创客的大家庭！</p>
+<a id="more"></a>
+
+<p>然而，小小的翅膀并不能撑起大大的梦想。飞速运转的工业化设备就像一片原野，尽管有富饶的水土，尽管孕育着千万的生命，却将平民创客的呼喊淹没在呼啸而过的风中。幸运的是，创客的先行者们搭建了许多可以让平民创客施展拳脚的平台，Arduino就是其中之一。Arduino是一个很小的平台，一张信用卡的大小，小到可以将其放在掌心；Arduino又是一个巨大的舞台，全球数以百万计的玩家共同组成了庞大的Arduino社区，这里每个人都乐于分享，这里每个人都是主角。庞大的用户群创造了海量的资源，让Arduino成为一只羽翼丰满的鸿鹄，带着你的梦想扶摇直上！</p>
+<p>也正是得益于Arduino社区的孵化，最终让《Arduino实战》一书借着创客运动的春风，呈现在了各位读者的面前。本书的英文原版由三位作者合著。与诸多同类书籍不同的是，本书作者当中除了有传统意义上的电子工程师、硬件创客以外，还有专业的创新技术专家、交互设计师和艺术家等。作者丰富的背景使得本书的内容变得异彩纷呈。本书所涵盖内容的广泛性、实用性和艺术性在国内乃至国际范围内都堪称同类图书之最。</p>
+<p>除了“流水灯”等少数几个经典保留项目之外，本书还制作了五音阶电子琴、可穿戴路标灯、小型气象站等趣味性和实用性更强的项目。更可贵的是，本书还介绍了一些在同类图书中非常罕见且具有较强实用价值的技术，比如利用Cosm平台进行云端数据交换的示例，就渗透了近年来大红大紫的“物联网”技术思想；而通过iOS编程与Arduino板卡通信的示例，则顺应了移动计算的大方向。</p>
+<p>对于Arduino板卡本身来说，其硬件外设和计算资源都非常有限。因此，“学Arduino”不能只学Arduino已经成为了人们的共识。由于Arduino的软硬件平台均以开源许可证发布，全世界的Arduino玩家已经为其开发了浩如烟海的软件库和硬件扩展模块，使得Arduino的功能得以无限地扩展。所以，学习Arduino要注重两个“扩展”：第一，要学会让各种电路组件成为Arduino的扩展，例如在本书第5章就介绍了直流电机、单极型步进电机、双极型步进电机、伺服电机和无刷电机这5种电动机。这些电动机的不同特性使其适用于不同的场合，通过这一章的学习，读者就可以基本上扫清在制作各种小型机器人时遇到的跟电动机有关的问题。第二，要学会让Arduino成为计算机的扩展，例如在本书第13章就介绍了Arduino与运行在计算机上的Python、Pure Data、Processing等编程语言整合，借助PC机的计算能力，可以完成许多仅凭Arduino自身完成不了的应用。大部分同类图书都在第一个“扩展”上浅尝辄止，而本书则做到了两全其美。本书的写作风格风趣活泼，实例教程妙趣横生，在有限的篇幅内很好地把握了内容的深度和广度，既可以作为初学者的入门教程，也可以作为进阶玩家的参考手册。</p>
+<p>由于作者丰富的背景，本书涉及的内容也十分广泛，这就为本书的翻译工作带来了挑战。除了电子方面的专业名词以外，本书中还出现了在计算机视觉、iOS开发、USB协议、网络通信等方面的概念，所幸我对这些技术还略有涉猎。更夸张的是，书中还出现了一些音乐、军事、设计等方面的术语，而这些的翻译只能通过搜索或请教别人来完成。为了搞懂一个短语的含义，我甚至阅读了作者本人撰写的学术论文。</p>
+<p>翻译的过程是一个再创作的过程，在尊重原文的基础上，也在尽可能地注意了汉语的语言习惯，对一些长句进行了拆分，还对一些句式和词性做了转换。另外，由于文化背景的差异，作者在文中提到的一些事物在国外可能妇孺皆知，但国人可能感到陌生，翻译过程中也针对这些内容撰写了数十条译注，希望能为国内的读者带来一些方便。然而人非圣贤，即使是这本优秀的图书也并非完美无瑕，译者在原版图书中也发现了一些错误和疏漏，其中大部分已在译稿中予以修正，但也有一部分出于尊重原文的考虑予以保留，并将译者的个人见解以译注的形式给出，以供读者参考。</p>
+<p>在百余天的翻译过程中，遇到的困难和挫折是令我始料未及的。幸运的是，我的工作受到了来自家人、朋友、同学和老师的关注、支持和鼓励，是他们的鞭策使我最终完成了这本译著。首先要感谢我的父母，他们在假期为我提供了“衣来伸手，饭来张口”式的生活照料，他们对我的工作给予了高度关注和鼎力支持，他们是我最大的粉丝和最忠实的读者。我想感谢国家级大学生创新创业训练项目为本书相关研究提供经费支持，也要感谢我在北京师范大学的良师益友：感谢我的导师孙波教授以及项目组成员陶最、陈亚冰为本书相关研究付出的努力，感谢李朱峰老师的热情帮助，感谢我的室友王俊升和陆济川与我探讨并解决了很多问题，感谢北师大先进计算与软件研究中心的所有同学和老师，特别是胡久林、黄小芳、陈会杰几位学长的理解和包容。感谢在我之前著书立说，成一家之言的宋若溪、周颖萱和联骏老师对本书的关注，他们是我的偶像和榜样。感谢人民邮电出版社的杨海玲以及更多为本书付出辛勤劳动的编辑们。感谢一直以来关注和鼓励我的张万祥、田宏、李思瑶以及更多无法一一列出的朋友。</p>
+<p>尽管如此，由于译者本人能力和精力的限制，本书的仍不能在每个方面都做到尽善尽美。我非常愿意听到来自读者朋友的批评和建议，并渴望与志同道合的朋友共同探索、共同进步。读者可以通过关注我的新浪微博（<a href="http://weibo.com/kqwd" target="_blank">http://weibo.com/kqwd</a>）或者访问我的个人主页（<a href="http://kuangqi.me">http://kuangqi.me</a>）来与我取得联系。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>每个人的心中都会藏着一个关于改变世界的小小梦想，每一个敢于向这个目标迈出哪怕只是一小步的人，都是我心目中的英雄。然而有这么一些人，他们会为软件编写一些小插件，他们为操作系统订制个性的主题，他们改装键盘和鼠标，为它们添加酷炫的LED灯……他们不满足于商场买回来的成品，总觉得那些工业化生产的东西缺少一点个性和人情味，他们不妥协，他们用自己的方法在现实世界中修修补补并乐此不疲，他们有一个相同的名字——创客。创客不必是身怀绝技的科技精英，也不必是腰缠万贯的富翁，有人用多彩的十字绣装点日常的衣物，有人用璀璨的水钻制作精致的手机壳，有人在橡皮上雕刻个性的图案，将它印在书本的扉页上……他们都在对身边世界进行小小的改造，他们都是创客。只要你心怀梦想，只要你不甘平庸，只要你有想法并付诸实践，你就是创客。欢迎你加入创客的大家庭！</p>
+]]></summary>
+    
+      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[在Hexo博客中添加微博秀]]></title>
+    <link href="http://kuangqi.me/tricks/add-weibo-show-in-hexo/"/>
+    <id>http://kuangqi.me/tricks/add-weibo-show-in-hexo/</id>
+    <published>2014-03-22T04:23:40.000Z</published>
+    <updated>2014-03-22T05:06:10.000Z</updated>
+    <content type="html"><![CDATA[<p>在博客上添加一个微博秀是件挺酷的事情，但作为一名前端小白，这事儿着实让我折腾了一阵。下面所有操作以默认的landscape主题为例。</p>
+<p>首先，我们要登录<a href="http://app.weibo.com/tool/weiboshow" target="_blank">新浪微博开放平台</a>来获取微博秀的代码。然后新建<code>themes/landscape/layout/_widget/weibo.ejs</code>这个文件，将刚刚获取到的代码添加到这个文件中。最后编辑<code>themes/landscape/_config.yml</code>，在<code>widgets:</code>标签后面的适当位置添加<code>- weibo</code>。这样微博秀应该就可以显示在你的博客上了。</p>
+<p>如果显示区域空白，有可能是因为你使用<code>localhost</code>访问导致的。使用本地IP地址<code>127.0.0.1</code>来访问就没问题了。</p>
+<p>正常情况下，这篇文章就应该结束了，但对于一个强迫症患者来说，这篇文章才刚刚开始……</p>
+<a id="more"></a>
+
+<p>上述方法添加的微博秀没有标题文字，也不像landscape的其他widget那样具有圆角矩形、带内阴影的边框，使得这个组件与整个的博客主题格格不入。那要如何才能让微博秀更“和谐”呢？</p>
+<p>首先，获取微博代码时就要进行一些设置，为了将微博秀“嵌入”到widget中，我们要关掉各种边框和标题栏。更重要的是，我们要将微博秀的背景色设置成与主题一致的<code>#dddddd</code>。我还顺便调整了一下其他的配色，使其更适合灰色的背景。调整后的配色和模块设置如下图：</p>
+<p><img src="/images/weibo-show-1.png" alt=""></p>
+<p>获取到的代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"550"</span> <span class="attribute">class</span>=<span class="value">"share_self"</span>  <span class="attribute">frameborder</span>=<span class="value">"0"</span> <span class="attribute">scrolling</span>=<span class="value">"no"</span> <span class="attribute">src</span>=<span class="value">"http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>下面我们就给微博秀加上标题和圆角矩形的边框，我们可以仿照其他widget的代码，来调用现有的风格。下面代码以landscape主题为例，其他主题的设置方法也类似，可以挑一个主题自带的简单的widget，将其改为<code>weibo.ejs</code>。例如我就从<code>archive.ejs</code>下手，其代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="vbscript">&lt;% <span class="keyword">if</span> (site.posts.length){ %&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"widget-wrap"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h3</span> <span class="attribute">class</span>=<span class="value">"widget-title"</span>&gt;</span>Archives<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"widget"</span>&gt;</span>
+      <span class="vbscript">&lt;%- list_archives() %&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="vbscript">&lt;% } %&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>我将它复制了一份，改为<code>weibo.ejs</code>。然后删掉<code>if</code>语句，将<code>&lt;iframe&gt;</code>代码放到恰当位置，修改标题为“Weibo show”。根据<code>archive.ejs</code>修改的<code>weibo.ejs</code>如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="vbscript">&lt;% <span class="keyword">if</span> (<span class="literal">true</span>){ %&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"widget-wrap"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h3</span> <span class="attribute">class</span>=<span class="value">"widget-title"</span>&gt;</span>Weibo show<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"widget"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"500"</span> <span class="attribute">class</span>=<span class="value">"share_self"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span> <span class="attribute">scrolling</span>=<span class="value">"no"</span> <span class="attribute">src</span>=<span class="value">"http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="vbscript">&lt;% } %&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>重新生成博客，你就会发现微博秀的外面也具有了像其他默认widget一样的圆角矩形边框。但是还有一个小问题，那就是这个外框带有一个<code>padding</code>值，使得微博秀显示在其中小了一圈，我们希望将微博秀贴边显示。这个padding值正是由<code>widget</code>这个class的CSS设定的。我们要根据原有的widget的CSS来建立一个适合于微博秀的CSS class。</p>
+<p>编辑<code>themes/landscape/source/css/_partial/sidebar.styl</code>，将其中原有的<code>.widget</code>的前半部分复制一份，放到文件的最后，重新起一个名字，然后将<code>padding</code>一行删掉。即在<code>sidebar.styl</code>文件的最后添加如下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="class">.widget-weibo</span>
+  <span class="tag">color</span>: <span class="tag">color-sidebar-text</span>
+  <span class="tag">text-shadow</span>: 0 1<span class="tag">px</span> <span class="id">#fff</span>
+  <span class="tag">background</span>: <span class="tag">color-widget-background</span>
+  <span class="tag">box-shadow</span>: 0 <span class="tag">-1px</span> 4<span class="tag">px</span> <span class="tag">color-widget-border</span> <span class="tag">inset</span>
+  <span class="tag">border</span>: 1<span class="tag">px</span> <span class="tag">solid</span> <span class="tag">color-widget-border</span>
+  <span class="tag">border-radius</span>: 3<span class="tag">px</span>
+</pre></td></tr></table></figure>
+
+<p>然后将<code>weibo.ejs</code>中原来的<code>widget</code>改成上面刚创建的<code>widget-weibo</code>。修改后的代码如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre><span class="vbscript">&lt;% <span class="keyword">if</span> (<span class="literal">true</span>){ %&gt;</span>
+  <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"widget-wrap"</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">h3</span> <span class="attribute">class</span>=<span class="value">"widget-title"</span>&gt;</span>Weibo show<span class="tag">&lt;/<span class="title">h3</span>&gt;</span>
+    <span class="tag">&lt;<span class="title">div</span> <span class="attribute">class</span>=<span class="value">"widget-weibo"</span>&gt;</span>
+      <span class="tag">&lt;<span class="title">iframe</span> <span class="attribute">width</span>=<span class="value">"100%"</span> <span class="attribute">height</span>=<span class="value">"500"</span> <span class="attribute">class</span>=<span class="value">"share_self"</span> <span class="attribute">frameborder</span>=<span class="value">"0"</span> <span class="attribute">scrolling</span>=<span class="value">"no"</span> <span class="attribute">src</span>=<span class="value">"http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"</span>&gt;</span><span class="tag">&lt;/<span class="title">iframe</span>&gt;</span>
+    <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+  <span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="vbscript">&lt;% } %&gt;</span>
+</pre></td></tr></table></figure>
+
+<p>再次生成博客页码，你会发现一切都和谐了！</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>在博客上添加一个微博秀是件挺酷的事情，但作为一名前端小白，这事儿着实让我折腾了一阵。下面所有操作以默认的landscape主题为例。</p>
+<p>首先，我们要登录<a href="http://app.weibo.com/tool/weiboshow" target="_blank">新浪微博开放平台</a>来获取微博秀的代码。然后新建<code>themes/landscape/layout/_widget/weibo.ejs</code>这个文件，将刚刚获取到的代码添加到这个文件中。最后编辑<code>themes/landscape/_config.yml</code>，在<code>widgets:</code>标签后面的适当位置添加<code>- weibo</code>。这样微博秀应该就可以显示在你的博客上了。</p>
+<p>如果显示区域空白，有可能是因为你使用<code>localhost</code>访问导致的。使用本地IP地址<code>127.0.0.1</code>来访问就没问题了。</p>
+<p>正常情况下，这篇文章就应该结束了，但对于一个强迫症患者来说，这篇文章才刚刚开始……</p>
+]]></summary>
+    
+      <category term="工巧匠心" scheme="http://kuangqi.me/categories/tricks/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略]]></title>
+    <link href="http://kuangqi.me/ios/ios-development-without-idp/"/>
+    <id>http://kuangqi.me/ios/ios-development-without-idp/</id>
+    <published>2014-03-14T10:47:36.000Z</published>
+    <updated>2014-03-22T16:49:54.000Z</updated>
+    <content type="html"><![CDATA[<p>众所周知，在Xcode上开发的程序只能在模拟器中运行，如果要放到真机上则要花费99美金购买开发者证书iDP。这严重阻碍了我等草根开发者探索的脚步。写个小程序，同学间分享一下这个小小的愿望都不能满足，自然不能善罢甘休。</p>
+<p>在没有iDP的情况下，要想将程序放到iPhone上调试，并最终发布IPA用于分享，需要以下几个步骤：</p>
+<ol>
+<li>自己为自己颁发一个证书用于为生成的程序签名</li>
+<li>修改工程配置以及Xcode的配置文件和二进制文件以阻止其验证和签名</li>
+<li>通过自定义生成步骤，用伪造的证书为应用程序签名</li>
+<li>使用一点小trick来生成IPA文件</li>
+</ol>
+<a id="more"></a>
+
+<p>开发环境使用的是目前为止最新的稳定版软件：Mac OS X Lion 10.9.2 + Xcode 5</p>
+<p>目前本人已经测试并证实有效的平台有：</p>
+<ul>
+<li>Xcode 4.1：<ul>
+<li>iPod touch 4 iOS 4.3.3</li>
+</ul>
+</li>
+<li>Xcode 4.2：<ul>
+<li>iPod touch 4 iOS 4.3.3</li>
+<li>iPod touch 4 iOS 5.0</li>
+<li>iPod touch 4 iOS 5.0.1</li>
+</ul>
+</li>
+<li>Xcode 4.2.1：<ul>
+<li>iPod touch 4 iOS 4.3.3</li>
+<li>iPod touch 4 iOS 5.0.1</li>
+<li>iPhone 4S iOS 5.0.1(5A406)</li>
+</ul>
+</li>
+<li>Xcode 4.3<ul>
+<li>iPhone 4S iOS 5.0.1(5A406)</li>
+</ul>
+</li>
+<li>Xcode 4.3.2<ul>
+<li>iPhone 4S iOS 5.1.1</li>
+</ul>
+</li>
+<li>Xcode 4.4.1 for Mountain Lion<ul>
+<li>iPhone 4S iOS 5.1.1</li>
+</ul>
+</li>
+<li>Xcode 4.5 for Mountain Lion<ul>
+<li>iPhone 4S iOS 5.1.1</li>
+</ul>
+</li>
+<li>Xcode 4.6 for Mountain Lion<ul>
+<li>iPhone 4S iOS 6.1</li>
+</ul>
+</li>
+</ul>
+<p>另外，操作系统的版本貌似对调试影响不大，这期间用过的系统有Mac OS X 10.6~10.9.2，都没有问题。当然您需要先越狱您的设备并通过Cydia安装AppSync。</p>
+<h3 id="1-_创建证书">1. 创建证书</h3>
+<p>创建证书的过程比较简单，打开实用工具-钥匙串访问。然后在菜单栏里点击钥匙串访问-证书助理-创建证书来打开向导。第一个步骤比较重要，必须要把名称命名为iPhone Developer，将类型设定为代码签名，将”让我覆盖这些默认值”选中。之后的步骤无需更改，一路点击“确定”和“继续”来完成这个向导就可以。</p>
+<p><img src="/images/ios-development-1.png" alt=""></p>
+<h3 id="2-_修改Xcode的配置文件">2. 修改Xcode的配置文件</h3>
+<p>下面的步骤稍微有点繁琐，您应该了解UNIX命令行的基本操作，并了解一种命令行文本编辑器，本文使用的是vim。尽管这里会给出完整的代码，但是关于修改和保存代码的基本操作，不再赘述。下面的操作请先将Xcode按<code>Command+Q</code>完全关闭。</p>
+<ol>
+<li><p>进入iPhone SDK目录</p>
+<p> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.<span class="number">0</span>.sdk/
+</pre></td></tr></table></figure><br> 不同版本的Xcode只是最后的版本号不同。在Xcode 5.0中是<code>iPhoneOS7.0.sdk</code>，未来版本可能版本高一些，早期版本的就低一些。这个请大家自己改动。</p>
+</li>
+<li><p>备份原文件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> cp SDKSettings.plist SDKSettings.plist.orig
+</pre></td></tr></table></figure>
+</li>
+<li><p>编辑配置文件</p>
+<p> 在不同版本的Xcode中，这个配置文件的编码方式并不相同。有的版本是XML格式，有的版本则是二进制格式的。为了方便修改，我们可以直接用Xcode打开这个文件。首先要打开这个文件所在目录：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>open .
+</pre></td></tr></table></figure><br> 在弹出的Finder窗口中双击<code>SDKSettings.plist</code>，会启动Xcode的图形界面，我们展开<code>DefaultProperties</code>分支，将下面的<code>CODE_SIGNING_REQUIRED</code>和<code>ENTITLEMENTS_REQUIRED</code>两个属性改为<code>NO</code></p>
+</li>
+<li><p>编辑另外一个配置文件</p>
+<p> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="built_in">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
+<span class="built_in">sudo</span> cp Info.plist Info.plist.orig
+open .
+</pre></td></tr></table></figure><br> 在弹出的Finder窗口中双击打开<code>Info.plist</code>。将全部的<code>XCiPhoneOSCodeSignContext</code>修改成<code>XCCodeSignContext</code>，共有3处。分别在<code>DefaultProperties</code>分支下、<code>RuntimeRequirements</code>分支下和<code>OverrideProperties</code>分支下。</p>
+</li>
+</ol>
+<p>至此，对SDK中配置文件的修改就完成了</p>
+<h3 id="3-_准备自定义的生成后脚本">3. 准备自定义的生成后脚本</h3>
+<p>连接互联网后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>mkdir /Applications/Xcode.app/Contents/Developer/iphoneentitlements
+<span class="built_in">cd</span> /Applications/Xcode.app/Contents/Developer/iphoneentitlements
+curl -O http://www.alexwhittemore.com/iphone/gen_entitlements.txt
+mv gen_entitlements.txt gen_entitlements.py
+chmod <span class="number">777</span> gen_entitlements.py
+</pre></td></tr></table></figure>
+
+<p>热心网友指出，这里可能涉及到权限问题。我做的时候貌似没有出啥问题，如果您在执行这段代码时遇到Permission denied提示的话，请将相应的语句前面加上sudo以获取超级权限。</p>
+<p>如果您已经联网，则请直接转到步骤4，如果您没有联网，那么请在相应目录手动创建<code>gen_entitlements.py</code>并授予其执行权限，这个文件的内容为:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python</span>
+
+<span class="keyword">import</span> sys
+<span class="keyword">import</span> struct
+
+<span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:
+trueprint <span class="string">"Usage: %s appname dest_file.xcent"</span> % sys.argv[<span class="number">0</span>]
+truesys.exit(-<span class="number">1</span>)
+
+APPNAME = sys.argv[<span class="number">1</span>]
+DEST = sys.argv[<span class="number">2</span>]
+
+<span class="keyword">if</span> <span class="keyword">not</span> DEST.endswith(<span class="string">'.xml'</span>) <span class="keyword">and</span> <span class="keyword">not</span> DEST.endswith(<span class="string">'.xcent'</span>):
+trueprint <span class="string">"Dest must be .xml (for ldid) or .xcent (for codesign)"</span>
+truesys.exit(-<span class="number">1</span>)
+
+entitlements = <span class="string">"""
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+true&lt;key&gt;application-identifier&lt;/key&gt;
+true&lt;string&gt;%s&lt;/string&gt;
+true&lt;key&gt;get-task-allow&lt;/key&gt;
+true&lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+"""</span> % APPNAME
+
+f = open(DEST,<span class="string">'w'</span>)
+<span class="keyword">if</span> DEST.endswith(<span class="string">'.xcent'</span>):
+truef.write(<span class="string">"\xfa\xde\x71\x71"</span>)
+truef.write(struct.pack(<span class="string">'&gt;L'</span>, len(entitlements) + <span class="number">8</span>))
+f.write(entitlements)
+f.close()
+</pre></td></tr></table></figure>
+
+<h3 id="4-_修改工程设置">4. 修改工程设置</h3>
+<p>特别注意：本阶段之前的修改配置文件、准备脚本等，只需要做一次。但本阶段的操作，对每个需要真机调试的工程都要做一遍。</p>
+<p>这个步骤的主要作用是支持真机调试，如果不做这个步骤，仍然可以通过步骤5来生成ipa在真机上运行，但是无法使用Xcode内置的调试器对在真机上运行的程序进行单步跟踪。如果您的程序在点击Run真机调试时秒退，请检查此步骤是否正确完成。</p>
+<ol>
+<li><p>禁用Xcode自动的签名操作</p>
+<p> 将工程配置中所有的Code Signing选项全部设为Don’t Code Sign，如图。可能需要先点击“All”让这个选项显示出来<br> <img src="/images/ios-development-2.png" alt=""></p>
+</li>
+<li><p>添加自定义的生成后脚本<br>在Build Phases中添加一个Build Phase，输入以下脚本</p>
+<p> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">export</span> CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
+<span class="keyword">if</span> [ <span class="string">"<span class="variable">${PLATFORM_NAME}</span>"</span> == <span class="string">"iphoneos"</span> ] || [ <span class="string">"<span class="variable">${PLATFORM_NAME}</span>"</span> == <span class="string">"ipados"</span> ]; <span class="keyword">then</span>
+/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py <span class="string">"my.company.<span class="variable">${PROJECT_NAME}</span>"</span> <span class="string">"<span class="variable">${BUILT_PRODUCTS_DIR}</span>/<span class="variable">${WRAPPER_NAME}</span>/<span class="variable">${PROJECT_NAME}</span>.xcent"</span>;
+codesign <span class="operator">-f</span> <span class="operator">-s</span> <span class="string">"iPhone Developer"</span> --entitlements <span class="string">"<span class="variable">${BUILT_PRODUCTS_DIR}</span>/<span class="variable">${WRAPPER_NAME}</span>/<span class="variable">${PROJECT_NAME}</span>.xcent"</span> <span class="string">"<span class="variable">${BUILT_PRODUCTS_DIR}</span>/<span class="variable">${WRAPPER_NAME}</span>/"</span>
+<span class="keyword">fi</span>
+</pre></td></tr></table></figure><br> 对于Xcode 5，要在Editor菜单下的Add Build Phase项中添加，Build Phase，如图：</p>
+<p> <img src="/images/ios-development-3.png" alt=""></p>
+<p> 对于Xcode 4，在右下角的“加号”处添加，如图：</p>
+<p> <img src="/images/ios-development-4.png" alt=""></p>
+<p> 至此配置全部完成，下面就可以插上iPhone，重新选择生成目标来测试一下在线调试了！如果是第一次使用该设备调试，请先在Organizer中将设备切换为开发模式，具体操作请见常见问题5。</p>
+</li>
+</ol>
+<h3 id="5-_旁门左道生成IPA文件">5. 旁门左道生成IPA文件</h3>
+<p>如果我的程序调试好了，怎么才能发给别人用呢？正常情况下IPA文件是从Xcode的Organizer中输出的，但是我们没有证书，这样输出会产生错误。我们只能用个小trick来完成这个操作了。</p>
+<p>先将代码生成为Release目标，然后打开工程的输出文件夹，通常情况下这个目录是<br><code>/Users/你的用户名/Library/Developer/Xcode/DerivedData/以工程名打头的文件夹/Build/Products/Release-iphoneos</code>很纠结吧~这个目录下有个.app的文件，就是生成的程序了。把这个.app拖到iTunes中，它会出现在应用程序那个列表中，然后再把它从iTunes的那个列表中拖出来（比如拖到桌面），发生了什么？哈哈，它就这样变成.ipa了！</p>
+<p>把这个.ipa发给朋友，大家就可以跟您一起分享这个程序了。</p>
+<h3 id="6-_答疑解惑">6. 答疑解惑</h3>
+<ol>
+<li><p>我是初学者，请问什么是权限？执行权限（x权限）是什么意思？什么是脚本？如何加执行权限？sudo是什么命令？vim是什么，如何在vim中保存更改？你说的目录我没找到怎么办？我有些步骤没看明白，能不能加QQ交流？</p>
+<p> 解答：首先感谢您关注我的博客。这里要提醒各位初学者朋友，Xcode提供了非常完善的模拟器调试环境，模拟器调试要比真机调试方便得多，也简单得多，使用模拟器调试程序是iOS开发的常态。真机调试通常是在产品快要完工时才进行的，看一下程序在实际机器上的视觉效果等等。还有依赖于加速度计的程序要测试一下加速度计的程序有没有问题。所以初学者并不需要一开始就进行真机调试。初学者配置真机调试的主要目的可能并非学习技术，而是满足好奇心、追求成就感甚至是为了向朋友炫耀等等。而这些目的并不值得您花费这么大的精力来阅读本文。<br> 因此本文是给有一定基础的朋友看的，各种命令是免不了的。UNIX中的基本命令比如cp，mv，cd，chmod，sudo啥的还有vim编辑器，如果您都没听说过，强烈建议您不要尝试本文提到的修改。一旦改错了轻则Xcode挂掉，重则系统崩溃。如果遇到解决不了的问题欢迎留言询问，务必给出详细的错误信息，否则无法判断。博主恕不解答类似于如何执行脚本代码，如何赋予执行权限，如何使用vim编辑器（如何保存）等与iOS开发无关的UNIX基础问题。博主非常乐意以文会友，结识有思想、有创意、有技术的大牛。博主也会不定时到博客上对热心网友提出的问题进行简单的解答。但并没有充足的时间通过QQ对文中的步骤进行手把手的解释和指导。这里先向有这种需求的朋友说声抱歉了！</p>
+</li>
+<li><p>各种错误，错误信息中包含“No such file or directory”这句话</p>
+<p> 解答：错误信息的含义非常清楚，就是“没有这个文件或者目录”。这类错误通常是由于您拷贝代码时不全或者开发环境安装错误等问题导致的。请再次检查报错的目录是否存在，检查代码与本文给出的是否严格一致，各种检查吧~总之是低级错误</p>
+</li>
+<li><p>联机调试时程序秒退，或者无法安装到设备，或者任何时候报错，错误信息中包含“code signing”、“CERT”、“signature”或者“certificate”字样的（最常见的错误）</p>
+<p> 解答：证书错误或者签名错误，肯定是因为您没有严格文中的步骤做。提醒您检查的地方有：</p>
+<ul>
+<li>第一步中的plist文件是否已经正确修改</li>
+<li>有没有设置为Don’t Code signing</li>
+<li>生成后事件的代码是否已经正确粘贴</li>
+<li>那个Python脚本是否已经成功执行</li>
+<li>设备是否已经越狱并安装AppSync</li>
+<li><p>第一步的iPhone Developer证书是否已经正确创建</p>
+<p>其中最可能出问题的就是生成后事件代码（文中的那个Run Script）没有正确执行。可能是您忘记了添加Run Script并粘贴那段代码，也可能是您没复制全，或者复制到了啥特殊字符导致执行出错。查看那个脚本执行结果的方法是在Xcode左侧的侧边栏里，点最靠右的一个标签（Show the Log navigator），看最近的一个Build日志（不是Debug日志），找到一行Run custom shell script “Run Script”那一行，正常情况下那一行跟其他行一样，是不能展开的。如果那一行左边有个小箭头，点击后能展开的话，说明执行出错，展开后的信息即为出错的信息。请认真查看错误信息并修正脚本中的错误。如果Build日志里根本没有Run custom shell script “Run Script”，那说明您忘记添加Build script了。。。</p>
+<p>Run Script经常报的一条错误是“replacing existing signature”。。。这个提示的意思是“替换已有的签名”，出现这个提示的原因是，你并没有成功的阻止Xcode使用默认的方法为应用程序签名。因为这个破解的原理就是阻止Xcode为app签名，而用script中的自定义过程手动为app签名。当script为app签名时，发现app已经被Xcode签名过了，就会报这个错误。出这个错误后提醒您检查的地方有两个</p>
+</li>
+</ul>
+<ul>
+<li>SDKSettings.plist中需要修改的地方是否已经正确修改</li>
+<li>工程设置里是否将那5个签名的选项全部设为Don’t Code signing</li>
+</ul>
+</li>
+<li><p>iPad能用吗？</p>
+<p> 解答：上述所有步骤无需修改可直接用于iPad开发。</p>
+</li>
+<li><p>为什么我的Build for Archiving选项是灰色的？</p>
+<p> 解答：是因为您没有把设备插到电脑上。或者设备未开启开发模式。开启开发模式的方法是：插上设备，点Xcode右上角的Organizer图标（在Xcode 5中，点击Window菜单下的Organizer项），选中您的设备，看一下设备名称左侧的小灯是什么颜色的。若是灰色代表未开启开发模式。此时在右边窗口中点击“Use for Development”即可。若是黄色请重新插拔设备，若是绿色代表设备已经开启开发模式</p>
+<p> 点击Use for Development后，会要求输入Apple ID，这里点击取消即可。这时启用设备开发模式的进程会立即终止。设备名称旁边应该有一个黄灯。此时重新插拔设备，Organizer中会出现一个进度条），等这个进度条跑完，小灯就会变成绿色，开发模式已经启用。<br> 最近经常有人提问说，无论怎么搞，Organizer中的灯始终是黄色的。这种情况几乎可以百分之百的确定是您的Xcode版本不够高。如果您的设备是iOS 5.1.1，则必须使用Xcode 4.3.2或以上版本。同样的道理，iOS 5.0.1对应Xcode 4.3.1，iOS 5.0对应Xcode 4.3……</p>
+</li>
+<li><p>我的iOS版本/Xcode版与你的不同，能用吗？</p>
+<p> 解答：本人测试过的环境和设备已经在文章开头给出。其他环境我没有测试过，也没有条件测试，因此当您的环境与我的不同时，别问我可不可用，您可以试一下，然后把结果告诉我，也为其他的网友提供方便，在此先谢谢您了！</p>
+</li>
+<li><p>真机调试时出现Error launching remote program: failed to get the task for process xxx错误</p>
+<p> 解答：如果该错误出现在编译运行之后，且现象为设备上的程序闪退，则是由于签名错误导致的，这是由于您没有严格按照上述步骤来做导致的，请参考常见问题3。</p>
+</li>
+</ol>
+]]></content>
+    <summary type="html"><![CDATA[<p>众所周知，在Xcode上开发的程序只能在模拟器中运行，如果要放到真机上则要花费99美金购买开发者证书iDP。这严重阻碍了我等草根开发者探索的脚步。写个小程序，同学间分享一下这个小小的愿望都不能满足，自然不能善罢甘休。</p>
+<p>在没有iDP的情况下，要想将程序放到iPhone上调试，并最终发布IPA用于分享，需要以下几个步骤：</p>
+<ol>
+<li>自己为自己颁发一个证书用于为生成的程序签名</li>
+<li>修改工程配置以及Xcode的配置文件和二进制文件以阻止其验证和签名</li>
+<li>通过自定义生成步骤，用伪造的证书为应用程序签名</li>
+<li>使用一点小trick来生成IPA文件</li>
+</ol>
+]]></summary>
+    
+      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[在Mac OS X下刷新DNS缓存]]></title>
+    <link href="http://kuangqi.me/ios/flush-dns-cache-on-osx/"/>
+    <id>http://kuangqi.me/ios/flush-dns-cache-on-osx/</id>
+    <published>2014-03-11T17:50:56.000Z</published>
+    <updated>2014-03-22T16:50:11.000Z</updated>
+    <content type="html"><![CDATA[<p>与Windows不同的是，各版本的Mac OS X系统刷新DNS缓存的方法是不一样的。</p>
+<ol>
+<li><p>对于Tiger或更低版本 Mac OS：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> lookupd -flushcache
+</pre></td></tr></table></figure>
+</li>
+<li><p>对于Leopard和Snow Leopard：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> dscacheutil -flushcache
+</pre></td></tr></table></figure>
+</li>
+<li><p>对于Lion、Mountain Lion和Mavericks：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> killall -HUP mDNSResponder
+</pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+    
+    
+      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Allegro PCB Editor与十字花焊盘有关的技巧]]></title>
+    <link href="http://kuangqi.me/embedded/allegro-pcb-thermal-pad/"/>
+    <id>http://kuangqi.me/embedded/allegro-pcb-thermal-pad/</id>
+    <published>2013-07-12T14:52:56.000Z</published>
+    <updated>2014-03-18T05:03:46.000Z</updated>
+    <content type="html"><![CDATA[<p>花焊盘又称热焊盘、热风焊盘等。其作用是减少焊盘在焊接中向外散热，以防止因过度散热而导致的虚焊。在Allegro中，添加GND铺铜后，默认就会为相关的焊盘创建十字连接。但有时候自动添加的连接并非我们理想中的连接，我们可以对其进行细致的调节，使其满足我们的需求。</p>
+<h3 id="1-_调节十字连线宽度">1. 调节十字连线宽度</h3>
+<p>默认的连线宽度是约束管理器中设置的线宽最小值，但这个最小值看起来有些单薄，但如果增大约束管理器中的最小值，又可能导致高密度的芯片地线处产生DRC错误。点击Shape - Global Dynamic Params…，在弹出的Global Dynamic Shape Parameters对话框中点击Thermal relief connects选项卡，可以通过下方的Use fixed thermal width of项目指定十字连接的宽度，或者通过Use thermal width oversize of来指定十字连接的宽度在约束管理器线宽设定值的基础上再增加多少。</p>
+<a id="more"></a>
+
+<h3 id="2-_调节热焊盘的连接方式或者删除热焊盘">2. 调节热焊盘的连接方式或者删除热焊盘</h3>
+<p>同样在Global Dynamic Shape Parameters对话框的Thermal relief connects选项卡中，Thru pins、Smd pins、Vias三项可以分别设定通孔焊盘、表贴焊盘和过孔的热焊盘连接方式，设定为Full contact即为直接连接，不添加热焊盘。</p>
+<h3 id="3-_设置特定焊盘的热焊盘参数">3. 设置特定焊盘的热焊盘参数</h3>
+<p>有时候为了可靠接地，我们可能需要设置特定的几个焊盘的接地方式，这在射频电路中可能会遇到，比如天线的接地等。设置的方法是选中指定的焊盘（Find调板中仅选中Pins然后点击需要设置的焊盘或者框选需要设置的连续多个焊盘），然后点击右键，在菜单中点Property edit，在弹出的对话框中添加相应的属性，即可为该焊盘单独指定热焊盘参数。<br>比如<br>DYN_FIXED_THERM_WIDTH  连接线宽<br>DYN_THERMAL_CON_TYPE  连接类型</p>
+<h3 id="4-_为指定的一片铺铜设置特定的热焊盘参数">4. 为指定的一片铺铜设置特定的热焊盘参数</h3>
+<p>通过Shape - Select Shape or Void/Cavity命令来选择需要设定的铺铜Shape，然后点击右键，选择Parameters，弹出的Dynamic Shape Instance Parameters对话框与上述全局设置对话栏类似，指定相应参数即可。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>花焊盘又称热焊盘、热风焊盘等。其作用是减少焊盘在焊接中向外散热，以防止因过度散热而导致的虚焊。在Allegro中，添加GND铺铜后，默认就会为相关的焊盘创建十字连接。但有时候自动添加的连接并非我们理想中的连接，我们可以对其进行细致的调节，使其满足我们的需求。</p>
+<h3 id="1-_调节十字连线宽度">1. 调节十字连线宽度</h3>
+<p>默认的连线宽度是约束管理器中设置的线宽最小值，但这个最小值看起来有些单薄，但如果增大约束管理器中的最小值，又可能导致高密度的芯片地线处产生DRC错误。点击Shape - Global Dynamic Params…，在弹出的Global Dynamic Shape Parameters对话框中点击Thermal relief connects选项卡，可以通过下方的Use fixed thermal width of项目指定十字连接的宽度，或者通过Use thermal width oversize of来指定十字连接的宽度在约束管理器线宽设定值的基础上再增加多少。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[CC3000驱动移植中的几个陷阱]]></title>
+    <link href="http://kuangqi.me/embedded/cc3000-host-driver-porting-guide/"/>
+    <id>http://kuangqi.me/embedded/cc3000-host-driver-porting-guide/</id>
+    <published>2013-06-16T17:47:44.000Z</published>
+    <updated>2014-03-18T16:34:09.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="1-_文档中的一个小错误">1. 文档中的一个小错误</h3>
+<p><code>wlan_ioctl_get_scan_results</code>函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常会使用一个结构体来接收返回的数据，如果这个字节数不对的话，就会影响内存对齐，从而导致返回的结果错误。这里，我使用的结构体定义如下：</p>
+<a id="more"></a>
+
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+</pre></td><td class="code"><pre>typedef struct _wlan_full_scan_results_args_t
+{
+    <span class="comment">/*
+        4 Bytes: number of networks found
+        4 Bytes: The status of the scan: 0 - agged results, 1 - results valid, 2 - no results
+        {
+            1 bit isValid - is result valid or not
+            7 bits rssi - RSSI value;
+        }
+        {
+            2 bits: securityMode - security mode of the AP: 0 - Open, 1 - WEP, 2 WPA, 3 WPA2
+            6 bits: SSID name length
+        }
+        2 bytes: the time at which the entry has entered into scans result table
+        32 bytes: SSID name
+        6 bytes: BSSID
+    */</span>
+    uint32_t ap_count;
+    uint32_t ap_state;
+    uint32_t ap_vaild    <span class="value">: <span class="number">1</span>;</span>
+    uint32_t ap_rssi     <span class="value">: <span class="number">7</span>;</span>
+    uint32_t ap_security <span class="value">: <span class="number">2</span>;</span>
+    uint32_t ap_ssidlen  <span class="value">: <span class="number">6</span>;</span>
+    uint16_t ap_time;
+    <span class="value">char</span>     ap_ssid<span class="attr_selector">[32]</span>;
+    uint8_t  ap_bssid<span class="attr_selector">[6]</span>;
+    uint8_t  reserved<span class="attr_selector">[2]</span>; <span class="comment">//for memory align</span>
+} wlan_scan_result;
+</pre></td></tr></table></figure>
+
+<p>另外，这个函数读到最后一条结果时，再读会返回一个长度为0的结果，即前四个字节(number of networks found)为零，然后再读才会读出下一次扫描的结果。这一点手册上并没有指出，是我们在编程实践中自己发现的。</p>
+<p><em>2014年3月19日注：目前最新版的CC3000官方API文档中这个错误已经得到了修正。</em></p>
+<h3 id="2-_两组中断控制函数的实现">2. 两组中断控制函数的实现</h3>
+<p>如果前面一条是一个小坑的话，这一条绝对是一个大坑。<code>SpiPause</code> - <code>SpiResume</code>与<code>WlanInterruptDisable</code> - <code>WlanInterruptEnable</code>这两组中断控制函数是CC3000整个驱动移植工作中最tricky的部分。目前为止，我见过的CC3000的驱动实现中，不论是开源的、产品正在开发而尚未开源的实现，除了官方的例程以外，还没有人将这两组函数写对。甚至有人能通过降低SPI速率、修改IO中断方式等等办法，使得整个程序得以正常运行，将错误带到了产品中。只要有人说：“我的CC3000驱动有点问题，调了很久都不行。。。”之类的话，不用等他说完，就可以猜想他是把这两组函数写错了。</p>
+<p>这两组函数非常容易错，错了又非常难以发现。这两组函数的实现已经成为了CC3000驱动移植的主要障碍。其主要原因如下：</p>
+<p>a. 是官方的Porting Guide没有明确指出这两组函数的区别。很多人则想当然地认为这两组函数是一样的。甚至是一组中调用另一组。再看官方的实现，又有点不知所云，所以就忽略了这个问题。<br>b. 忽略这个问题后，CC3000模块可以正常初始化，还可以正常扫描WiFi热点，有人还能正常进行Smart config，甚至有人还能正常打开socket并使用UDP协议发送数据！开发者根据CC3000驱动自下而上分层的架构来看，看到SPI已经可以进行正常通信，从而直接在心理上排除了SPI驱动实现有误的可能性，错误查来查去还是在原地兜圈子。<br>c. 由于这两组函数实现有误导致的错误几乎成了一个人品问题，在不同速度MCU上的错误实现会导致不同的错误现象，以至于大家的描述不统一，很难从现象判断到底是哪儿错了，即使在网上根据错误现象搜索或者发帖求助，也很难得到有针对性的答案。</p>
+<p>为什么这两组函数写错了，会有这么神奇的问题呢？答案就是，这里的错误会导致程序的“竞态问题”，类似于数字电路基础中的“竞争冒险”。SPI速率、AP的品质和信号强度、IO口翻转速度、延时的误差等无关紧要的问题，都可能让竞态问题出现不同的现象。因此，出现的错误现象千奇百怪，貌似跟人品有关就不难解释了。说了这么多，下面就来解释一下这两组函数到底有什么区别：</p>
+<p><code>WlanInterruptDisable</code>的作用是关闭IO口的外部中断，也就是IRQ的下降沿中断。关闭以后，IRQ下降沿的中断将被<strong>丢弃</strong>，在调用<code>WlanInterruptEnable</code>时，会重新使能中断，之后发生在该IO上的外部中断又再次可以响应。而中断被禁用期间，发生的中断都被丢弃，永远不再响应。这个函数一般人都写对了。</p>
+<p><code>SpiPauseSpi</code>函数是暂时挂起IO口外部中断，也就是IRQ下降沿中断，如果在<code>SpiPauseSpi</code>调用之后，IRQ线上再有下降沿，该中断将一直<strong>保持Pending</strong>状态，暂时不调用中断服务程序，该中断必须在调用<code>SpiResumeSpi</code>被重新响应，而不能被丢弃。这里，很多很多很多人，都，写错了。。。</p>
+<p>这种中断的响应方式比较特殊，像STM32就没有在标准驱动库中实现相应的API，而必须通过操作寄存器的方式来手工实现。相应寄存器的定义，既不在芯片Datasheet里，也不在那份大家熟知的STM32F1系列<em>Reference Manual(RM0008)</em>里，而是在很多STM32开发者都没有听说过的一份文档<em>PM0056——STM32F10xxx/20xxx/21xxx/L1xxxx Cortex-M3 programming manual</em>里。有很多MCU，甚至包括TI的MSP430，在硬件上根本就不支持这种响应方式，因此只能用一些猥琐的方法来实现。MSP430该函数的代码居然是向一个配置为输入的IO口写数据，足以让不熟悉MSP430的开发者挠头了。</p>
+<h3 id="3-_TI提供的CC3000_Host_Driver假设char类型是无符号的">3. TI提供的CC3000 Host Driver假设char类型是无符号的</h3>
+<p>这个问题可能很多人都不会遇到，因为在嵌入式开发中char通常都是无符号的，基本所有的用于嵌入式平台的编译器默认情况下都会这样设定。而我则比较习惯PC上有符号的<code>char</code>，所以我手贱给GCC加了一个编译参数<code>-fsigned-char</code>……</p>
+<p>TI的Host Driver就比较扯淡，它假设<code>char</code>是无符号的，并且在<code>char</code>有符号时就会因符号位在强制转换中的行为不同而出错。这个问题不容易排查，因为需要跟踪到TI实现的Host Driver里，而大家通常都会假设这个实现是没错的，能跟进去就是一种勇气了……我当时遇到这个问题时，不知道是哪儿的错误，就在很多回调函数中添加了串口打印的语句，通过串口输出，观察各个函数被调用的情况，结合现象，再加以大胆的猜想，才解决了这个问题。</p>
+<h3 id="4-_供电">4. 供电</h3>
+<p><img src="/images/cc3000-porting-1.png" alt=""></p>
+<p>这个是一个硬件问题，一个不应该犯的错误。目前大家用的最多的CC3000模块还是Jorjin的WG1300，而Jorjin的文档中并未给出该模块工作时所需的电流。在一些追求体积最小化的应用中，大家也普遍使用了SOT23-5封装的小型LDO，这类LDO的电流通常只有100mA左右。一个单片机才几十毫安的电流，一个WiFi又能大到哪里去呢？</p>
+<p>看看德州仪器官方WiFi模块（TI的WiFi模块封装尺寸和引脚定义与WG1300完全相同，本人咨询Jorjin总代理后得知TI的官方模块正是由Jorjin设计并制造的，与WG1300相比在硬件上也是完全一样的，只是外壳上的字不同而已）的文档后，不禁大吃一惊！发送电流峰值275mA，接收峰值103mA，合起来有接近400mA的峰值电流！正是因为如此，我120mA的LDO被瞬间秒杀，电压从3.3V拉到了2.6V……我居然还不知道！因为STM32可以在2.6V下正常工作，我的还是在各种加断点、各种单步跟踪，完全没有意识到模块已经因电压过低死机了。。。看了一下Sparkcore的电路图，发现它用的LDO型号是MIC5219，一个SOT23-5封装，500mA的LDO，哈哈~</p>
+<p>另外还有一个不算是坑，或者说只是一个小坑~就是security.h文件最后少了一段代码，在用C++编译时可能导致编译出错，并且把错误报到别的文件里，让人很困惑。。。缺少的代码如下，大家一看就懂了~</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="preprocessor">#ifdef __cplusplus</span>
+}
+<span class="preprocessor">#endif</span>
+</pre></td></tr></table></figure>
+
+<hr>
+<p>如果您在CC3000软硬件方面还有什么其他的困扰，欢迎联系我，QQ：284388369</p>
+<p>本人可以提供关于驱动移植、固件更新、硬件设计、量产优化等方面的有偿技术指导。</p>
+<p>不调试具体网络通信代码，只负责跑通官方BasicWiFiApplication，不承接外包项目。</p>
+<hr>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="1-_文档中的一个小错误">1. 文档中的一个小错误</h3>
+<p><code>wlan_ioctl_get_scan_results</code>函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常会使用一个结构体来接收返回的数据，如果这个字节数不对的话，就会影响内存对齐，从而导致返回的结果错误。这里，我使用的结构体定义如下：</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mac系统下的Wi-Fi扫描命令]]></title>
+    <link href="http://kuangqi.me/ios/wifi-scaning-on-os-x/"/>
+    <id>http://kuangqi.me/ios/wifi-scaning-on-os-x/</id>
+    <published>2013-06-01T15:37:53.000Z</published>
+    <updated>2014-03-22T13:28:58.000Z</updated>
+    <content type="html"><![CDATA[<p>在Mac系统下扫描WiFi接入点，可以列出SSID，BSSID，RSSI等详细信息<br>命令如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport <span class="operator">-s</span>
+</pre></td></tr></table></figure>
+
+]]></content>
+    
+    
+      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Photoshop“历史”和“撤销”功能使用技巧]]></title>
+    <link href="http://kuangqi.me/image-processing/history-panel-in-photoshop/"/>
+    <id>http://kuangqi.me/image-processing/history-panel-in-photoshop/</id>
+    <published>2013-05-23T05:34:32.000Z</published>
+    <updated>2014-03-20T04:17:13.000Z</updated>
+    <content type="html"><![CDATA[<p>今天看到有同学吐槽Photoshop的撤销功能不顺手，以至于到了骂Adobe的脑子被驴踢了的程度，底下的回复更是群情激昂，怒斥PS二逼。。。PS是一个庞大复杂的系统，经过二十多年的发展，其各项设计已经被精雕细琢，几乎无可挑剔了。所以如果你真的遇到PS特别特别不顺手，特别特别二逼的操作时，也许更应该考虑一下是否有更好的办法。下面我就针对“撤销”这一常用的操作新手容易遇到的一些问题做一个汇总和解答。</p>
+<h3 id="1-_为什么Ctrl+Z只能撤销一步？！">1. 为什么Ctrl+Z只能撤销一步？！</h3>
+<p>这基本上是PS新手最经常问到的问题。Ctrl+Z快捷键的作用是交换当前状态和上一步的状态，这个快捷键跟Windows中其它软件，比如Word的快捷键类似却有所不同，所以如果用Word的思路考虑PS，那这个快捷键确实够二逼。不过这个快捷键这样设计是有道理的，因为撤销一步要比撤销多步更常用，而且切换对比这一步的效果跟刚才的效果这个功能也很常用。比如我画画的时候加了一笔，我想对比一下加这一笔好不好，那我就会反复的按Ctrl+Z来对比。而撤销多步的功能一般不常用，即使用到，也不是为了撤销两步三步，而是很多步，对于怎样方便的一下子撤销很多步，PS另作了考虑，这个我们一会儿再说。这个是统计规律，是从大量的设计师的设计实践中总结出来的，Ctrl+Z撤销一步的设置能一直保留十几年，是有其事实依据的。</p>
+<a id="more"></a>
+
+<h3 id="2-_那我要撤销多步怎么办？或者说，我的世界观中的“撤销”在PS里该怎么做？">2. 那我要撤销多步怎么办？或者说，我的世界观中的“撤销”在PS里该怎么做？</h3>
+<p>很简单，PS为这个操作分配了另外一个快捷键，Ctrl+Alt+Z。按它就可以撤销多步啦~还有顺便说一下，“重做”在PS里的快捷键是Ctrl+Shift+Z</p>
+<h3 id="3-_神马？为啥Ctrl+Alt+Z不管用？而且QQ还跑了出来！！">3. 神马？为啥Ctrl+Alt+Z不管用？而且QQ还跑了出来！！</h3>
+<p>没错~！Ctrl+Alt+Z在默认情况下还是QQ“提取消息”的快捷键，而这个操作我平常实在是少用。我的习惯还是点击QQ在任务栏里的图标。所以为了不干扰PS，我关掉了QQ的这个快捷键。我建议大家也这么做。</p>
+<h3 id="4-_囧了，保存之后不能按Ctrl+Z撤销了。。。">4. 囧了，保存之后不能按Ctrl+Z撤销了。。。</h3>
+<p>每次操作后，Ctrl+Z快捷键指向的功能都会变。比如用了笔刷，Ctrl+Z的功能就是“撤销笔刷”，然后又用了橡皮，Ctrl+Z就又变成“撤销橡皮”。所以按了保存后，Ctrl+Z就理应变成“撤销保存”，显然保存是即时写入硬盘的，不能撤销了。所以按保存后，Ctrl+Z就不指向任何功能了。所以刚保存完的时候，Ctrl+Z是没有功能的，这就给一些用户带来了困扰，认为保存操作清空了历史记录，事实不是这样，只是关掉了此刻的Ctrl+Z快捷键而已。</p>
+<h3 id="5-_那保存后我要撤销到保存前的某个状态怎么办？">5. 那保存后我要撤销到保存前的某个状态怎么办？</h3>
+<p>我说过，保存对历史记录功能没有任何影响，因此你仍然可以使用Ctrl+Alt+Z来撤销到有记录的（默认是最近20步的）任何一个之前的状态。你还可以通过Window菜单下的History项调出“历史”调板，其中以文字方式记录了你最近的操作，你可以用鼠标点击这些状态，从而查看这些状态的预览，满意后在画布上继续操作即可。有操作后此状态后的所有状态会被新的状态覆盖。</p>
+<h3 id="6-_神马？会把之后的状态都覆盖？我不想这样啊！那我改了半天还是觉得撤销前的效果好咋办？">6. 神马？会把之后的状态都覆盖？我不想这样啊！那我改了半天还是觉得撤销前的效果好咋办？</h3>
+<p>没事，在“历史”调板中打算动刀的状态上点一下，再点下面那个带有小加号的图标，就会以该状态为起点新建一个文档，然后你可以在新的文档里为所欲为，如果新的效果不好，你可以直接关掉新的文档不保存。而原来的文档中所有的状态都好好的。如果对新文档的效果满意，可以把相应的资源复制回原文档，或者干脆删掉原文档，以新文档为基础另起炉灶~</p>
+<h3 id="7-_我操作次数多了，历史记录只能记录30步，需要的步骤回不去了怎么办？">7. 我操作次数多了，历史记录只能记录30步，需要的步骤回不去了怎么办？</h3>
+<p>如果这件事情已经发生了，那只能说很抱歉。不过你下一次可以通过一些操作来避免这种情况。PS的历史调板里提供了“快照”功能，点击“历史”调板中的小照相机图标，即可以当天的状态创建一个快照。这个快照无论操作多少步都是不会被覆盖掉的。所以你可以在任何时候撤销到这一个状态。文件打开的时候，PS会自动为你创建一个快照，所以点击“历史”调板的第一栏，就可以回到文件打开时的状态。</p>
+<h3 id="8-_快照功能不错，可我老是忘了创建，到用时才后悔，咋办？">8. 快照功能不错，可我老是忘了创建，到用时才后悔，咋办？</h3>
+<p>点击“历史”调板的旁边的下拉菜单，可以找到“历史选项”，其中可以勾选在每次保存时都自动创建一个快照。完成一个效果就顺手保存一下，很多人都有这个习惯吧~顺带创建一个快照就方便多了吧~这个对话框中还有些其它的选项，比如把图层可见性的调整也记录下来等等。</p>
+<h3 id="9-_“历史”调板记录的步数太少了！怎么增大？">9. “历史”调板记录的步数太少了！怎么增大？</h3>
+<p>点击Edit菜单的Preferences下的Performance项，弹出的对话框中的History States就是历史记录的步数，可以把它改大一点。不过我不推荐大家修改这个步数，因为历史记录多了会消耗大量的系统资源。结合使用快照功能，20步的默认值实际上绰绰有余。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>今天看到有同学吐槽Photoshop的撤销功能不顺手，以至于到了骂Adobe的脑子被驴踢了的程度，底下的回复更是群情激昂，怒斥PS二逼。。。PS是一个庞大复杂的系统，经过二十多年的发展，其各项设计已经被精雕细琢，几乎无可挑剔了。所以如果你真的遇到PS特别特别不顺手，特别特别二逼的操作时，也许更应该考虑一下是否有更好的办法。下面我就针对“撤销”这一常用的操作新手容易遇到的一些问题做一个汇总和解答。</p>
+<h3 id="1-_为什么Ctrl+Z只能撤销一步？！">1. 为什么Ctrl+Z只能撤销一步？！</h3>
+<p>这基本上是PS新手最经常问到的问题。Ctrl+Z快捷键的作用是交换当前状态和上一步的状态，这个快捷键跟Windows中其它软件，比如Word的快捷键类似却有所不同，所以如果用Word的思路考虑PS，那这个快捷键确实够二逼。不过这个快捷键这样设计是有道理的，因为撤销一步要比撤销多步更常用，而且切换对比这一步的效果跟刚才的效果这个功能也很常用。比如我画画的时候加了一笔，我想对比一下加这一笔好不好，那我就会反复的按Ctrl+Z来对比。而撤销多步的功能一般不常用，即使用到，也不是为了撤销两步三步，而是很多步，对于怎样方便的一下子撤销很多步，PS另作了考虑，这个我们一会儿再说。这个是统计规律，是从大量的设计师的设计实践中总结出来的，Ctrl+Z撤销一步的设置能一直保留十几年，是有其事实依据的。</p>
+]]></summary>
+    
+      <category term="绘云描鲤" scheme="http://kuangqi.me/categories/image-processing/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[23岁生日之最]]></title>
+    <link href="http://kuangqi.me/essay/23rd-birthday/"/>
+    <id>http://kuangqi.me/essay/23rd-birthday/</id>
+    <published>2013-05-08T15:59:59.000Z</published>
+    <updated>2014-03-16T06:28:01.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="1-_最早">1. 最早</h3>
+<p>李雪大神早在5月6日中午就发来祝福~荣登本年度最早祝福！</p>
+<h3 id="2-_“最”早">2. “最”早</h3>
+<p>陶富美童鞋早上8:04发来一条洋气的iMessage~荣登当日最早~</p>
+<h3 id="3-_最Geek">3. 最Geek</h3>
+<p>昀牛祝我“密码日快乐”，我只想说一句——“你赢了！！！”。昀牛毫无疑问的荣获最Geek奖。。。</p>
+<a id="more"></a>
+
+<h3 id="4-_最懒">4. 最懒</h3>
+<p>王颖倩童鞋一条状态向三位同学传达了生日祝福，荣获最懒送祝福者称号~</p>
+<h3 id="5-_最不够意思/最够意思">5. 最不够意思/最够意思</h3>
+<p>欢牛一早就发来祝福短信，遗憾的是随后1分钟又发了一条“程序出bug了，能不能过来调一下”。。。然后就没有然后了，木有礼物也木有surprise……</p>
+<p>后来欢牛迫于昨晚跟我赌50块钱输了的压力与国创结项答辩后的轻松心情之下，居然斥巨资25元（原价49元，生日特惠25元）请我吃金釜山自助~！于是将最不够意思/最够意思双料大奖颁发给欢牛牛牛牛牛~~~</p>
+<h3 id="6-_最不耐烦">6. 最不耐烦</h3>
+<p>陆牛显然已经忘了我生日这回事，不过早上经过新浪微博的提醒，还是不得不想起来了。然后他又收到了人人、飞信等各种提醒，于是说“为啥好像全世界都知道你过生日”。。。显然他希望通过苍白的玩笑掩盖他不仁不义的本质！授予“最不耐烦”奖，你必须服！</p>
+<h3 id="7-_最自动化">7. 最自动化</h3>
+<p>今天我的Google Doodle变成了一堆生日蛋糕~出乎意料啦~</p>
+<h3 id="8-_最绝杀">8. 最绝杀</h3>
+<p>若溪童鞋在今天还有5分钟结束时送上了“绝杀”祝福，荣获绝杀奖~~</p>
+<p>当然还有很多一直有联系和很少联系的同学今天发来了生日祝福，没法一一提名了，这里一并致谢~！感谢你们记得我，在乎我。22岁，再见；23岁，走你~！</p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="1-_最早">1. 最早</h3>
+<p>李雪大神早在5月6日中午就发来祝福~荣登本年度最早祝福！</p>
+<h3 id="2-_“最”早">2. “最”早</h3>
+<p>陶富美童鞋早上8:04发来一条洋气的iMessage~荣登当日最早~</p>
+<h3 id="3-_最Geek">3. 最Geek</h3>
+<p>昀牛祝我“密码日快乐”，我只想说一句——“你赢了！！！”。昀牛毫无疑问的荣获最Geek奖。。。</p>
+]]></summary>
+    
+      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[STM32 RTC晶振起振指南]]></title>
+    <link href="http://kuangqi.me/embedded/note-on-stm32-rtc-oscillator/"/>
+    <id>http://kuangqi.me/embedded/note-on-stm32-rtc-oscillator/</id>
+    <published>2013-04-28T06:10:21.000Z</published>
+    <updated>2014-03-18T16:33:41.000Z</updated>
+    <content type="html"><![CDATA[<p>STM32的RTC晶振经常出现不起振的问题，这已经是业界共识了。。。很多人在各种电子论坛上求助类似于“求高手指点！RTC晶振不起振怎么办”的问题，而其答案基本可以概括为“这次高手帮不了你了”</p>
+<p>更有阴谋论者提出让人啼笑皆非的解释——STM32的RTC晶振不起振是ST与晶振厂商串通后故意搞出来的，目的是提高某晶振厂商高端晶振的销量。。。</p>
+<p>最近做的几块板子也用到了STM32的RTC，前后两版一共做了大概6片，幸运的是并未遇到晶振不起振的现象。而我采用的是3毛钱一个的普通晶振，并未选用传说中低负载高精度晶振。。。后来在另外一片实验性质的板子上首次遇到了晶振不起振的问题，而且做了2片都不起振，这才让我意识到这个问题的严重性。</p>
+<a id="more"></a>
+
+<p>从上述现象来看，我认为对RTC晶振起振影响最大的因素应该是PCB的布线。但是遇到问题时通常是PCB已做好，甚至已经做了几百块，没有回头路了。于是大家更关注的问题似乎就是“如何补救”了。在网上搜索一下，你就会发现世界是如此美好！每个人的经验和建议都不一样，甚至是完全相反的！这种现象告诉我们，除了PCB布线，对晶振起振影响最大的似乎不是电气参数，而是另外一种不可忽略的因素——人品！</p>
+<p>各种相互矛盾的经验也告诉我们，导致晶振不起振的原因是多种多样的，也是因“人”而异的。也许，我们无法找到一个绝对有效的经验一举解决STM32的RTC晶振这个让人头疼的问题，但我们可以从各种经验中找到一些线索，为最终摸索到适合自己这块板子的解决方案提供一些帮助和提示。</p>
+<p>如果晶振不起振，尤其是你已经使用了传说中的爱普生6pF晶振后还是不行，也许你应该尝试对以下几个方面排列组合，找到适合你这块板子的，更容易起振的方式。</p>
+<p>下面就罗列一下可能影响RTC晶振起振的因素</p>
+<ol>
+<li><p><strong>晶振的品牌和负载电容</strong><br>大家貌似都知道要用6pF的晶振，但我发现其实12.5pF的也可以用。大家都说KDS日本原装的好，我那个3毛钱的国产晶振貌似也没啥大问题。。。</p>
+</li>
+<li><p><strong>晶振外接的匹配电容</strong><br>有人说6pF的晶振要配6pF的电容。但有经验公式指出这个电容的值应该是晶振本身负载电容的两倍，6pF的晶振应该配10pF的匹配电容，当然12.5pF的就应该配20pF或者22pF的电容了~电容值不匹配可能造成晶振不起振。更神奇的是，有人指出去掉外接的匹配电容会使晶振起振！这似乎没啥道理，但在我的板子上，有且仅有这个方案是可行的！！！</p>
+</li>
+<li><p><strong>晶振并联的反馈电阻</strong><br>晶振可以并联一个高阻值的电阻，据说这样更容易起振。。。这个电阻的阻值有人说是1MΩ，有人说是5MΩ，也有人说是10MΩ，，，当然也有人说不能并联这个电阻，并联了反而不起振</p>
+</li>
+<li><p><strong>XTALout到晶振间串联电阻</strong><br>这种做法是官方的应用笔记指出的，而且给出了这个电阻的计算公式。对这个电阻的的必要性也是众说纷纭，同样存在两种矛盾的说法，即必须要有这电阻，否则不起振。还有一说不能有这个电阻，否则不起振。。。从官方的应用笔记来看，这个电阻的主要作用是保护晶振，以防晶振发热。由此看来这个这个电阻似乎并非影响晶振起振的主要因素，甚至可能让晶振更难起振。</p>
+</li>
+<li><p><strong>晶振的外壳是否接地</strong><br>这个就不用说了吧。。。晶振的外壳是金属的，做封装时可以把那个焊盘做成机械焊盘而悬空，也可以做成电气焊盘，然后连接到GND。对这个说法同样存在争议，有人说外壳必须接地，也有人说接地后反而不起振。</p>
+</li>
+<li><p><strong>提高Vbat引脚的电源质量</strong><br>这种说法是有一定道理的，因为RTC部分是由Vbat的来供电的。有人说Vbat引脚对电源质量要求比较高，如果纹波较大可能会影响晶振的起振。更有人说反而需要一些噪声，激励晶振产生正反馈从而顺利起振（本人对此表示呵呵）。。。但不管怎样，提高电源质量对大家都是好事~</p>
+</li>
+<li><p><strong>晶振周围的环境</strong><br>有人指出应该仔细清洗RTC晶振周围的电路，甚至是使用环氧树脂胶将晶振密封起来。这种说法得到了圈内著名的“香水城”版主的支持，看来也是有相当多的事实依据。</p>
+</li>
+<li><p><strong>减少晶振焊接时加热的时间</strong><br>有人认为长时间加热晶振进行焊接会对晶振本身带来影响，却不是彻底损坏晶振，从而使得晶振不容易起振。。。这种说法我没验证过，个人表示怀疑。。。</p>
+</li>
+<li><p><strong>焊接的焊锡量</strong><br>这个种说法感觉就更不靠谱了，但真的有人在晶振引脚上多加了点焊锡晶振就能起振了。从原理上说，多加点焊锡确实会改变晶振和PCB间的寄生参数，但我感觉影响微乎其微。。。可能晶振已经徘徊在临界值的边缘了，这种做法才会起到一点作用。</p>
+</li>
+<li><p><strong>使用有源晶振</strong><br>个人认为这是一劳永逸解决晶振不起振问题的不二法门！21IC的香水城版主对STM32的RTC晶振不易起振的原因做了一个解释，即出于低功耗的考虑，STM32对晶振的驱动功率比较低，所谓“好鼓不用重锤”，一些差的晶振就需要更高的驱动功率，所以不易起振。我认为这种解释是有道理的。使用有源晶振则不存在驱动功率的问题，如果问题确实是因为驱动功率造成的，那使用有源晶振毫无疑问可以彻底解决问题。而且目前网上还没看到说有源晶振不起振的求助帖。但是有源晶振通常比较昂贵，甚至要比一颗外置的RTC芯片还要贵。至于这个问题的取舍，就要看各位看官自己的想法了。</p>
+</li>
+</ol>
+]]></content>
+    <summary type="html"><![CDATA[<p>STM32的RTC晶振经常出现不起振的问题，这已经是业界共识了。。。很多人在各种电子论坛上求助类似于“求高手指点！RTC晶振不起振怎么办”的问题，而其答案基本可以概括为“这次高手帮不了你了”</p>
+<p>更有阴谋论者提出让人啼笑皆非的解释——STM32的RTC晶振不起振是ST与晶振厂商串通后故意搞出来的，目的是提高某晶振厂商高端晶振的销量。。。</p>
+<p>最近做的几块板子也用到了STM32的RTC，前后两版一共做了大概6片，幸运的是并未遇到晶振不起振的现象。而我采用的是3毛钱一个的普通晶振，并未选用传说中低负载高精度晶振。。。后来在另外一片实验性质的板子上首次遇到了晶振不起振的问题，而且做了2片都不起振，这才让我意识到这个问题的严重性。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[电子积木开发手记（新篇）]]></title>
+    <link href="http://kuangqi.me/embedded/note-on-srduino/"/>
+    <id>http://kuangqi.me/embedded/note-on-srduino/</id>
+    <published>2013-04-22T16:36:41.000Z</published>
+    <updated>2014-03-19T16:50:26.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="2012年10月13日">2012年10月13日</h3>
+<p>很久没有写这个手记了，翻看了一下<a href="/embedded/note-on-electronic-bricks/">《电子积木开发手记》</a>，发表的时间是3月24日。至今已经有六个半月了。半年多的时间里，这个项目已经发生了翻天覆地的变化。除了“电子积木”这个目标没有变以外，我们的硬件平台被推翻重做，再次推翻、再次重做，如此重复了很多次。但是值得欣慰的事情还是有的，首先就是获得了国家十万元的经费支持，这是我们开发初期重要的资金来源，感谢国家！我们的第一版UxBoard主板是一份非常优秀的课程作业，让我们在《嵌入式系统》课程中都获得了95分以上的高分，但有点小遗憾的是这个硬件平台面临被推翻的危险，但它毕竟是我们的第一块PCB，还是值得纪念。我们受邀参加大学生创新创业展览会，这将是推广我们的产品和理念的第一步，是一个很好的机会。当然还有最重要的，那就是我们一直都在努力，在遇到困难时也没有想放弃，整个项目现在在有着良好的发展势头。</p>
+<p>感慨了这么多，这毕竟是个技术笔记，还是来说说最近做的PCB</p>
+<a id="more"></a>
+
+<h3 id="1-_PCB设计和制作">1. PCB设计和制作</h3>
+<p>这块PCB可谓屡经波折。。。组员不靠谱，鼓捣了半个月，最后啥都没做出来，人退出项目组了。。。好吧~都让你做了我还不放心呢~我自己做还不成吗？自学了Allegro，发现其实是会了不难难了不会。。。元件封装确实比较麻烦，好在有神器“LP Wizard”。不过设计PCB还是件很耗时的事情，最终送工厂打样的PCB文件的编辑时间超过了40个小时。学习软件的各种波折就不记录了，反正现在都会用了。只记得于博士的SPB教程中对钻孔文件的输出讲的不是很详细，或者我没看着，反正是我又去专门搜索的钻孔文件的输出方法。<br>做PCB最大的两点就是跟工厂斗智斗勇了。为了充分利用10*10的空间，我在这块空间里拼了4块板子。地球人都知道，拼板要加钱，而且还加的不少。。。我开始的如意算盘不出所料被工厂一眼识破，直接说要加钱。那能行吗！于是又改了一下边框，工厂立马表示不用加钱了。。。我只是把槽开的短了一些。。。工厂真是自欺欺人。。。<br>于是最终花100元做了4块拼板的10块板子~还要了很骚气的白油黑字，但做出来没有想象的好看。。。丝印有断线和黑子貌似不如白字牢固，弄上酒精一刮就掉了。。。</p>
+<h3 id="2-_焊接">2. 焊接</h3>
+<p>最难焊的估计就是那个QFN28封装的CP2102了。。。最后还是采用的烙铁烤板子的方法。第一块板子居然被烤糊了，完全低估了烙铁的温度。。。STM32的MCU焊接还算顺利，至少目前没发现大问题。FT2232就命途多舛了。。。焊的第一块仿真器板子，电脑居然不认。我就估计是芯片焊接的问题，于是又重新加热管脚，还是不认。。。最后都要抓狂了，怀疑不是焊接的问题了。。。最后把芯片拆下来，残余焊锡清理干净，用手用力按压到板子上，一上电，认了。。。看来还是焊接的问题。。。我作为一个成功焊接过LQFP100的选手，居然囧在这个LQFP48上，实在是很无奈。。。</p>
+<h3 id="3-_EEPROM">3. EEPROM</h3>
+<p>FT2232D要求的EEPROM貌似比较严格，有些型号虽然也符合16bit结构，但是就是不能用。我提前知道这种情况，在淘宝上买芯片时也注意了区分。但是不怕就怕啊！SB的买家居然发错了货！我要的AT93C46D，给我发了个AT93C46A。。。其实理论上说，AT93C46A应该也是可以用的（AT93C46A固定为16bit组织，而AT93C46D可以选择8bit还是16bit，ORG脚悬空即为16bit，跟A一样，但是A就是不能用。。。），但实际不行，FT2232根本就没法跟它通信，一个字节都读不出来，一直是Blank Device。后来死马当活马医，把打算放到主板上的M93C86按上去试了试，发现居然读出了东西。虽然工作还是异常，但至少有东西了。。。于是紧急奔到中发，买了10片ST的M93C46. 回来一试，果然好了！</p>
+<h3 id="4-_编译STM32的驱动库">4. 编译STM32的驱动库</h3>
+<p>编译居然出错了。。。真是太神奇了。。。看了一下错误，大概是因为工程目录下CMSIS库extern了系统库里定义的东西，但是extern的类型跟系统库里定义的类型不太一样。。。ST官方给出的解决方法是，删掉驱动库自带的CMSIS（据网友说是1.3版本），通过修改工程设置来使用IAR自带的CMSIS（据说是2.1版本）。但网友指出，如果换了IDE还会出问题。所以建议直接用ARM官方的CMSIS最新版替换掉工程目录下的旧版本。这个看起来很有道理的样子，有空尝试一下~</p>
+<h3 id="5-_硬件设计缺陷">5. 硬件设计缺陷</h3>
+<p>仿真器好了就开始跟主板联调，结果仿真器没法仿真STM32. 很无奈。最后实在没办法了，为了确定是仿真器的问题还是目标板的问题，就找出了当时做的UxBoard主板，那上面是TI的Cortex-M4的MCU，试了一下居然可以仿真！看电路图，发现我很SB的把STM的nTRST引脚放到了JTAG的5脚上，而这个脚对应在仿真器那边是GND。。。于是结果就是JTAG的寄存器一直处于复位状态，但是由于nSRST的位置的对的，所以目标板的复位目测是正常的。。。其实10pin的JTAG接口不应该包含nTRST引脚，但是STM32有这么个引脚，总不能不引出吧~下次打算放到7号，7号在仿真器那边是不连接的。</p>
+<p>还有件很囧的事情，就是L那个指示灯一直是亮着的！！！去网上找来Arduino Uno第一版的电路图，发现这个LED是直接连接，没有运放隔离。而Uno第三版就加上了运放隔离。但是MCU复位后引脚默认应该是高阻输入的，那个灯确实应该一直亮着，而且还会因手指的触摸而改变亮度。。。实在是太囧了，目测Uno第三版也会有这个问题，有机会找个板子试试。这样的设计实在有点不靠谱，不如把LED设计成低电平点亮的。。</p>
+<p>当然目前为止真正称得上是错误的应该就算自动复位的设计了，我的设计貌似没有像想象中的那样工作，可能需要通过修改原理图来更正，不知道PCB上能否小改一下。。。<br>2012年10月13日，更新啦！今天早上起来就在分析自动复位这个问题。研究后决定把复位脚上接地的104电容拆掉（标号C4），拆掉后自动复位果然工作正常了！</p>
+<h3 id="总结">总结</h3>
+<p>拼的4块板子，其中有个万能转接板，那个不算，剩下的3块都是有电路的。</p>
+<ol>
+<li>Srduino主板做成功的测试有：<ul>
+<li>CP2102串口回显</li>
+<li>修改CP2102的字符串</li>
+<li>STM32通过CP2102串口ISP</li>
+<li>STM32通过J-Link和Stellaris ICDI下载程序（闪烁LED）</li>
+<li>通过拆除电容C4，自动复位已经正常工作了<br>失败的测试：</li>
+<li><em>通过CP2102自动为STM32复位。。。但CP2102的DTR和RTS电平能正常拉低。</em></li>
+</ul>
+</li>
+<li>Stellaris ICDI成功的测试：<ul>
+<li>通过OpenOCD的GDB Server驱动仿真STM32、LM4F232（仅支持JTAG）</li>
+<li>通过IAR内置的Stellaris ICDI驱动仿真LM4F232（JTAG和SWD均可）<br>失败的测试：</li>
+<li>用IAR内置的Stellaris ICDI驱动仿真STM32。</li>
+<li>还有一个问题就是红色的DEBUG灯不会熄灭。。。</li>
+</ul>
+</li>
+<li>STM8S最小系统：只测试了用SWID下载了一个闪烁LED的程序，成功了。</li>
+</ol>
+<hr>
+<h3 id="2012年11月3日（Srduino_A3勘误）">2012年11月3日（Srduino A3勘误）</h3>
+<p>Srduino A3 PCB调试过程中发现以下设计缺陷，将会在未来版本中更正</p>
+<ol>
+<li><p>自动复位电容C4原设计为100nF，实际应用中无法自动复位。此电容的正确容值应为10nF</p>
+</li>
+<li><p>IO板10pin JTAG排针5号脚，原设计为nTRST，而仿真板5脚为GND。直接使用排线连接两个排针会导致IO板一直处于复位状态。应将IO板的nTRST不引出，或者引出到未使用的7号脚位置。</p>
+</li>
+<li><p>IO板USB DEVICE接口的D+信号线未上拉，直接连接了MCU，会导致USB设备无法枚举。<del>此处应将D+信号线使用1.5k电阻上拉至3.3V。视实际应用，可能还需要添加三极管控制是否上拉，以便在合适的时候通知上位机重新枚举USB设备。</del></p>
+<p> 编程过程需要对设备进行重枚举（USB Composite Device理论上可以实现CDC+DFU，但据Maple主页上的描述来看，这么做在Windows下会有问题。若无法实现CDC+DFU的Composite Device，则必须进行重枚举。此说法待验证。）官方Evaluation Board的做法是使用单片机的一个IO口和两个三极管控制1.5K电阻是否连接D+，但我们认为有更简单的方法。目前我们的做法是<strong>将1.5K电阻一段接D+，另一端接一空闲IO口。IO口推挽输出高电平即为USB接通，IO口开漏输出高电平（实为悬空）即为USB断开。从而完成USB重枚举。此方法目前工作正常。</strong></p>
+</li>
+<li><p>仿真板丝印错误，FT2232右上方丝印中，两列四行的表格中，第一列第三行原为RX，应为TX；第一列第四行原为TX，应为RX。</p>
+</li>
+<li><p>指示灯L，原设计为高电平点亮，但在芯片高阻态时，此指示灯会常亮，且可能因手指触碰运放引脚而改变其亮度。当相应引脚作为输出状态时，则工作正常。拟在下一个版本中将其改为低电平点亮。或许可以通过修改连接运放的极性来更正？</p>
+</li>
+<li><p>丝印层PLATFORM写成了PLANTFORM，PERFORMANCE写成了PROFORMANCE…….丢人都不知道丢到哪里去了。。。</p>
+</li>
+<li><p>下一版本考虑将IOREF旁边未连接的针脚用于连接Vbat，用于给RTC提供后备电源。</p>
+</li>
+<li><p>再次发现一处丝印层错误！！！Srduino板JTAG口TDO和TCK两个的位置标反了。。。</p>
+</li>
+<li><p>EEPROM型号确定为ST的M93C86</p>
+</li>
+<li><p>供电电路和电磁兼容性优化</p>
+<ul>
+<li>3.3V稳压器换小封装（SOT89或者SOT23-5）</li>
+<li>增加电解电容滤波</li>
+<li>根据实验结果将LM324更换为LM358或者LMV358，串口指示灯不用隔离，恢复直连</li>
+<li>根据实验结果确定是否要对VDDA和VSSA设置独立的LDO稳压器</li>
+<li>根据实验结果确定是否将模拟地VSSA直接连到GND</li>
+<li>根据实验结果确定是否更换MOSFET的型号</li>
+<li>修改USB口保护方案</li>
+<li>修改运放电压比较器分压为1:1</li>
+</ul>
+</li>
+<li><p>将BOOT0和RTS两个测试孔拉近</p>
+</li>
+</ol>
+<hr>
+<h3 id="2013年2月25日">2013年2月25日</h3>
+<p>我要先吐个槽！！！我真的觉得我够到了我的智商上限。。。我已经很努力的思考一些问题了，但是一定要经过足够长的时间，我才能找到正确的思路</p>
+<h4 id="1-_代码尺寸问题">1. 代码尺寸问题</h4>
+<p>这个问题不再详谈了，已经写了一篇两三千字的文章了。那段时间实在是郁闷。。。动不动代码尺寸就爆了。。。Hello world就要90KB。。。完全不知道如何下手。。。一天晚上跟MM聊天，突然迸发出一个灵感，逆向思维。删代码，直到删到代码尺寸降下来为止。这个思路很有效，后来发现那次代码尺寸暴增是由纯虚函数导致的。导致代码膨胀的原因还有很多，我基本都碰上了，详情去看<a href="/embedded/reduce-the-code-size-in-embedded-cpp/">《如何在嵌入式C++开发中缩减代码尺寸》</a>这篇文章吧~完全是一部血泪史。。。</p>
+<h4 id="2-_EEPROM驱动">2. EEPROM驱动</h4>
+<p>一个调了一天的问题。。。结果是因为时钟线的频率太高了，超过了EEPROM芯片的最高速度。。。随手加了个循环浪费时间，频率降下来了，驱动就通了。很庆幸我能按照Datasheet一次性的时序逻辑写对，否则调试起来就真蛋疼了。。。</p>
+<h4 id="3-_USB虚拟串口移植">3. USB虚拟串口移植</h4>
+<p>又是一部血泪史。没得说，就是看官方的example代码。开始想偷懒，打算把程序拿过来随便改改整合进去，完全行不通，官方的文档又很学术，没啥具体的东西。只能看代码。。。有几个细节记录一下，首先就是拙计的英语。。。有个词组叫correct transfer，我以为这是一种特殊的传输，就像Control transfer、Bulk transfer等等这些词组，都是USB标准里规定的一种传输方式，有特定的工作模式。可是我翻遍了USB标注也没找到到底什么叫correct transfer。。。我那个郁闷啊。。。由于对correct transfer的理解错误，还导致了很多bug。。。终于，有一天，我意识到我SB了。。。correct transfer就是字面意思，就是正确传输。。。就说这次传输数据没发生错误，对方也收到了，这就叫正确传输了，correct transfer。。。。。。。。。。。。。。。。。。。。。。。。。。。。。</p>
+<p>再有就是一个芯片或者USB库的一个bug了（不知道算不算bug。。。），就是<code>EPx_OUT_Callback</code>会收到长度为0的包。。。如果这时你闭着眼把Endpoint置为NAK状态，你就别想回来了。。。因为处理数据的函数无事可做，就不会重新将Endpoint置为<code>ACK</code>，当然又不会有新的数据发来，于是就歇菜了。。。解决方法，只能自己判断一下，长度是0的话就不要置为<code>NAK</code>。。。哦，好像系统会自动给你置为<code>NAK</code>，你必须手动置为<code>VALID</code>才行！！！我真的很幸运，第一个思路就是怀疑是数据包的长度出了问题，否则按照程序员“一定是我哪里搞错了”的思路，我无论如何也不会想到把断点加到Endpoint的callback里。。。</p>
+<h4 id="4-_Bootloader">4. Bootloader</h4>
+<p>血泪史啊！！！！我觉得核心库做的差不多了，通过虚拟串口复位也加上了，打算加上bootloader，走一下流程了。结果，傻逼了！！！</p>
+<p>首先是Maple的bootloader太2B了，编译居然不能开优化！！！一个-O1的优化就会导致其不能运行。。。估计是哪儿该加volatile的地方没加，被优化坏了。。。决定先不管bootloader，先用着O0，改天有空再研究优化的问题。</p>
+<p>接着就是最2B的事件了。。。加上bootloader之后，程序居然不能运行了！！！没有bootloader的时候好好的啊~连接脚本已经把起始地址改成相应的bootloader跳转的地址了，后来发现是中断向量表的位置没有在代码中设置。。。但设置了之后，程序还是不对劲。程序就是最简单的闪烁LED，但是LED闪烁64次后程序就会挂掉。。。我至今都非常不明白我是怎么发现是64次的。。。总之我神奇的发现了这个神气的现象，但我不能解释。。。</p>
+<p>64是个比较特殊的数字，很多常量都设置成了64. 后来随手把串口rx队列长度改成了32，发现闪烁32次后停机。我就觉得闹鬼了，闪烁led是死循环，跟串口队列长度有毛线关系啊！终于，，，经过几个小时的思考和艰苦查找，我发现！！！闪烁的LED居然就是串口RX的指示灯！！！于是闪一下，串口就收到一个数据，数据就被放到队列里。。。然后64下之后，队列满了，程序就挂了。。。。。实在是太！二！了！！！！</p>
+<hr>
+<h3 id="2013年4月12日">2013年4月12日</h3>
+<h4 id="固件部分">固件部分</h4>
+<p>巧妙的分配单片机的定时器是非常有挑战性的。我们有望比Arduino做得更好！</p>
+<h4 id="软件部分">软件部分</h4>
+<p>首次走通了全部的流程。已经可以在VIM中实现一键编译、复位并刷写了。<br>第一次手动编写了自己的Makefile，是不是很弱爆。。。</p>
+<p>之前敲各种make敲到手软，但也只是知道Makefile这个东西而已。自己编写Makefile之前还试图用各种工具自动生成，结果越弄越乱。想到松哥之前说的一句话，不到10万行的项目根部不需要这种工具，遂放弃自动生成，改为手动编写。<br>Makefile大概有60行左右，包含了编译、连接、objdump和size以及reset和dfu-util调用等操作，用起来还是很方便的。</p>
+<p>唯一要吐槽的地方是，我花了一天的时间写这个Makefile。。。我本以为中午就能搞定，结果在晚上9点终于调通了的时候，发现好像没吃晚饭。。。“马上就能做完”果然是程序员三大错觉之一！</p>
+<h4 id="硬件部分">硬件部分</h4>
+<p>这个是最近的重头戏了吧。新版PCB的设计和打样，是我们开发进程中的重要一步。新版的PCB全面更换了阻容元件封装，优化了供电电路、还改动了USB接口、AD转换接口等位置，修复了在A3版中发现的所有bug。由于引脚映射发生了些许的变化，固件库也需要跟着升级一下。</p>
+<p>另外为了最大限度利用PCB空间，我们还在这块板子中拼入了一个Srduino Mini，这是一个简化的Srduino，尺寸与51单片机类似。还拼入了一个数字音频扩展板，由飞利浦的经典I2S接口的DA芯片TDA1543进行音频解码，板上还包含了一个microSD卡槽。另外拼入了一个基于nRF24L01+的2.4G射频模块，参考了官方的设计，将0402封装的元件更换为了0603. 最后一个拼版是J-Link OB仿真器，之前仿制的开源仿真器实在是不能令人满意，在IDE兼容性、跨平台特性等诸多方面都存在问题。这次索性使用了山寨J-link。之前已经在一块废板上进行了测试，J-Link OB工作非常稳定。</p>
+<p>这次PCB设计总结了之前版本的经验，吸取了教训。在丝印层方面，放弃了教学视频中提及的Autosilk，因为这个层经常因元件调整带来各种问题，使得刚刚修改好非常美观的布局变得面目全非。看名字也知道，这个层是由系统自动管理的。这次我们配合使用了Board Geometry中的Silkscreen、Package Geometry中的Silkscreen和Components中的RefDes的Silkscreen。分别用于管理板级的图案（例如Logo和说明文字）、元件本身的丝印图案（例如正负极标志）和元件的索引编号。实验证明，即使在调整好丝印之后再次改动布局和布线，也只有在改动中旋转了方向的器件的丝印需要手动转一下，其它内容几乎不需要再重新调整。这才应该是调整丝印的正常状态！之前版本之所以丝印出现那么多bug，就跟管理丝印的方法有关！</p>
+<p>本版还常识使用Illustrator制作矢量图，直接导入Allegro作为Logo，但是最终没有成功。不过由矢量图直接输出指定尺寸的BMP图像还是很方便的。另外我们还发现了上一版的Logo存在一些较细的笔画印不出来的问题，这次也同时对图像的内容和BMP to IPF的参数进行了调整，有望彻底解决这个问题。</p>
+<p>新版PCB已经箭在弦上，希望在接下来的封装验证、PCB打样和焊接调试中进展顺利！</p>
+<hr>
+<h3 id="2013年4月23日">2013年4月23日</h3>
+<p>这次PCB打样太给力了！下单后48小时就发货了，快递也给力，隔天就从深圳寄到北京了！</p>
+<p>史无前例的6块板子拼板！省钱省到家了！不过事实也证明了，投入多少精力就会有多少回报。在Srduino B1版上，可是说我精雕细琢。因为之前有积累，这次也一举修复了之前在A3版上发现的所有硬件bug。目前为止Srduino B1没有发现啥明显的bug，希望不要再有bug了！</p>
+<p>其他的拼板，因为画的时候就抱着试一试，允许失败的态度，所以自然就出现了一些比较无语的错误。。。下面将发现的所有的错误总结如下</p>
+<h4 id="Srduino_B1板子">Srduino B1板子</h4>
+<ol>
+<li>microUSB钻孔直径过大，应为0.65mm，实际上有41mil，超过1.00mm</li>
+<li>光学识别点中心没有铜</li>
+<li>Top层丝印的Logo仍与想象的有一定出入，不过至少所有笔画都能看清了！不知道是否跟厂家印刷的精度有关。</li>
+<li>下一版要把注册商标的标志(TM)和官方网站的链接加上去！还可以考虑弄个二维码~</li>
+</ol>
+<h4 id="Srduino_Mini板子">Srduino Mini板子</h4>
+<ol>
+<li>丝印Logo完全看不清楚</li>
+</ol>
+<h4 id="Digital_Audio板子">Digital Audio板子</h4>
+<ol>
+<li>3.5mm耳机插孔封装的封装错误：<ul>
+<li>5个非电气孔没有打出来！</li>
+<li>摆放边界没有预留合理的空间，隔着旁边的运放芯片太近！差点就插不上了</li>
+<li>圆形的电气孔直径太小，费好大劲才能把插座插进去</li>
+</ul>
+</li>
+<li>microSD卡槽封装的问题<ul>
+<li>非电气孔直径过大！</li>
+<li>若非电气孔直径合适，那电气焊盘预留的长度是否足够？</li>
+</ul>
+</li>
+<li>低级错误：2*8pin的SPI&amp;I2S插口摆放的位置不对，无法与基板重合，相差了100mil，基本导致该PCB报废，只能用杜邦线连接</li>
+</ol>
+<h4 id="2-4GHz_RF板子">2.4GHz RF板子</h4>
+<ol>
+<li>通信不稳定，不确定是由于元件导致、程序导致还是PCB导致的。</li>
+<li>16MHz直插晶振封装的摆放边界没有预留出合理的空间，几乎导致其金属外壳与旁边的焊盘短路，只好给它垫上一层胶带</li>
+</ol>
+<h4 id="JLink_ARM_OB板子">JLink ARM OB板子</h4>
+<ol>
+<li>JTAG接口的方向错误，无法直接插到Srduino B1上，只能用一条排线连过去。不过貌似无伤大雅。下一版可以考虑去掉按键，而使用全尺寸的2*5牛角座</li>
+<li>同样是晶振的问题，金属外壳几乎要与旁边的电容短路。</li>
+</ol>
+<h4 id="JTAG转接板子">JTAG转接板子</h4>
+<p>这个应该不会有bug吧。。。</p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="2012年10月13日">2012年10月13日</h3>
+<p>很久没有写这个手记了，翻看了一下<a href="/embedded/note-on-electronic-bricks/">《电子积木开发手记》</a>，发表的时间是3月24日。至今已经有六个半月了。半年多的时间里，这个项目已经发生了翻天覆地的变化。除了“电子积木”这个目标没有变以外，我们的硬件平台被推翻重做，再次推翻、再次重做，如此重复了很多次。但是值得欣慰的事情还是有的，首先就是获得了国家十万元的经费支持，这是我们开发初期重要的资金来源，感谢国家！我们的第一版UxBoard主板是一份非常优秀的课程作业，让我们在《嵌入式系统》课程中都获得了95分以上的高分，但有点小遗憾的是这个硬件平台面临被推翻的危险，但它毕竟是我们的第一块PCB，还是值得纪念。我们受邀参加大学生创新创业展览会，这将是推广我们的产品和理念的第一步，是一个很好的机会。当然还有最重要的，那就是我们一直都在努力，在遇到困难时也没有想放弃，整个项目现在在有着良好的发展势头。</p>
+<p>感慨了这么多，这毕竟是个技术笔记，还是来说说最近做的PCB</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[如何在嵌入式C++开发中缩减代码尺寸]]></title>
+    <link href="http://kuangqi.me/embedded/reduce-the-code-size-in-embedded-cpp/"/>
+    <id>http://kuangqi.me/embedded/reduce-the-code-size-in-embedded-cpp/</id>
+    <published>2013-02-07T16:27:14.000Z</published>
+    <updated>2014-03-19T12:49:06.000Z</updated>
+    <content type="html"><![CDATA[<p>最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。</p>
+<p>一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Flash和20KB的SRAM空间，这在8051时代已经是高端大气上档次的豪华配置了，但当我们用C++编译器编译一下那些用C++写成的简单到不能再简单的代码，就会发现这点Flash空间简直就是战斗力只有五的渣渣。。。</p>
+<p>正是由于这种现象，我最近几乎只能花一半的时间编程序，而另外的一半时间却要来设法缩减代码的尺寸。因为在最初的时候，一个闪烁LED并在串口输出一个字符串的程序就需要100K的Flash空间，实在是难以置信。</p>
+<a id="more"></a>
+
+<p>在此之前，我一直自认为可以熟练的使用GNU工具链进行高效的程序开发，虽然vim水平被大牛耻笑，但也偶尔可以耻笑别人。。。退一步说，至少可以耻笑编译器和编辑器都不能区分的初学者~然而在开源工具链方面的经验却在嵌入式开发中翻了车，极度膨胀的代码尺寸着实让我这个嵌入式新手挠头。</p>
+<p>经过一周的研究，我也逐渐明白了嵌入式C++开发中代码膨胀的主要原因，以及缩减代码尺寸的一些重要技巧。</p>
+<p>为了缩减嵌入式C++的代码，我们必须先要了解为什么一个极为简单的C++程序的代码会这么大。编译原理告诉我们的东西似乎不太够，因为我们写的那些代码根本不可能编译成那么大的目标代码，我们需要知道，C++编译器除了编译了我们写的代码，还在背后干了什么。</p>
+<p>原来，C/C++作为一个具有工业强度的编程语言，除了我们在每本书上都能学到丰富的语言特性之外，还提供了具有极高效率、极佳健壮性和鲁棒性的底层类库。然而使用功能强大、容错性好且执行高效的代码是有代价的，那就是代码尺寸的膨胀。目前我们能够得到的绝大部分标准库，都将效率和健壮性作为设计时的主要考虑，而对代码尺寸则没有特别的追求。这也使标准库中的一些函数过于臃肿。例如最常用的<code>printf</code>和<code>scanf</code>函数，支持字节型、整形、浮点型等各种类型的格式化输入输出，十分方便。然而使用newlib中的printf函数将会占用37KB的Flash和5KB的SRAM空间，这对绝大多数Cortex-M系列的单片机来说都是不可接受的。</p>
+<p>另外，C++还提供的异常(exception)、运行时类型识别(RTTI)以及动态存储分配机制，这些机制是C++的语言特性，但是却是通过库函数实现的。这些特性的使用，会引入stdc++标准类库中的大量基础函数，这些函数在连接时通过连接器添加到目标代码中，是导致C++代码膨胀的重要原因。</p>
+<p>我自己在之前对语言特性的理解一直是与库函数割裂开的。我之前的理解是：语言特性表现在关键字和表达式上，比如C++支持<code>class</code>、<code>virtual</code>、<code>new</code>、<code>delete</code>这些关键字，是语言本身的，仅仅与编译器有关的。C++里可以用<code>new</code>分配内存，是因为C++编译器认识这个关键字。而库函数就是比如<code>strcpy</code>、<code>strlen</code>之类，是与语言无关的。我可以自己写一个<code>strlen</code>，甚至可以用C#、Java等不同的语言来写。而我却不能为C++添加一个关键字，如果硬要加，只能改编译器。</p>
+<p>但事实上这个理解是不准确的，C++的关键字不仅与编译器有关，也与标准库有关。这其实并不难理解，我们可以在C语言中用<code>malloc()</code>函数分配一片内存，这个函数后面对应了C标准库中的一大段代码，我们也是可以想象的。那当我们在C++中使用<code>new</code>分配内存时，<code>new</code>关键字的背后一定也对应了功能类似的一大段代码（实际上更加复杂的一段代码，因为<code>new</code>支持异常），那<code>new</code>对应的这段代码来自哪里呢？是编译器吗？显然不是。它来自C++的标准库。举个例子，<code>goto</code>关键字会被编译器直接编译成一个jmp指令，但<code>new</code>关键字则会被编译成一个函数调用，要调用的代码则在连接阶段，被连接器从标准库中揪过来。</p>
+<p>明白了这些原理，我们就可以整理一下缩减嵌入式C++代码尺寸的一些思路了。Good design demands good compromises. 为了让C++更符合嵌入式系统的实际情境，我们需要放弃或者简化以上提到的很多特性，并通过编译参数的设置、优化掉不需要的代码，从而达到缩减代码尺寸的目的。</p>
+<p>在正式开始介绍之前，先向各位同仁强烈推荐<a href="http://elegantinvention.com/blog/information/smaller-binary-size-with-c-on-baremetal-g/" target="_blank">这篇文章</a>，本文的部分内容会翻译这篇文章。<a href="http://www.webalice.it/fede.tft/cpp_on_microcontrollers_tricks/cpp_on_microcontrollers_tricks.html" target="_blank">另一篇文章</a>也针C++在嵌入式情境中的应用提出了有益的建议。ARM官方的<a href="http://blogs.arm.com/embedded/879-shrink-your-mcu-code-size-with-gcc-arm-embedded-47/" target="_blank">一篇博文</a>对编译器和库函数的优化进行了简单的阐述。</p>
+<p>关于GCC配置参数的优化，主要参考了ARM GCC 2012q4的文档和readme。当然本文还包含一些我自己的理解以及上述文章中没提到的一些技巧。</p>
+<h3 id="1-_回收未被调用的函数和数据所占用的空间">1. 回收未被调用的函数和数据所占用的空间</h3>
+<p>在嵌入式编程中，我们通常会使用MCU厂商提供的外设驱动库来避免直接对寄存器进行操作，驱动库通常是被整个包含进来的，而我们可能只用到了其中很少的几个函数。因此回收未被调用的函数所占用的空间就很有必要了。通过为连接器传递<code>--gc-sections</code>参数（通常是用<code>-Wl,--gc-sections</code>）可以令连接器回收未被使用的section。但一个section可能会包含很多个函数，所以单独使用这个参数可能还不能取得最好的效果。另外为编译器加上<code>-ffunction-sections</code>和<code>-fdata-sections</code>两个参数，可以强制编译器为每个函数和数据分配独立的section，这样每个冗余的函数都可以独立的被回收了。</p>
+<p>在使用C++标准库函数时，这个技巧尤为重要。因为C++标准库在编译时都已经使用了<code>-ffunction-sections</code>参数，所以这个技巧可以非常显著的缩减C++程序的尺寸。</p>
+<h3 id="2-_禁用C++的异常机制">2. 禁用C++的异常机制</h3>
+<p>异常的捕获和处理需要大量的代码，默认情况下这些代码都会编译到目标文件中。如果不需要使用异常机制，可以在编译阶段禁用它们。禁用异常的编译参数是<code>-fno-exceptions</code></p>
+<h3 id="3-_禁用C++的运行时类型识别(RTTI)机制">3. 禁用C++的运行时类型识别(RTTI)机制</h3>
+<p>运行时类型信息是很有爱的~它允许我们在运行时根据代码的具体情况进行更安全的类型转换。如果禁用这个机制，我们将不能使用<code>dynamic_cast&lt;&gt;()</code>和<code>typeid()</code>。有趣的是，由RTTI增加的代码是比较少的（不到1KB），所以通常我们可以不用担心这点空间。如果一定要禁用这个机制，方法是添加编译参数<code>-fno-rtti</code></p>
+<h3 id="4-_重载new和delete运算符">4. 重载new和delete运算符</h3>
+<p>默认的<code>new</code>和<code>delete</code>运算符在堆(heap)空间不足时会抛出<code>std::bad_alloc</code>异常。这意味着，即使使用了<code>-fno-exceptions</code>参数，在我们使用new分配内存的时候仍能看到代码的尺寸显著增大。</p>
+<p>好在重载<code>new</code>和<code>delete</code>的方法很简单，也许我们更希望通过自己实现的调试代码来捕获内存分配时出现的错误。自己实现的调试跟踪代码，有几种方法，比如通过USART串口将错误返回到PC机，或者利用支持semihosting的仿真器来获得错误信息。下面就给出自己实现<code>new</code>和<code>delete</code>的样例代码。出处在<a href="http://pastebin.com/7VKUuTJa" target="_blank">http://pastebin.com/7VKUuTJa</a></p>
+<p>该网址貌似需要翻墙才能访问，为方便国内的朋友，我就把代码粘过来了</p>
+<p>更新：笔者使用这个版本的重载时，代码尺寸不降反增，因此这个技巧的有效性还请大家验证。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+</pre></td><td class="code"><pre><span class="comment">/* tinynew.cpp
+   
+   Overrides operators new and delete
+   globally to reduce code size.
+   
+   Public domain, use however you wish.
+   If you really need a license, consider it MIT:
+   http://www.opensource.org/licenses/mit-license.php
+   
+   - Eric Agan
+     Elegant Invention
+ */</span>
+
+<span class="preprocessor">#include &lt;new&gt;</span>
+<span class="preprocessor">#include &lt;malloc.h&gt;</span>
+
+<span class="keyword">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>(<span class="built_in">std</span>::size_t size) {
+    <span class="keyword">return</span> <span class="built_in">malloc</span>(size);
+}
+
+<span class="keyword">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>[](<span class="built_in">std</span>::size_t size) {
+    <span class="keyword">return</span> <span class="built_in">malloc</span>(size);
+}
+
+<span class="keyword">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keyword">void</span>* ptr) {
+    <span class="built_in">free</span>(ptr);
+}
+
+<span class="keyword">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keyword">void</span>* ptr) {
+    <span class="built_in">free</span>(ptr);
+}
+
+<span class="comment">/* Optionally you can override the 'nothrow' versions as well.
+   This is useful if you want to catch failed allocs with your
+   own debug code, or keep track of heap usage for example,
+   rather than just eliminate exceptions.
+ */</span>
+
+<span class="keyword">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>(<span class="built_in">std</span>::size_t size, <span class="keyword">const</span> <span class="built_in">std</span>::nothrow_t&) {
+    <span class="keyword">return</span> <span class="built_in">malloc</span>(size);
+}
+
+<span class="keyword">void</span>* <span class="keyword">operator</span> <span class="keyword">new</span>[](<span class="built_in">std</span>::size_t size, <span class="keyword">const</span> <span class="built_in">std</span>::nothrow_t&) {
+    <span class="keyword">return</span> <span class="built_in">malloc</span>(size);
+}
+
+<span class="keyword">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>(<span class="keyword">void</span>* ptr, <span class="keyword">const</span> <span class="built_in">std</span>::nothrow_t&) {
+    <span class="built_in">free</span>(ptr);
+}
+
+<span class="keyword">void</span> <span class="keyword">operator</span> <span class="keyword">delete</span>[](<span class="keyword">void</span>* ptr, <span class="keyword">const</span> <span class="built_in">std</span>::nothrow_t&) {
+    <span class="built_in">free</span>(ptr);
+}
+
+<span class="comment">//eof</span>
+</pre></td></tr></table></figure>
+
+<h3 id="5-_给出一个<code>__cxa_pure_virtual()</code>的实现">5. 给出一个<code>__cxa_pure_virtual()</code>的实现</h3>
+<p>如果我们在代码的任何位置使用了纯虚函数，即使已经使用<code>-fno-exceptions</code>禁用了异常，我们仍能发现代码尺寸显著的增加了（大概会增大40KB！！！）</p>
+<p>我碰到了这种现象并且花了很久的时间去跟踪。当我们查看目标代码的反汇编代码清单时（通过<code>objdump -h -C -S</code>导出），我们会发现貌似异常处理的代码又回来了。。。</p>
+<p>为了搞明白到底是什么东西这么大，我尝试使用<code>-nostdlib</code>连接参数，这会禁用整个的C++标准库（libstdc++），然后我提供了内容为空的<code>malloc</code>、<code>realloc</code>、<code>free</code>等我们常用的标准库函数，最后g++报错的是一个我从没听说过的东西：<code>__cxa_pure_virtual()</code></p>
+<p>“哈哈”，我想，“一定就是这个东西！”。通过查看该函数的<a href="http://gcc.gnu.org/svn/gcc/tags/gcc_4_4_3_release/libstdc++-v3/libsupc++/pure.cc" target="_blank">源代码</a>。这个网址是GNU官方的，给出的代码正是这个函数在GNU C++标准库中的开源实现。我们本地的标准库是经过预编译的，所以这个代码在本地是看不到的，我们发现这个函数调用了<code>std::terminate()</code>，这个（跟异常机制有关）调用将我们那点可怜的Flash蚕食殆尽，完全将白纸黑字的<code>-fno-exceptions</code>爆出翔~</p>
+<p>实际上，当我调用一个纯虚函数时（纯虚函数不能被调用，因为纯虚函数没有实现），系统就会帮我们调用<code>__cxa_pure_virtual()</code>，从而使程序报错。跟<code>new</code>和<code>delete</code>一样，我们也希望通过自己实现的调试跟踪代码来获得有意义的反馈。这个实现很简单粗暴，需要注意的是要添加<code>extern &quot;C&quot;</code>，以防止函数名被修饰（Mangling）。关于C++的函数名修饰，请详见<a href="http://en.wikipedia.org/wiki/Name_mangling" target="_blank">维基百科相关条目</a></p>
+<p>具体实现如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">extern</span> <span class="string">"C"</span> <span class="keyword">void</span> __cxa_pure_virtual() { <span class="keyword">while</span>(<span class="number">1</span>); }
+</pre></td></tr></table></figure>
+
+<h3 id="6-_重载标准库的异常处理函数">6. 重载标准库的异常处理函数</h3>
+<p>当我们使用异常机制时，代码尺寸会暴增，导致这一现象的原因则是C++标准库提供的冗长的异常处理函数。当有未捕获的异常时，这个函数就会被调用。这个函数做的事情仅仅是打印出发生异常的函数名，但是却需要对函数名进行重组（demangle），而重组函数名的代码是非常复杂的。要如果确实需要异常机制，我们可以重载C++提供的冗长的异常处理函数，代码如下</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+</pre></td><td class="code"><pre><span class="class"><span class="keyword">namespace</span> <span class="title">__gnu_cxx</span>
+{</span>
+    <span class="keyword">void</span> __verbose_terminate_handler()
+    {
+        abort();
+    }
+}
+</pre></td></tr></table></figure>
+
+<p>这个函数必须不能返回，这里简单的终止了程序，我们也可以在里面添加一些别的操作，比如在串口上输出一个错误信息，然后进入一个死循环等等。重点是，通过重新定义这个函数，我们阻止了原始版本的实现被连接到目标代码中，从而显著减小了目标代码的尺寸。</p>
+<h3 id="7-_给出一个<code>_init</code>的实现并使用<code>-fno-use-cxa-atexit</code>编译参数和<code>-nostartfiles</code>连接参数">7. 给出一个<code>_init</code>的实现并使用<code>-fno-use-cxa-atexit</code>编译参数和<code>-nostartfiles</code>连接参数</h3>
+<p>一般情况下，芯片厂商提供的example中会包含芯片的启动代码(Startup code)，这样我们就没有必要使用系统库提供的初始化程序，我们给出一个空的<code>_init</code>实现</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="keyword">extern</span> <span class="string">"C"</span> <span class="keyword">void</span> _init(<span class="keyword">void</span>){}
+</pre></td></tr></table></figure>
+
+<p>另外，我们还可以使用<code>-fno-use-cxa-atexit</code>来去掉编译时自动加上的一些异常处理函数</p>
+<p>至此，程序对标准库的移动和异常处理的依赖被全部解除，我们可以在连接时使用<code>-nostartfiles</code>来避免连接标准库相关的代码。</p>
+<h3 id="8-_使用高版本的编译器和精简版的标准库">8. 使用高版本的编译器和精简版的标准库</h3>
+<p>截止到本文成文时，ARM GCC工具链的最新版本是2012q4，其中包含了GCC 4.7.2. 这个版本的GCC包含了更高级的代码优化技术，在使用-Os优化参数时，生成的目标代码比之前的版本小2%</p>
+<p>更重要的是，这个版本的工具链还附带了专门为嵌入式应用而优化的C标准库——Newlib-nano。其中提供了精简版的<code>printf</code>和<code>scanf</code>（默认情况下不支持浮点数，但可以通过编译参数开启），以及更适用于嵌入式环境（小内存）的<code>memset</code>、<code>malloc</code>等内存管理函数。这些函数占用的代码空间只有传统标准库的六分之一。Newlib-nano使用了<code>-fno-exception</code>参数进行编译，且优化设置为<code>-Os</code></p>
+<p>根据ARM官方博客的介绍，使用精简版的标准库编写的Hello world程序中，代码尺寸缩减了80%，而在极端案例中的缩减会超过90%</p>
+<p>要下载这个版本的工具链，可以前往ARM GCC的<a href="https://launchpad.net/gcc-arm-embedded/4.7/4.7-2012-q4-major" target="_blank">项目主页</a></p>
+]]></content>
+    <summary type="html"><![CDATA[<p>最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。</p>
+<p>一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Flash和20KB的SRAM空间，这在8051时代已经是高端大气上档次的豪华配置了，但当我们用C++编译器编译一下那些用C++写成的简单到不能再简单的代码，就会发现这点Flash空间简直就是战斗力只有五的渣渣。。。</p>
+<p>正是由于这种现象，我最近几乎只能花一半的时间编程序，而另外的一半时间却要来设法缩减代码的尺寸。因为在最初的时候，一个闪烁LED并在串口输出一个字符串的程序就需要100K的Flash空间，实在是难以置信。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[坑爹的搜狐软件源以及由软件源引发的连锁反应]]></title>
+    <link href="http://kuangqi.me/essay/a-tragedy-caused-by-sohu-apt-repo/"/>
+    <id>http://kuangqi.me/essay/a-tragedy-caused-by-sohu-apt-repo/</id>
+    <published>2012-12-06T16:50:06.000Z</published>
+    <updated>2014-03-22T14:13:34.000Z</updated>
+    <content type="html"><![CDATA[<p>昨天由搜狐提供了ubuntu官方cn软件源挂了，该返回软件包内容的地方返回了一个中文的网页。而我一台Ubuntu 12.04 LTS的服务器、一台Ubuntu 12.10的PC都使用的是该软件源。由此引发的连锁反应一直持续到了今天。。。</p>
+<p>昨天连上ssh，开开心心的apt-get update了一下，结果update的速度巨慢无比，一直在Waiting for header。以为是服务器的问题，于是在Ubuntu的PC上也update了一下，居然是类似的问题。我非常困惑为啥今天的update速度这么慢。回头一看服务器这边，已经结束了，报了一堆错误。但错误的大概意思是说没能成功，继续使用原来旧的数据。由于我急着给服务器装软件，就无视了那个错误，直接install了，没想到居然说这些软件没有认证，是否要强制安装，这可是官方的软件源啊，闹不住啊，于是取消了安装。再看PC这边，update也结束了，也报错了，但错误信息跟服务器不完全相同。于是我在一开始就没往软件源有问题这个方向去想。</p>
+<a id="more"></a>
+
+<p>接下来，我花费了超过4个小时的时间，几乎搜遍了整个网络，来试图修复我的apt-get，整个本地list全乱套了，又导致locale也出问题，又导致perl也报错。而此时我还不知道是搜狐的问题，因为程序员的第一反应是“我又哪儿搞错了”你们懂的。我执行了很多命令，有一些我自己都不知道是什么意思，还有一些看起来貌似就不太靠谱，瞎执行一气后，没有效果。。。后来在一个台湾的网站上，有人提到软件源可能正在维护，我连想都没想就忽略了这种可能。直到最后要吐血了，才想起用浏览器访问了一下那个软件源。结果可想而知！！！</p>
+<p>骂了搜狐的坑爹软件源10分钟之后，我把两台机器的软件源都换成了163的镜像，把整个lists删掉重建了一下，终于好了。可以update了。晚上又重启了服务器，把内核更新了一下，感觉一切都和谐了~然而我不知道各种问题才刚刚开始。</p>
+<p>晚上的晚些时候，我发现ssh连接服务器时中文乱码，我有些困惑，因为服务器上很少有中文的东西，我也不记得之前乱不乱码，我甚至怀疑这些一直都是乱码的，只不过今天我比较强迫，发现了这些不爽的地方。我根本没有怀疑是服务器的设置有问题，以为我下午花了那么大功夫，已经把服务器“修好了”。于是我又研究了一下，改了Mac里ssh的一个配置文件，乱码问题就解决了。我还得以洋洋的把修改Mac配置文件的方法发了<a href="/ios/fix-the-ssh-problem/">一篇博客</a>。。。</p>
+<p>直到今天晚上，昀牛把一个错的离谱的scp命令发给我求指导，我才意外发现服务器上的刚刚下载的带中文的文件名都是乱码。而之前创建的中文文件名则显示正常。联系到之前发生的一系列坑爹情况，我终于确信是服务器的设置出了问题。3个小时之后，我终于意识到是我昨天执行那一堆乱七八糟命令把LC_CTYPE从en_US.UTF8改成了UTF8。我根本都不知道我是怎么改的，又费了好大劲改了回来。。。从目前来看，应该是真的好了。</p>
+<p>总结一下，搜狐软件源挂了，我前后至少浪费了6~7个小时的时间去查找问题、尝试解决问题、解决尝试时误操作造成的问题和真的的解决问题。。。我已经无力吐槽了，我只能说，坑！爹！啊！</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>昨天由搜狐提供了ubuntu官方cn软件源挂了，该返回软件包内容的地方返回了一个中文的网页。而我一台Ubuntu 12.04 LTS的服务器、一台Ubuntu 12.10的PC都使用的是该软件源。由此引发的连锁反应一直持续到了今天。。。</p>
+<p>昨天连上ssh，开开心心的apt-get update了一下，结果update的速度巨慢无比，一直在Waiting for header。以为是服务器的问题，于是在Ubuntu的PC上也update了一下，居然是类似的问题。我非常困惑为啥今天的update速度这么慢。回头一看服务器这边，已经结束了，报了一堆错误。但错误的大概意思是说没能成功，继续使用原来旧的数据。由于我急着给服务器装软件，就无视了那个错误，直接install了，没想到居然说这些软件没有认证，是否要强制安装，这可是官方的软件源啊，闹不住啊，于是取消了安装。再看PC这边，update也结束了，也报错了，但错误信息跟服务器不完全相同。于是我在一开始就没往软件源有问题这个方向去想。</p>
+]]></summary>
+    
+      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[Mac OS X通过SSH连接Linux服务器时中文出现乱码的解决方法]]></title>
+    <link href="http://kuangqi.me/ios/fix-the-ssh-problem/"/>
+    <id>http://kuangqi.me/ios/fix-the-ssh-problem/</id>
+    <published>2012-12-05T16:46:20.000Z</published>
+    <updated>2014-03-22T14:12:19.000Z</updated>
+    <content type="html"><![CDATA[<p>这个问题跟Mac的终端程序有关。修正方法是：</p>
+<p>编辑Mac系统下<code>/etc/ssh_config</code>这个文件，将其中<code>SendEnv LANG LC_*</code>这一行前面加一个井号，注释掉，保存退出</p>
+<p>再使用ssh连接远程Linux服务器时，中文就不会有问题了~</p>
+]]></content>
+    
+    
+      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[实验室电脑装Ubuntu手记]]></title>
+    <link href="http://kuangqi.me/tricks/note-on-ubuntu-installation/"/>
+    <id>http://kuangqi.me/tricks/note-on-ubuntu-installation/</id>
+    <published>2012-10-31T09:32:05.000Z</published>
+    <updated>2014-04-12T15:55:58.000Z</updated>
+    <content type="html"><![CDATA[<p>自认为是*nix用户，不过从来没在自己的PC上装Ubuntu，终于有自己的机位了，装了一个Ubuntu Desktop 12.10</p>
+<p>把遇到的一些问题记录一下</p>
+<h3 id="1-_apt-get不能用">1. apt-get不能用</h3>
+<p>不管是<code>install</code>还是<code>update</code>，任何命令都报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>E: Encountered a section with no Package: header
+E: Problem with MergeList /var/lib/apt/lists/security.debian.org_dists_squeeze_updates_contrib_i18n_Translation-en
+E: The package lists or status file could not be parsed or opened.
+</pre></td></tr></table></figure>
+
+<p>解决方法是删掉之前坑爹的缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>rm -rf /var/lib/apt/lists/*
+</pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h3 id="2-_改主机名">2. 改主机名</h3>
+<p>安装时偷懒，没改一个喜欢的主机名，等装好了再改就要费一点周折<br>首先要编辑<code>/etc/hostname</code>。这还不够，还要编辑<code>/etc/hosts</code></p>
+<h3 id="3-_安装L2TP_VPN插件">3. 安装L2TP VPN插件</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+</pre></td><td class="code"><pre>Installation:
+<span class="built_in">sudo</span> apt-add-repository ppa:seriy-pr/network-manager<span class="operator">-l</span>2tp
+<span class="built_in">sudo</span> apt-get update
+<span class="built_in">sudo</span> apt-get install network-manager<span class="operator">-l</span>2tp-gnome
+!!!!!!!!!!!!!!!!!!
+<span class="built_in">sudo</span> service xl2tpd stop
+<span class="built_in">sudo</span> update-rc.d xl2tpd disable
+!!!!!!!!!!!!!!!!!!
+</pre></td></tr></table></figure>
+
+<p>Ubuntu默认只带了PPTP VPN的软件，我的VPN是L2TP的，有这么个插件，可以装一下。装完后添加VPN的地方就会多一个L2TP的选项，可以把配置加进去，不过还是不能用。按照官网的说法，装完后执行斜体部分，就可以用了。不过我试了，不管用，后来重启了一下就好了~</p>
+<h3 id="4-_输入法相关">4. 输入法相关</h3>
+<p>使用了iBus框架下的Sunpinyin。iBus开机启动的方法是：在Language Support中，将输入法选为ibus。另外sunpinyin弹出设置界面居然必须敲命令。。。太囧了。。。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>/usr/lib/ibus-sunpinyin/ibus-setup-sunpinyin
+</pre></td></tr></table></figure>
+
+<h3 id="5-_挂载ISO文件">5. 挂载ISO文件</h3>
+<p>双击挂载居然不支持大文件，使用命令行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> mount -o loop XXXX.iso /cdrom
+</pre></td></tr></table></figure>
+
+]]></content>
+    <summary type="html"><![CDATA[<p>自认为是*nix用户，不过从来没在自己的PC上装Ubuntu，终于有自己的机位了，装了一个Ubuntu Desktop 12.10</p>
+<p>把遇到的一些问题记录一下</p>
+<h3 id="1-_apt-get不能用">1. apt-get不能用</h3>
+<p>不管是<code>install</code>还是<code>update</code>，任何命令都报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>E: Encountered a section with no Package: header
+E: Problem with MergeList /var/lib/apt/lists/security.debian.org_dists_squeeze_updates_contrib_i18n_Translation-en
+E: The package lists or status file could not be parsed or opened.
+</pre></td></tr></table></figure>
+
+<p>解决方法是删掉之前坑爹的缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>rm -rf /var/lib/apt/lists/*
+</pre></td></tr></table></figure>
+
+]]></summary>
+    
+      <category term="工巧匠心" scheme="http://kuangqi.me/categories/tricks/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[董奇校长座谈会-我的发言稿（未删节）]]></title>
+    <link href="http://kuangqi.me/essay/a-discussion-with-the-president-of-bnu/"/>
+    <id>http://kuangqi.me/essay/a-discussion-with-the-president-of-bnu/</id>
+    <published>2012-10-28T10:53:23.000Z</published>
+    <updated>2014-03-15T13:30:13.000Z</updated>
+    <content type="html"><![CDATA[<p>尊敬的董校长、各位领导、各位同学下午好，我是况琪，信息学院2009级计算机系本科生。今天要汇报的是我们在过去两年半的时间里，一直坚持研究开发并着力推进的一个科研项目，也就是我们的自习室空座位实时报告系统。我们的系统通过安装在自习室中的监控摄像机，获得教室的实时图像，通过计算机自动分析的手段，对教室中的空座位进行计数。将教室的空闲情况通过网站、手机、电子屏等方式传达给同学，指导同学去空闲的教室上自习。</p>
+<p>这个项目是完全由学生自主命题，组织申请科研经费并在导师的指导下完成的。这个项目立项之初，就获得了超乎我们想象的关注。同学对我们的期望也是我们进步的动力。在我们的努力下，本项目相关研究先后获得北师大本科生科研基金、北京市大学生科学研究与创业行动计划、教育部大学生创新创业训练项目、100365首善行动-金隅嘉业科技创新支持行动等多项学校、国家和社会企业家的经费支持。我们的研究成果获得2009年度校级优秀项目、第19届、第20届两届京师杯竞赛一等奖第一名、第6届、第7届两届首都“挑战杯”竞赛一等奖、第12届全国挑战杯竞赛三等奖等学术奖项。另外还在中国专利年会、北京国际文博会等大型展会上获得两项与科技创新有关的社会奖项。</p>
+<a id="more"></a>
+
+<p>这个项目的提出和研究，其实与我所学的专业有关。在三年的时间里，我们专业的每个同学都修读了170多个学分的课程，前四学期平均每周的课时数都在40个以上，也就是说平均每天上课8小时。除去上课的时间，还需要完成各种课程的作业。繁重的课业负担使得我们经常要去上自习，其中“地毯式搜索”找自习室的经历可谓是不堪回首。作业多、自习难，所以我经常对周围的朋友大倒苦水，并将这种类型的吐槽活动作为心理调整的重要途径。只不过这种情况跟不在师大的高中同学比较难以解释，所以当他们追问我为啥还没有女朋友的时候，我只好无奈的说一句“没办法啊，长得太丑了”（此处应有笑声）——（这一段吐槽课多，应校团委要求加上，略显突兀啊！）<br>跑题了，拉回来。可能不少同学都听过一首叫《大学自习曲》的说唱歌曲。这首歌曲不但旋律轻快、内容搞笑，也非常准确的指出了导致自习难的两个原因。一是同学在空间上分布不均，经常会有一些教室很挤，有的教室却无人问津的情况。二是不能提前获知教室使用情况的临时变动，例如临时调课、学生活动等，可能刚坐下不久，又因临时情况而被清场。</p>
+<p>为此，我们对全国70多所高校进行了调查、对北京8所高校进行走访、查阅了大量的文献资料并对市场上现有的座位管理查询系统进行了深入的分析。在我们的论文中，花费上千字的篇幅对调研的结果进行了阐述。简单来说，占座现象是找座难-找到座位需要占座-占座导致找座难的恶性循环。解决占座问题、并最终破解自习难问题，更重要的是了解和引导。所以我们的系统在一开始就将目标定位于“找座”，而不是“防占座”。因为我们知道，单方面的通过各种手段禁止同学占座，无异于扬汤止沸。通过科技手段禁止占座，更是南辕北辙。因为我们进行的调研工作，并不比一些决策者少。所以我可以在这里负责任的说，北师大图书馆近期花重金引进的防占座系统，根本就是一个高科技的玩笑。</p>
+<p>为了解决自习难问题的两个症结，我们也提出了两个对策。针对问题一，即同学在教室的分布不均的情况，我们的对策是通过计算机分析教室的监控录像，发现人少的教室，并推荐给同学。为了实现这个目标，我们主要完成了图像分割、背景建模和目标追踪三方面的工作。图像分割就是从一张图像中找到桌子所在的区域，计算机先消除透视关系，生成教室的俯视图，再根据色彩的先验概率密度求得桌子的区域。我们对分割出的区域计数，即得到空座位数（图片展示）背景建模就是先建立描述空教室的数学模型，然后将有人教室的图片与之对比，找到不同的区域，即为人或者占座物品。（图片展示）目标追踪就是对运动的物体进行跟踪，当同学进出教室时，计算机可以获得进出的人数和方向，从而得到教室中现在的人数。（图片展示）</p>
+<p>针对问题二，即教室临时被占用的情况，我们建立了一个类似微博的社交网络系统（图片展示），同学可以通过网页或者手机终端，把对教室的评价反馈给我们。当教室因临时情况不可用时，这些信息可以帮助同学避开临时被占用的教室。这里的推荐列表是我们的创新技术之一，它分别列出了最空的教室、同学们最满意的教室、以及我们的数学模型为同学生成的最适合自习的教室。我们还计划将每座楼最适合自习教室的显示到楼下的电子屏。在手机上查询这个列表的操作是一键式的，非常方便。如果能显示到电子屏，那找座位就是进楼前抬一下头而已。这个系统中所有的数据更新频率至少都可以达到每分钟一次。调研显示，我们的系统在建设成本、实时性、数据有效性、用户体验等诸多方面均优于现有系统。（表格展示）</p>
+<p>值得一提的是，我们在两年间研发的很多技术，可以扩展应用到工业生产等其他领域。两年多的时间中，也有企业希望与我们合作。但是我们更希望我们的技术能应用于学校管理领域，为广大师生提供便利。例如跟踪人流量的程序，也可以用于校园道路车流量的监控，也许可以为缓解校园交通拥堵起到一定的辅助作用。对教室的人数检测，不仅可以用于找自习室，也可以用于了解一堂课到场的人数，这在思想政治、军事理论等一些大型公共课上的作用尤为突出。因此我们的技术也有望使得现行的教学巡视工作得以简化。</p>
+<p>目前我们相关基础技术的研发已经基本完成，然而将这个系统最终推向实用，还面临的一些亟待解决的困难和障碍。<br>经济学中有个一著名的二八定律，这个定律在软件工程中同样适用。我们系统在前期基础研究的投入大概是4万元，完成了最核心的大概80%的工作。根据经验，这个投入只会占到总投入的20%左右。因此将其最终完善并成为一个产品的后续投入保守估计在15~20万元。</p>
+<p>然而完成最终的成果转化，我们最大的障碍还并不是经费问题，恰恰相反，我们现在还面临着有钱没法花的问题。首先是学校严苛的财务制度，使得我们很多需要的实验设备和资料没法购买，一些正常花销却需要通过弄虚作假买发票的方式来填补。我们开发移动客户端软件需要的平板电脑、智能手机这些设备，其用途更是难以解释，只能靠自己掏腰包。而在一次次与学院会计斗智斗勇，解决诸如发票连号等问题上浪费时间成本，更是不可估量。</p>
+<p>如果为经费报销而奔波只是劳力的话，那游说学校各级领导，请求政策上的支持才是真正的劳心。可以说，我们的项目在学术研究方面，两年半内经历了从无到有，从幼稚到成熟的几个飞跃。然而，其在校内推广使用，甚至只是进行中等规模的软件测试，这些条件至今仍不具备。尽管我们通过校团委和信息学院领导老师的牵线搭桥，拜访了教务处、保卫处、信息网络中心、校园电子屏系统集成商等学校职能部门的和相关企业的负责人，但这个项目推向实用化的脚步，至今仍在原点，未曾移动。就连我们做实验使用的教室录像等素材，都是未经学校允许，从教学楼的监控室中请技术人员拷贝出来的，或者是通过我们私自安装在学校公共教室后面的无线摄像机拍摄下来的。进行北京八所高校和大型商业区调研时，我们采取的办法也是携带小型相机，对测试场景进行“偷拍”。可以说，没有这些大胆的违规操作，这个项目在技术上的进展同样会是一张白纸。</p>
+<p>回想两年半以前，我是一名大一新生，跟师兄师姐一起坐在快餐店的小桌前嚼着薯条，而这个项目，就是桌子上的一张白纸。而如今，这张纸已经成为一份超过1.5万字，长达34页的论文。我们把它摆上了信息学院教授、博导的桌前，摆上了京师杯专家评委乃至中科院院士的桌前、也摆上了《科学时报》（展示报纸）的编辑和读者的桌前、当然还有北师大刘书记、董校长的桌前。作为目前项目组中资格最老的成员，我为自己能够亲身经历并亲手推动我们的项目经历这样的蜕变，而感到由衷的慰藉。能取得这样的成绩，我对我自己和我们的项目组可以问心无愧，然而面对老师和同学，我却不能理直气壮。因为我最大的愿望，是将我们的成果，呈现在成千上万师大人的桌前，乃至全国还在为找自习室而备受困扰的莘莘学子的桌前。这张桌子，比之前的任何一张都要大，这种成就，比之前我们取得的任何一个，还令人向往。</p>
+<p>我们不是在校园论坛上大发牢骚的所谓“有志青年”，我们不是在大街上奔走呼号打砸抢烧的无知愤青，我们不是杂志报刊上洋洋洒洒针砭时弊的评论家，我们更不是打着高科技幌子沽名钓誉的民间科学家。我们是北京师范大学的普通学生，我们用心观察生活，我们的理想就是能用我们的智慧和汗水，让周围的人或事，变得再完美那么一点点。我们不只会发牢骚，我们还花费两年半的时间提出并完成了一个解决方案。如果您也抱着跟我一样的理想，也许您可以尽举手之劳，让我们的共同的理想向前走一步，再走一步。谢谢大家！</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>尊敬的董校长、各位领导、各位同学下午好，我是况琪，信息学院2009级计算机系本科生。今天要汇报的是我们在过去两年半的时间里，一直坚持研究开发并着力推进的一个科研项目，也就是我们的自习室空座位实时报告系统。我们的系统通过安装在自习室中的监控摄像机，获得教室的实时图像，通过计算机自动分析的手段，对教室中的空座位进行计数。将教室的空闲情况通过网站、手机、电子屏等方式传达给同学，指导同学去空闲的教室上自习。</p>
+<p>这个项目是完全由学生自主命题，组织申请科研经费并在导师的指导下完成的。这个项目立项之初，就获得了超乎我们想象的关注。同学对我们的期望也是我们进步的动力。在我们的努力下，本项目相关研究先后获得北师大本科生科研基金、北京市大学生科学研究与创业行动计划、教育部大学生创新创业训练项目、100365首善行动-金隅嘉业科技创新支持行动等多项学校、国家和社会企业家的经费支持。我们的研究成果获得2009年度校级优秀项目、第19届、第20届两届京师杯竞赛一等奖第一名、第6届、第7届两届首都“挑战杯”竞赛一等奖、第12届全国挑战杯竞赛三等奖等学术奖项。另外还在中国专利年会、北京国际文博会等大型展会上获得两项与科技创新有关的社会奖项。</p>
+]]></summary>
+    
+      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[关于ISP、IAP、DFU和bootloader]]></title>
+    <link href="http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/"/>
+    <id>http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/</id>
+    <published>2012-08-27T11:46:22.000Z</published>
+    <updated>2014-03-19T14:44:42.000Z</updated>
+    <content type="html"><![CDATA[<p>这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：</p>
+<p>在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。另外在编程器里的也有一个MCU，这其中使用软件产生这个时序，从而对目标芯片进行编程。电脑通过串口把程序发到编程器，编程器按照规定的时序把程序送入目标芯片。</p>
+<a id="more"></a>
+
+<p>但是这种编程模式有几个问题，首先就是需要为特定的芯片购买特定的编程器。这种编程器通常比较昂贵，且只能用于特定型号的MCU. 对于企业来说，编程器的成本算不了什么，但更大的问题是，编程时我们必须把待编程的芯片从产品上拆下来，插到编程器上，编程后再安装回产品中。这种方法对于双列直插式的芯片也许是可行的。但对于现在日益流行的表面贴装技术是很不可行的，尤其是BGA封装的芯片，通常需要专业设备才能拆卸，拆下后需要重新植球才能焊接。。。为了更新固件而将其从高密度的PCB板上拆下来，是非常不可行的。</p>
+<p>为了能不把芯片拆下来就更新程序，人们发明了一种叫ISP的技术，即在系统编程。在系统编程就是通过串口或者其他通用的通用通信接口，为芯片编程。在产品上可以预留一个串口，需要更新时，只要把产品插到电脑上，通过串口把程序传到芯片里，就完成了更新操作。ISP技术的实现，其实就是依赖于芯片在出厂时预先烧写的bootloader程序，bootloader还有很多不同的叫法，比如ISP服务程序（STC宏晶的51单片机这么叫）、bootstrap（MSP430的BSL编程这么叫）等等。但本质上都是相同的。bootloader在芯片复位（或者上电）时，会优先于用户自己的代码启动。这段代码会首先检测芯片的指定引脚上有没有特定的信号，如果没有，则跳入用户程序执行。否则就按照bootloader特定的通信协议，与计算机进行握手，并最终触发计算机将新的程序通过通用接口（如串口）传送到芯片。然后bootloader通过软件的方式（当然需要硬件支持），擦除用户程序区，将新的程序写入到指定的位置。另外提到的是，bootloader是由各个芯片厂家自己写的，因此不是通用的。尽管都是用串口，但通信协议是不同的。比如像国产垃圾STC单片机，通信协议甚至是保密的。因此通常需要厂家提供的专用ISP软件（flash loader）才能给芯片编程。</p>
+<p>另外，比ISP更先进一点的一个技术叫IAP，即在应用编程。IAP技术允许用户程序修改flash。说白了IAP就是允许用户自定义bootloader，或者说有2个bootloader，一个bootloader是芯片出厂时固化的，另一个是用户自定义的。自定义的bootloader在固化的bootloader之后启动。也许你就要问了，用户自定义的bootloader不就是用户程序吗？其实它跟普通用户程序的区别就是它不会那么容易的被擦除。。。一般是先用专用软件，调用固化的bootloader，来写入自定义的bootloader，然后自定义的bootloader利用能写flash的能力，来给芯片写入新的程序。<br>为什么需要自定义bootloader呢？默认的bootloader需要在固定引脚，通过串口，以固定的协议传送程序。如果你对这个过程的任何一点不满意，那你就要自定义bootloader喽~</p>
+<p>再说说DFU，这个名词通常是针对USB设备说的。因为现在的设备基本都是USB了，没用串口的了。。。很多MCU也内置了USB的支持。DFU是Device Firmware Upgrade的缩写，在我的理解中，DFU模式就是支持USB的bootloader。。。DFU模式通常需要特定的驱动程序，因为现在的芯片USB接口通常工作于VCP（Virtual COM Port）模式，插到电脑上后会虚拟成一个串口设备。而DFU模式则于此不同。VCP模式下，PC端是一个串口驱动程序，MCU端是用户程序。而DFU模式下，PC端是DFU驱动程序，MCU端是bootloader。DFU模式的bootloader通常是用户自定义的，并通过固化的bootloader由串口刷入。</p>
+<p>进入bootloader程序通常有两种方式，一种是硬件复位（或者掉电），即按板上的复位按钮。芯片复位后会先执行bootloader。第二种方式是以软复位的方式进入的，软复位通常是通过PC发送一串指定的指令，用户程序中会通过中断服务程序检测到并处理这些指令。满足触发条件后，芯片将执行软复位，并将指定的地址装入PC寄存器，从而通过软件的方式跳入bootloader程序。</p>
+<p>最后我们来看一下Arduino和Maple板子的刷写方式。</p>
+<p>Arduino板上有两个MCU，一个是我们都知道的执行程序的那个MCU，它里面刷写了Arduino自定义的bootloader。另外一个是USB接口附近的一个QFN封装的小芯片，它也是一片MCU，只不过是带USB支持的。在这里它完成USB转串口的功能。更重要的是，它可以监测PC发来的指令流，其中就包含了复位指令。收到USB发来的复位指令后，它会在目标MCU的复位脚加一个负脉冲，使得目标MCU复位，进而将下载指令流放到目标MCU的串口上。使得目标MCU的bootloader检测到，从而完成下载。<br>Maple只有一个MCU，因此从USB收到下载指令后，只不过复位的不是别的芯片，而是复位自己。将自己复位到DFU模式，从而利用bootloader从USB下载程序。</p>
+]]></content>
+    <summary type="html"><![CDATA[<p>这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：</p>
+<p>在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。另外在编程器里的也有一个MCU，这其中使用软件产生这个时序，从而对目标芯片进行编程。电脑通过串口把程序发到编程器，编程器按照规定的时序把程序送入目标芯片。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[山寨J-Link V8仿真器与Cortex-M4开发板之不得不吐的槽]]></title>
+    <link href="http://kuangqi.me/embedded/jlink-clone-and-cm4-board/"/>
+    <id>http://kuangqi.me/embedded/jlink-clone-and-cm4-board/</id>
+    <published>2012-05-16T05:22:23.000Z</published>
+    <updated>2014-03-19T14:44:14.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="1-_下载J-link仿真器驱动">1. 下载J-link仿真器驱动</h3>
+<p>上了SEGGER的官方网站，找到了下载驱动的地方，点了让我输入序列号，我看仿真器的背面，没序列号啊~我只好点下面的一个我没序列号的链接，点进去它问你为啥没序列号，其中包括板载仿真器、OEM产品等等，我也不知道我为啥没序列号，只好点了一个其他原因。。。然后它让我保证，不将软件和仿真器用于非法用途，好吧，我保证。。。</p>
+<p>下面的一幕我震惊了——网站上出现了十几张仿真器的图片，我以为是让你选自己是哪一款，我一眼就看到了我的那款，鼠标点了没反应，只好仔细看英文提示，结果人家说——这里是一个山寨仿真器大全，如果您使用的是以下这些图片中的仿真器，那基本可以确定你那个是山寨的。这些山寨仿真器基本都是在中国和俄罗斯制造的。如果你不确定你的是不是山寨，请联系XXXXX。。。。</p>
+<a id="more"></a>
+
+<p>我去！原来这些奇形怪状的东西都是山寨的，，，下面让我保证不将下载的软件用于这些山寨的仿真器。。。好吧，假设我的不是山寨的，我保证还不行么。。。终于，，，驱动下载下来了。。。</p>
+<h3 id="2-_连接J-link到目标板">2. 连接J-link到目标板</h3>
+<p>老师的板子居然没有留标准的JTAG接口，而是自己设计了个排针。。。更奇葩的是，那个排针是2.0mm的，不是常见的2.54mm的。。。于是我的杜邦线插不上去，得到授权后，我非常暴力的把线焊到了排针的焊盘上，又自己做了一组2.54的20pin接口，跟仿真器连起来了。</p>
+<p>连起来后，在电脑上居然提示参考电压不足。。。一测JTAG口的参考电压端，确实只有0.1V，看来硬件有问题。只好打电话给肖工，人家第一句话就是：你不会把电源接反了吧！</p>
+<p>我去也太小看我了。。。接反电源应该是我小学时干的事情，现在不至于这么二。。。在肖工的指导下，我对照着供电的电路图，一路查回去，LDO输出3.3V，没电压，再查输入的5V，好像只有2V，再查电容……诡异的地方出现了，在一条线上的两个焊盘电源居然不一样！！再查，发现热保护管的一个引脚脱焊了。。。。。。更牛逼的是，当我用万用表的表笔测这个点时，恰好将脱焊的引脚压回了焊盘上，参数都是正常的，表笔抬起来时，那个引脚又离开焊盘一点点，于是另外一个点的电压又不正常了。。。那里有一坨焊锡，脱焊的引脚上也是，白茫茫一片，实在是很难发现。。。这种bug该如何吐槽！！</p>
+<h3 id="3-_J-link固件">3. J-link固件</h3>
+<p>装好驱动插上仿真器，直接就提醒我更新固件。我这种追新的人，怎么可能用旧版的固件！直接点了更新，还真是给力，不到半分钟就自动完成了刷固件的过程，然后仿真器就重启了，，，然后就没有然后了。。。</p>
+<p>网上查了一下，貌似是因为驱动版本太高了，发现了我山寨的本质，于是就罢工了。。。于是去下载了号称稳定版的4.08驱动，手头还有另一个没刷固件的仿真器，这就开始了漫长的尝试过程</p>
+<ul>
+<li>驱动：<ul>
+<li>4.46f</li>
+<li>4.08i</li>
+</ul>
+</li>
+<li>固件：<ul>
+<li>仿真器自带的固件（2010年编译）</li>
+<li>最新的固件（2012年编译）</li>
+<li>从网上下载的固件（2009年编译）</li>
+</ul>
+</li>
+</ul>
+<p>驱动配固件，这一共有6种组合，每种组合还有J-link和RDI两种调试方法，还分JTAG和SWD两种接口。所以一共是这么二十多种组合吧，我基本全都试了一遍。有的根本找不到仿真器，有的没法启动调试，有的貌似对了但其实程序根本没刷进去。。。总之，旧版的驱动不认M4芯片，于是只能用新版，但新版的驱动会发现我是山寨的，于是固件要用旧版，于是就囧了。。。只有一种组合可以把程序刷进去并且运行，那就是4.46f驱动，2010年的旧固件，J-link调试，用SWD接口。。。。。。还有，IAR环境要用6.3最新版的。。。否则不支持M4芯片。。。就因为IAR的版本太低，我浪费了大概4个多小时。。。</p>
+<p>但这种样也不太行，芯片被不停的复位，终于受不了了，放弃了。。。</p>
+<p>今天直接杀到老师的公司，求肖工指导。肖工断定我仿真器的线接错了，我说不可能！肖工也太小看我了，上次说我接反电源的事情我还耿耿于怀呢。。。一共8根线，我照着官方的文档接的，这都能错我还用混吗！！我一直坚持我的仿真器有问题，让他替换一下。果然不出所料，他也没法用我的仿真器。。。</p>
+<p>于是他点了自动提示的固件升级，我心想这下完蛋了，没有2010固件的仿真器了，情何以堪。升级完固件，居然好了！我擦~难道之前一直不行是因为仿真器固件太低了？瞄了一眼肖工的驱动版本，是4.36f，比我4.46f要稍低一些。拿着刷好固件的仿真器到自己的电脑上一试，果然好了，固件的编译日期是2011年的。</p>
+<p>难道我纠结了2天的问题，就是因为固件版本错误？后来我觉得，那个固件应该不是从网上自动下载的，而是随着J-link驱动而安装的。4.36f驱动带的2011年固件是比较合适的，4.36f驱动也能认出M4芯片</p>
+<h3 id="4-_千金易得，开发板难求">4. 千金易得，开发板难求</h3>
+<p>人家又让把板子留下了。。。怒了，决定自己做一块。。。</p>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="1-_下载J-link仿真器驱动">1. 下载J-link仿真器驱动</h3>
+<p>上了SEGGER的官方网站，找到了下载驱动的地方，点了让我输入序列号，我看仿真器的背面，没序列号啊~我只好点下面的一个我没序列号的链接，点进去它问你为啥没序列号，其中包括板载仿真器、OEM产品等等，我也不知道我为啥没序列号，只好点了一个其他原因。。。然后它让我保证，不将软件和仿真器用于非法用途，好吧，我保证。。。</p>
+<p>下面的一幕我震惊了——网站上出现了十几张仿真器的图片，我以为是让你选自己是哪一款，我一眼就看到了我的那款，鼠标点了没反应，只好仔细看英文提示，结果人家说——这里是一个山寨仿真器大全，如果您使用的是以下这些图片中的仿真器，那基本可以确定你那个是山寨的。这些山寨仿真器基本都是在中国和俄罗斯制造的。如果你不确定你的是不是山寨，请联系XXXXX。。。。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[MSP430 Value Line MCU的时钟系统]]></title>
+    <link href="http://kuangqi.me/embedded/the-clock-system-on-msp430g2/"/>
+    <id>http://kuangqi.me/embedded/the-clock-system-on-msp430g2/</id>
+    <published>2012-05-15T17:16:12.000Z</published>
+    <updated>2014-03-19T14:43:45.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="1-_关闭看门狗">1. 关闭看门狗</h3>
+<p>由于要使用仿真器调试，加断点后MCU被挂起，会导致看门狗被触发而将MCU复位。因此在调试阶段，我们需要先关闭看门狗。关闭看门狗的方法是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="attribute">WDTCTL </span>=<span class="string"> WDTPW + WDTHOLD;</span>
+</pre></td></tr></table></figure>
+
+<p>WDTCTL是一个16位的寄存器，顾名思义，就是看门狗的控制寄存器。WDTHOLD是控制看门狗开关的标志位。给WDTHOLD置位即关闭看门狗。但是这个WDTPW是什么呢？查手册得知WDTPW是看门狗的密码，这是一个宏，被定义为了0x5A00，这个密码是干什么用的呢？原来，WDTCTL寄存器是一个非常特殊的寄存器，为了防止程序异常时意外关闭看门狗，对它进行赋值操作时必须将其新值的高8位设为0x5A这个特定的值，也就是“密码”。如果赋值时新值的高8位不是0x5A，会导致MCU立即被复位。总之，对WDTCTL进行任何修改操作时，都要加上WDTPW的值。</p>
+<a id="more"></a>
+
+<h3 id="2-_时钟系统">2. 时钟系统</h3>
+<p>对于玩51单片机的人来说，学习MSP430的时钟系统是很痛苦的，也很颠覆的。MSP430为了做到超低功耗，对时钟系统进行了精妙的设计。网上有文章专门讲解MSP430的时钟系统，还有生动的配图。但遗憾的是这些讲解都多多少少的存在问题甚至是错误的。既然说人家讲得不好，我也就斗胆说说自己的理解。对时钟系统最精确的描述当然就是手册里的框图了：</p>
+<p><img src="/images/msp430g2-clock-system-1.jpg" alt=""> </p>
+<p>我不喜欢看这种框图，觉得特别复杂，看起来累。但是静下心来看它时，你会发现其实它并不是那么复杂，很多困惑的问题也就迎刃而解了。唯一需要你了解的背景知识是，你必须要认识啥是多路选择器（Mux）。。。</p>
+<p>首先，MSP430的时钟系统有这么几个概念。</p>
+<ol>
+<li><p>时钟源：产生震荡的时钟信号。MSP430中最多有4个时钟源，分别是：</p>
+<ul>
+<li>DCO（数控晶振）</li>
+<li>VLO（超低功耗低频晶振）</li>
+<li>LFXT1（低频外部晶振）</li>
+<li><p>XT2（高频外部晶振）。</p>
+<p>在Value Line产品中，并非支持全部的四种时钟源。以MSP430G2231为例，内置了DCO和VLO，XT1可以自己焊接，XT2不支持。</p>
+</li>
+</ul>
+</li>
+<li><p>时钟：供系统设备使用的时钟信号，通常是时钟源的原始信号经过分频后得到。MSP430有3个时钟，分别是：</p>
+<ul>
+<li>MCLK（主时钟，供CPU核心使用）</li>
+<li>ACLK（辅助时钟，供外围设备使用）</li>
+<li>SMCLK（子系统时钟，供外围设备使用）</li>
+</ul>
+</li>
+<li><p>每个时钟都可以配置</p>
+<ul>
+<li>从指定的时钟源获得信号</li>
+<li>对信号进行/1/2/4/8分频</li>
+<li>时钟开关</li>
+</ul>
+</li>
+</ol>
+<p>上面的框图我们从中间横向的红线分开看，上面一部分是低频时钟，LFXT1Sx这两个标志位用于选择使用哪个时钟源来驱动系统的低频时钟。蓝色的线就是低频时钟源的输出。下面一部分是高频时钟，红色的细线是高频时钟的输出(对没有XT2的芯片来说)。需要注意的是，这条蓝色线接在LFXT1Sx对应的数据选择器的后面。也就是说，系统只能选择一个低频时钟。比如我选择VLO作为ACLK的时钟源，那蓝色那条线上就是VLO的时钟信号。那即使我有外部晶振，也不能选择LFXT1作为MCLK的时钟源。就是这种机制，很多人没有理解清楚（或者没有表达清楚），致使网上的大部分教程都在说，MCLK是从ACLK和DCO中二选一，这样说是不准确的。因为蓝色的线在ACLK的分频器之前，所以并不受ACLK分频设置的影响，因此蓝色线上跑的并不是ACLK时钟信号，而是ACLK的时钟源信号。</p>
+<p>更准确的理解是这样的：MCLK仍然是从DCO、VLO、LFXT1和XT2（如果有的话）中四选一，ACLK仍然是从LFXT1和VLO中二选一，SMCLK仍然可以从DCO和XT2（如果有的话）中二选一（如果没有XT2就在DCO、LFXT1、VLO中三选一）。只不过有一个约束，那就是如果MCLK或者SMCLK想要选择VLO或者LFXT1，那就必须跟ACLK选的一样。</p>
+<p>在绝大部分Value Line产品中（以MSP430G2231为例），你可以采用更简单的记法：低频时钟源从LFXT1和VLO中选一个，高频时钟源只有DCO一个。因此对系统时钟(MCLK, ACLK, SMCLK)来说，只有2个时钟源，一个低频一个高频。三个系统时钟都可以选择使用低频时钟源（图中蓝线）或者高频时钟源（图中红线）。</p>
+<p><strong>（2012年7月11日勘误：MCLK和SMCLK可以从低频和高频中选一个，而ACLK只能选择低频）</strong></p>
+<p>以下内容均以MSP430G2231和MSP430G2553芯片为例，即不存在XT2</p>
+<h3 id="3-_具体编程，对时钟源和系统时钟的配置和使用">3. 具体编程，对时钟源和系统时钟的配置和使用</h3>
+<ol>
+<li><p>低频时钟源配置——寄存器BCSCTL3 (Basic Clock System Control Register 3)<br> 配置低频时钟的时钟源其实就是修改上面图中的LFXT1Sx，这两个标志位位于BCSCTL3这个8位寄存器的第4、5位。</p>
+<p> <figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre><span class="comment">//使用频率约为12kHz的VLO作为低频时钟源</span>
+BCSCTL3 <span class="string">|= LFXT1S_2;</span>
+</pre></td></tr></table></figure><br> 头文件中定义了LFXT1S_2，其实就是第4位为1，第5位为0. 含义是使用VLO</p>
+<p> <figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+</pre></td><td class="code"><pre>    <span class="comment">// 使用Launchpad自带的32768Hz外部晶振，电容12.5pF</span>
+    BCSCTL3 <span class="string">|= LFXT1S_0 + XCAP_3;</span>
+</pre></td></tr></table></figure><br> 头文件中定义的LFXTS_0含义是使用外部晶振，同时设置 XCAP_3，含义是晶振的负载电容是12.5pF</p>
+</li>
+<li><p>高频时钟源的配置</p>
+</li>
+<li><p>系统时钟MCLK的时钟源选择——寄存器BCSCTL2 (Basic Clock System Control Register 2)</p>
+ <figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre>    <span class="comment">// 清晶振错误标志位</span>
+    IFG1 &= ~OFIFG;
+    <span class="comment">// 不懂。。。</span>
+    __bis_SR_register(SCG1 + SCG0);
+    <span class="comment">//系统时钟选择为低频，/8分频</span>
+    BCSCTL2 <span class="string">|= SELM_3 + DIVM_3;</span>
+</pre></td></tr></table></figure>
+
+</li>
+</ol>
+]]></content>
+    <summary type="html"><![CDATA[<h3 id="1-_关闭看门狗">1. 关闭看门狗</h3>
+<p>由于要使用仿真器调试，加断点后MCU被挂起，会导致看门狗被触发而将MCU复位。因此在调试阶段，我们需要先关闭看门狗。关闭看门狗的方法是：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="attribute">WDTCTL </span>=<span class="string"> WDTPW + WDTHOLD;</span>
+</pre></td></tr></table></figure>
+
+<p>WDTCTL是一个16位的寄存器，顾名思义，就是看门狗的控制寄存器。WDTHOLD是控制看门狗开关的标志位。给WDTHOLD置位即关闭看门狗。但是这个WDTPW是什么呢？查手册得知WDTPW是看门狗的密码，这是一个宏，被定义为了0x5A00，这个密码是干什么用的呢？原来，WDTCTL寄存器是一个非常特殊的寄存器，为了防止程序异常时意外关闭看门狗，对它进行赋值操作时必须将其新值的高8位设为0x5A这个特定的值，也就是“密码”。如果赋值时新值的高8位不是0x5A，会导致MCU立即被复位。总之，对WDTCTL进行任何修改操作时，都要加上WDTPW的值。</p>
+]]></summary>
+    
+      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
+    
+  </entry>
+  
+</feed>

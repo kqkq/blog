@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Photoshop“历史”和“撤销”功能使用技巧 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="og:type" content="blog">
+<meta name="og:title" content="Photoshop“历史”和“撤销”功能使用技巧">
+<meta name="og:url" content="http://kuangqi.me/image-processing/history-panel-in-photoshop/">
+<meta name="og:image">
+<meta name="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta name="og:description" content="今天看到有同学吐槽Photoshop的撤销功能不顺手，以至于到了骂Adobe的脑子被驴踢了的程度，底下的回复更是群情激昂，怒斥PS二逼。。。PS是一个庞大复杂的系统，经过二十多年的发展，其各项设计已经被精雕细琢，几乎无可挑剔了。所以如果你真的遇到PS特别特别不顺手，特别特别二逼的操作时，也许更应该考虑一下是否有更好的办法。下面我就针对“撤销”这一常用的操作新手容易遇到的一些问题做一个汇总和解答。">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-history-panel-in-photoshop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/image-processing/history-panel-in-photoshop/" class="article-date">
+  <time datetime="2013-05-23T05:34:32.000Z" itemprop="datePublished">2013年5月23日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/image-processing/">绘云描鲤</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Photoshop“历史”和“撤销”功能使用技巧
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天看到有同学吐槽Photoshop的撤销功能不顺手，以至于到了骂Adobe的脑子被驴踢了的程度，底下的回复更是群情激昂，怒斥PS二逼。。。PS是一个庞大复杂的系统，经过二十多年的发展，其各项设计已经被精雕细琢，几乎无可挑剔了。所以如果你真的遇到PS特别特别不顺手，特别特别二逼的操作时，也许更应该考虑一下是否有更好的办法。下面我就针对“撤销”这一常用的操作新手容易遇到的一些问题做一个汇总和解答。</p>
+<h3 id="1-_为什么Ctrl+Z只能撤销一步？！">1. 为什么Ctrl+Z只能撤销一步？！</h3>
+<p>这基本上是PS新手最经常问到的问题。Ctrl+Z快捷键的作用是交换当前状态和上一步的状态，这个快捷键跟Windows中其它软件，比如Word的快捷键类似却有所不同，所以如果用Word的思路考虑PS，那这个快捷键确实够二逼。不过这个快捷键这样设计是有道理的，因为撤销一步要比撤销多步更常用，而且切换对比这一步的效果跟刚才的效果这个功能也很常用。比如我画画的时候加了一笔，我想对比一下加这一笔好不好，那我就会反复的按Ctrl+Z来对比。而撤销多步的功能一般不常用，即使用到，也不是为了撤销两步三步，而是很多步，对于怎样方便的一下子撤销很多步，PS另作了考虑，这个我们一会儿再说。这个是统计规律，是从大量的设计师的设计实践中总结出来的，Ctrl+Z撤销一步的设置能一直保留十几年，是有其事实依据的。</p>
+<a id="more"></a>
+
+<h3 id="2-_那我要撤销多步怎么办？或者说，我的世界观中的“撤销”在PS里该怎么做？">2. 那我要撤销多步怎么办？或者说，我的世界观中的“撤销”在PS里该怎么做？</h3>
+<p>很简单，PS为这个操作分配了另外一个快捷键，Ctrl+Alt+Z。按它就可以撤销多步啦~还有顺便说一下，“重做”在PS里的快捷键是Ctrl+Shift+Z</p>
+<h3 id="3-_神马？为啥Ctrl+Alt+Z不管用？而且QQ还跑了出来！！">3. 神马？为啥Ctrl+Alt+Z不管用？而且QQ还跑了出来！！</h3>
+<p>没错~！Ctrl+Alt+Z在默认情况下还是QQ“提取消息”的快捷键，而这个操作我平常实在是少用。我的习惯还是点击QQ在任务栏里的图标。所以为了不干扰PS，我关掉了QQ的这个快捷键。我建议大家也这么做。</p>
+<h3 id="4-_囧了，保存之后不能按Ctrl+Z撤销了。。。">4. 囧了，保存之后不能按Ctrl+Z撤销了。。。</h3>
+<p>每次操作后，Ctrl+Z快捷键指向的功能都会变。比如用了笔刷，Ctrl+Z的功能就是“撤销笔刷”，然后又用了橡皮，Ctrl+Z就又变成“撤销橡皮”。所以按了保存后，Ctrl+Z就理应变成“撤销保存”，显然保存是即时写入硬盘的，不能撤销了。所以按保存后，Ctrl+Z就不指向任何功能了。所以刚保存完的时候，Ctrl+Z是没有功能的，这就给一些用户带来了困扰，认为保存操作清空了历史记录，事实不是这样，只是关掉了此刻的Ctrl+Z快捷键而已。</p>
+<h3 id="5-_那保存后我要撤销到保存前的某个状态怎么办？">5. 那保存后我要撤销到保存前的某个状态怎么办？</h3>
+<p>我说过，保存对历史记录功能没有任何影响，因此你仍然可以使用Ctrl+Alt+Z来撤销到有记录的（默认是最近20步的）任何一个之前的状态。你还可以通过Window菜单下的History项调出“历史”调板，其中以文字方式记录了你最近的操作，你可以用鼠标点击这些状态，从而查看这些状态的预览，满意后在画布上继续操作即可。有操作后此状态后的所有状态会被新的状态覆盖。</p>
+<h3 id="6-_神马？会把之后的状态都覆盖？我不想这样啊！那我改了半天还是觉得撤销前的效果好咋办？">6. 神马？会把之后的状态都覆盖？我不想这样啊！那我改了半天还是觉得撤销前的效果好咋办？</h3>
+<p>没事，在“历史”调板中打算动刀的状态上点一下，再点下面那个带有小加号的图标，就会以该状态为起点新建一个文档，然后你可以在新的文档里为所欲为，如果新的效果不好，你可以直接关掉新的文档不保存。而原来的文档中所有的状态都好好的。如果对新文档的效果满意，可以把相应的资源复制回原文档，或者干脆删掉原文档，以新文档为基础另起炉灶~</p>
+<h3 id="7-_我操作次数多了，历史记录只能记录30步，需要的步骤回不去了怎么办？">7. 我操作次数多了，历史记录只能记录30步，需要的步骤回不去了怎么办？</h3>
+<p>如果这件事情已经发生了，那只能说很抱歉。不过你下一次可以通过一些操作来避免这种情况。PS的历史调板里提供了“快照”功能，点击“历史”调板中的小照相机图标，即可以当天的状态创建一个快照。这个快照无论操作多少步都是不会被覆盖掉的。所以你可以在任何时候撤销到这一个状态。文件打开的时候，PS会自动为你创建一个快照，所以点击“历史”调板的第一栏，就可以回到文件打开时的状态。</p>
+<h3 id="8-_快照功能不错，可我老是忘了创建，到用时才后悔，咋办？">8. 快照功能不错，可我老是忘了创建，到用时才后悔，咋办？</h3>
+<p>点击“历史”调板的旁边的下拉菜单，可以找到“历史选项”，其中可以勾选在每次保存时都自动创建一个快照。完成一个效果就顺手保存一下，很多人都有这个习惯吧~顺带创建一个快照就方便多了吧~这个对话框中还有些其它的选项，比如把图层可见性的调整也记录下来等等。</p>
+<h3 id="9-_“历史”调板记录的步数太少了！怎么增大？">9. “历史”调板记录的步数太少了！怎么增大？</h3>
+<p>点击Edit菜单的Preferences下的Performance项，弹出的对话框中的History States就是历史记录的步数，可以把它改大一点。不过我不推荐大家修改这个步数，因为历史记录多了会消耗大量的系统资源。结合使用快照功能，20步的默认值实际上绰绰有余。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kuangqi.me/image-processing/history-panel-in-photoshop/" data-id="9jkxhiclehm7fsfk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/ios/wifi-scaning-on-os-x/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mac系统下的Wi-Fi扫描命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/essay/23rd-birthday/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">23岁生日之最</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">三月 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">七月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">六月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">五月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12">十二月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">十月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">八月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">四月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02">二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">一月 2012</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">十二月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10">十月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">九月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08">八月 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">六月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">五月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">二月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">一月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">十二月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">十月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07">七月 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05">五月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03">三月 2010</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02">二月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01">一月 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/12">十二月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09">九月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07">七月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06">六月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05">五月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02">二月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11">十一月 2007</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/silkscreen-in-allegro/">如何在Allegro PCB Editor中正确地添加丝印</a>
+          </li>
+        
+          <li>
+            <a href="/essay/arduino-in-action-translators-preface/">《Arduino实战》译者序</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/add-weibo-show-in-hexo/">在Hexo博客中添加微博秀</a>
+          </li>
+        
+          <li>
+            <a href="/ios/ios-development-without-idp/">Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略</a>
+          </li>
+        
+          <li>
+            <a href="/ios/flush-dns-cache-on-osx/">在Mac OS X下刷新DNS缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Advertisement</h3>
+    <div class="widget-weibo" style="height:250px;">
+    <div height="100px"></div>
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- 边栏广告 -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-7369855808070117"
+        data-ad-slot="6736518548"
+        data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 况琪<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>

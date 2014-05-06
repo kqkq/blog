@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="og:type" content="blog">
+<meta name="og:title" content="Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略">
+<meta name="og:url" content="http://kuangqi.me/ios/ios-development-without-idp/">
+<meta name="og:image" content="/images/ios-development-1.png">
+<meta name="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta name="og:description" content="众所周知，在Xcode上开发的程序只能在模拟器中运行，如果要放到真机上则要花费99美金购买开发者证书iDP。这严重阻碍了我等草根开发者探索的脚步。写个小程序，同学间分享一下这个小小的愿望都不能满足，自然不能善罢甘休。
+在没有iDP的情况下，要想将程序放到iPhone上调试，并最终发布IPA用于分享，需要以下几个步骤：
+
+自己为自己颁发一个证书用于为生成的程序签名
+修改工程配置以及Xcode的配置文">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:creator" content="kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<!-- mathjax config similar to math.stackexchange -->
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+</script>
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ios-development-without-idp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/ios/ios-development-without-idp/" class="article-date">
+  <time datetime="2014-03-14T10:47:36.000Z" itemprop="datePublished">2014年3月14日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>众所周知，在Xcode上开发的程序只能在模拟器中运行，如果要放到真机上则要花费99美金购买开发者证书iDP。这严重阻碍了我等草根开发者探索的脚步。写个小程序，同学间分享一下这个小小的愿望都不能满足，自然不能善罢甘休。</p>
+<p>在没有iDP的情况下，要想将程序放到iPhone上调试，并最终发布IPA用于分享，需要以下几个步骤：</p>
+<ol>
+<li>自己为自己颁发一个证书用于为生成的程序签名</li>
+<li>修改工程配置以及Xcode的配置文件和二进制文件以阻止其验证和签名</li>
+<li>通过自定义生成步骤，用伪造的证书为应用程序签名</li>
+<li>使用一点小trick来生成IPA文件</li>
+</ol>
+<a id="more"></a>
+
+<p>开发环境使用的是目前为止最新的稳定版软件：Mac OS X Lion 10.9.2 + Xcode 5</p>
+<p>目前本人已经测试并证实有效的平台有：</p>
+<ul>
+<li>Xcode 4.1：<ul>
+<li>iPod touch 4 iOS 4.3.3</li>
+</ul>
+</li>
+<li>Xcode 4.2：<ul>
+<li>iPod touch 4 iOS 4.3.3</li>
+<li>iPod touch 4 iOS 5.0</li>
+<li>iPod touch 4 iOS 5.0.1</li>
+</ul>
+</li>
+<li>Xcode 4.2.1：<ul>
+<li>iPod touch 4 iOS 4.3.3</li>
+<li>iPod touch 4 iOS 5.0.1</li>
+<li>iPhone 4S iOS 5.0.1(5A406)</li>
+</ul>
+</li>
+<li>Xcode 4.3<ul>
+<li>iPhone 4S iOS 5.0.1(5A406)</li>
+</ul>
+</li>
+<li>Xcode 4.3.2<ul>
+<li>iPhone 4S iOS 5.1.1</li>
+</ul>
+</li>
+<li>Xcode 4.4.1 for Mountain Lion<ul>
+<li>iPhone 4S iOS 5.1.1</li>
+</ul>
+</li>
+<li>Xcode 4.5 for Mountain Lion<ul>
+<li>iPhone 4S iOS 5.1.1</li>
+</ul>
+</li>
+<li>Xcode 4.6 for Mountain Lion<ul>
+<li>iPhone 4S iOS 6.1</li>
+</ul>
+</li>
+</ul>
+<p>另外，操作系统的版本貌似对调试影响不大，这期间用过的系统有Mac OS X 10.6~10.9.2，都没有问题。当然您需要先越狱您的设备并通过Cydia安装AppSync。</p>
+<h3 id="1-_创建证书">1. 创建证书</h3>
+<p>创建证书的过程比较简单，打开实用工具-钥匙串访问。然后在菜单栏里点击钥匙串访问-证书助理-创建证书来打开向导。第一个步骤比较重要，必须要把名称命名为iPhone Developer，将类型设定为代码签名，将”让我覆盖这些默认值”选中。之后的步骤无需更改，一路点击“确定”和“继续”来完成这个向导就可以。</p>
+<p><img src="/images/ios-development-1.png" alt=""></p>
+<h3 id="2-_修改Xcode的配置文件">2. 修改Xcode的配置文件</h3>
+<p>下面的步骤稍微有点繁琐，您应该了解UNIX命令行的基本操作，并了解一种命令行文本编辑器，本文使用的是vim。尽管这里会给出完整的代码，但是关于修改和保存代码的基本操作，不再赘述。下面的操作请先将Xcode按<code>Command+Q</code>完全关闭。</p>
+<ol>
+<li><p>进入iPhone SDK目录</p>
+<p> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.<span class="number">0</span>.sdk/
+</pre></td></tr></table></figure><br> 不同版本的Xcode只是最后的版本号不同。在Xcode 5.0中是<code>iPhoneOS7.0.sdk</code>，未来版本可能版本高一些，早期版本的就低一些。这个请大家自己改动。</p>
+</li>
+<li><p>备份原文件</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre><span class="built_in">sudo</span> cp SDKSettings.plist SDKSettings.plist.orig
+</pre></td></tr></table></figure>
+</li>
+<li><p>编辑配置文件</p>
+<p> 在不同版本的Xcode中，这个配置文件的编码方式并不相同。有的版本是XML格式，有的版本则是二进制格式的。为了方便修改，我们可以直接用Xcode打开这个文件。首先要打开这个文件所在目录：<br> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+</pre></td><td class="code"><pre>open .
+</pre></td></tr></table></figure><br> 在弹出的Finder窗口中双击<code>SDKSettings.plist</code>，会启动Xcode的图形界面，我们展开<code>DefaultProperties</code>分支，将下面的<code>CODE_SIGNING_REQUIRED</code>和<code>ENTITLEMENTS_REQUIRED</code>两个属性改为<code>NO</code></p>
+</li>
+<li><p>编辑另外一个配置文件</p>
+<p> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="built_in">cd</span> /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
+<span class="built_in">sudo</span> cp Info.plist Info.plist.orig
+open .
+</pre></td></tr></table></figure><br> 在弹出的Finder窗口中双击打开<code>Info.plist</code>。将全部的<code>XCiPhoneOSCodeSignContext</code>修改成<code>XCCodeSignContext</code>，共有3处。分别在<code>DefaultProperties</code>分支下、<code>RuntimeRequirements</code>分支下和<code>OverrideProperties</code>分支下。</p>
+</li>
+</ol>
+<p>至此，对SDK中配置文件的修改就完成了</p>
+<h3 id="3-_准备自定义的生成后脚本">3. 准备自定义的生成后脚本</h3>
+<p>连接互联网后执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre>mkdir /Applications/Xcode.app/Contents/Developer/iphoneentitlements
+<span class="built_in">cd</span> /Applications/Xcode.app/Contents/Developer/iphoneentitlements
+curl -O http://www.alexwhittemore.com/iphone/gen_entitlements.txt
+mv gen_entitlements.txt gen_entitlements.py
+chmod <span class="number">777</span> gen_entitlements.py
+</pre></td></tr></table></figure>
+
+<p>热心网友指出，这里可能涉及到权限问题。我做的时候貌似没有出啥问题，如果您在执行这段代码时遇到Permission denied提示的话，请将相应的语句前面加上sudo以获取超级权限。</p>
+<p>如果您已经联网，则请直接转到步骤4，如果您没有联网，那么请在相应目录手动创建<code>gen_entitlements.py</code>并授予其执行权限，这个文件的内容为:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+</pre></td><td class="code"><pre><span class="comment">#!/usr/bin/env python</span>
+
+<span class="keyword">import</span> sys
+<span class="keyword">import</span> struct
+
+<span class="keyword">if</span> len(sys.argv) != <span class="number">3</span>:
+trueprint <span class="string">"Usage: %s appname dest_file.xcent"</span> % sys.argv[<span class="number">0</span>]
+truesys.exit(-<span class="number">1</span>)
+
+APPNAME = sys.argv[<span class="number">1</span>]
+DEST = sys.argv[<span class="number">2</span>]
+
+<span class="keyword">if</span> <span class="keyword">not</span> DEST.endswith(<span class="string">'.xml'</span>) <span class="keyword">and</span> <span class="keyword">not</span> DEST.endswith(<span class="string">'.xcent'</span>):
+trueprint <span class="string">"Dest must be .xml (for ldid) or .xcent (for codesign)"</span>
+truesys.exit(-<span class="number">1</span>)
+
+entitlements = <span class="string">"""
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+true&lt;key&gt;application-identifier&lt;/key&gt;
+true&lt;string&gt;%s&lt;/string&gt;
+true&lt;key&gt;get-task-allow&lt;/key&gt;
+true&lt;true/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+"""</span> % APPNAME
+
+f = open(DEST,<span class="string">'w'</span>)
+<span class="keyword">if</span> DEST.endswith(<span class="string">'.xcent'</span>):
+truef.write(<span class="string">"\xfa\xde\x71\x71"</span>)
+truef.write(struct.pack(<span class="string">'&gt;L'</span>, len(entitlements) + <span class="number">8</span>))
+f.write(entitlements)
+f.close()
+</pre></td></tr></table></figure>
+
+<h3 id="4-_修改工程设置">4. 修改工程设置</h3>
+<p>特别注意：本阶段之前的修改配置文件、准备脚本等，只需要做一次。但本阶段的操作，对每个需要真机调试的工程都要做一遍。</p>
+<p>这个步骤的主要作用是支持真机调试，如果不做这个步骤，仍然可以通过步骤5来生成ipa在真机上运行，但是无法使用Xcode内置的调试器对在真机上运行的程序进行单步跟踪。如果您的程序在点击Run真机调试时秒退，请检查此步骤是否正确完成。</p>
+<ol>
+<li><p>禁用Xcode自动的签名操作</p>
+<p> 将工程配置中所有的Code Signing选项全部设为Don’t Code Sign，如图。可能需要先点击“All”让这个选项显示出来<br> <img src="/images/ios-development-2.png" alt=""></p>
+</li>
+<li><p>添加自定义的生成后脚本<br>在Build Phases中添加一个Build Phase，输入以下脚本</p>
+<p> <figure class="highlight bash"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="keyword">export</span> CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
+<span class="keyword">if</span> [ <span class="string">"<span class="variable">${PLATFORM_NAME}</span>"</span> == <span class="string">"iphoneos"</span> ] || [ <span class="string">"<span class="variable">${PLATFORM_NAME}</span>"</span> == <span class="string">"ipados"</span> ]; <span class="keyword">then</span>
+/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py <span class="string">"my.company.<span class="variable">${PROJECT_NAME}</span>"</span> <span class="string">"<span class="variable">${BUILT_PRODUCTS_DIR}</span>/<span class="variable">${WRAPPER_NAME}</span>/<span class="variable">${PROJECT_NAME}</span>.xcent"</span>;
+codesign <span class="operator">-f</span> <span class="operator">-s</span> <span class="string">"iPhone Developer"</span> --entitlements <span class="string">"<span class="variable">${BUILT_PRODUCTS_DIR}</span>/<span class="variable">${WRAPPER_NAME}</span>/<span class="variable">${PROJECT_NAME}</span>.xcent"</span> <span class="string">"<span class="variable">${BUILT_PRODUCTS_DIR}</span>/<span class="variable">${WRAPPER_NAME}</span>/"</span>
+<span class="keyword">fi</span>
+</pre></td></tr></table></figure><br> 对于Xcode 5，要在Editor菜单下的Add Build Phase项中添加，Build Phase，如图：</p>
+<p> <img src="/images/ios-development-3.png" alt=""></p>
+<p> 对于Xcode 4，在右下角的“加号”处添加，如图：</p>
+<p> <img src="/images/ios-development-4.png" alt=""></p>
+<p> 至此配置全部完成，下面就可以插上iPhone，重新选择生成目标来测试一下在线调试了！如果是第一次使用该设备调试，请先在Organizer中将设备切换为开发模式，具体操作请见常见问题5。</p>
+</li>
+</ol>
+<h3 id="5-_旁门左道生成IPA文件">5. 旁门左道生成IPA文件</h3>
+<p>如果我的程序调试好了，怎么才能发给别人用呢？正常情况下IPA文件是从Xcode的Organizer中输出的，但是我们没有证书，这样输出会产生错误。我们只能用个小trick来完成这个操作了。</p>
+<p>先将代码生成为Release目标，然后打开工程的输出文件夹，通常情况下这个目录是<br><code>/Users/你的用户名/Library/Developer/Xcode/DerivedData/以工程名打头的文件夹/Build/Products/Release-iphoneos</code>很纠结吧~这个目录下有个.app的文件，就是生成的程序了。把这个.app拖到iTunes中，它会出现在应用程序那个列表中，然后再把它从iTunes的那个列表中拖出来（比如拖到桌面），发生了什么？哈哈，它就这样变成.ipa了！</p>
+<p>把这个.ipa发给朋友，大家就可以跟您一起分享这个程序了。</p>
+<h3 id="6-_答疑解惑">6. 答疑解惑</h3>
+<ol>
+<li><p>我是初学者，请问什么是权限？执行权限（x权限）是什么意思？什么是脚本？如何加执行权限？sudo是什么命令？vim是什么，如何在vim中保存更改？你说的目录我没找到怎么办？我有些步骤没看明白，能不能加QQ交流？</p>
+<p> 解答：首先感谢您关注我的博客。这里要提醒各位初学者朋友，Xcode提供了非常完善的模拟器调试环境，模拟器调试要比真机调试方便得多，也简单得多，使用模拟器调试程序是iOS开发的常态。真机调试通常是在产品快要完工时才进行的，看一下程序在实际机器上的视觉效果等等。还有依赖于加速度计的程序要测试一下加速度计的程序有没有问题。所以初学者并不需要一开始就进行真机调试。初学者配置真机调试的主要目的可能并非学习技术，而是满足好奇心、追求成就感甚至是为了向朋友炫耀等等。而这些目的并不值得您花费这么大的精力来阅读本文。<br> 因此本文是给有一定基础的朋友看的，各种命令是免不了的。UNIX中的基本命令比如cp，mv，cd，chmod，sudo啥的还有vim编辑器，如果您都没听说过，强烈建议您不要尝试本文提到的修改。一旦改错了轻则Xcode挂掉，重则系统崩溃。如果遇到解决不了的问题欢迎留言询问，务必给出详细的错误信息，否则无法判断。博主恕不解答类似于如何执行脚本代码，如何赋予执行权限，如何使用vim编辑器（如何保存）等与iOS开发无关的UNIX基础问题。博主非常乐意以文会友，结识有思想、有创意、有技术的大牛。博主也会不定时到博客上对热心网友提出的问题进行简单的解答。但并没有充足的时间通过QQ对文中的步骤进行手把手的解释和指导。这里先向有这种需求的朋友说声抱歉了！</p>
+</li>
+<li><p>各种错误，错误信息中包含“No such file or directory”这句话</p>
+<p> 解答：错误信息的含义非常清楚，就是“没有这个文件或者目录”。这类错误通常是由于您拷贝代码时不全或者开发环境安装错误等问题导致的。请再次检查报错的目录是否存在，检查代码与本文给出的是否严格一致，各种检查吧~总之是低级错误</p>
+</li>
+<li><p>联机调试时程序秒退，或者无法安装到设备，或者任何时候报错，错误信息中包含“code signing”、“CERT”、“signature”或者“certificate”字样的（最常见的错误）</p>
+<p> 解答：证书错误或者签名错误，肯定是因为您没有严格文中的步骤做。提醒您检查的地方有：</p>
+<ul>
+<li>第一步中的plist文件是否已经正确修改</li>
+<li>有没有设置为Don’t Code signing</li>
+<li>生成后事件的代码是否已经正确粘贴</li>
+<li>那个Python脚本是否已经成功执行</li>
+<li>设备是否已经越狱并安装AppSync</li>
+<li><p>第一步的iPhone Developer证书是否已经正确创建</p>
+<p>其中最可能出问题的就是生成后事件代码（文中的那个Run Script）没有正确执行。可能是您忘记了添加Run Script并粘贴那段代码，也可能是您没复制全，或者复制到了啥特殊字符导致执行出错。查看那个脚本执行结果的方法是在Xcode左侧的侧边栏里，点最靠右的一个标签（Show the Log navigator），看最近的一个Build日志（不是Debug日志），找到一行Run custom shell script “Run Script”那一行，正常情况下那一行跟其他行一样，是不能展开的。如果那一行左边有个小箭头，点击后能展开的话，说明执行出错，展开后的信息即为出错的信息。请认真查看错误信息并修正脚本中的错误。如果Build日志里根本没有Run custom shell script “Run Script”，那说明您忘记添加Build script了。。。</p>
+<p>Run Script经常报的一条错误是“replacing existing signature”。。。这个提示的意思是“替换已有的签名”，出现这个提示的原因是，你并没有成功的阻止Xcode使用默认的方法为应用程序签名。因为这个破解的原理就是阻止Xcode为app签名，而用script中的自定义过程手动为app签名。当script为app签名时，发现app已经被Xcode签名过了，就会报这个错误。出这个错误后提醒您检查的地方有两个</p>
+</li>
+</ul>
+<ul>
+<li>SDKSettings.plist中需要修改的地方是否已经正确修改</li>
+<li>工程设置里是否将那5个签名的选项全部设为Don’t Code signing</li>
+</ul>
+</li>
+<li><p>iPad能用吗？</p>
+<p> 解答：上述所有步骤无需修改可直接用于iPad开发。</p>
+</li>
+<li><p>为什么我的Build for Archiving选项是灰色的？</p>
+<p> 解答：是因为您没有把设备插到电脑上。或者设备未开启开发模式。开启开发模式的方法是：插上设备，点Xcode右上角的Organizer图标（在Xcode 5中，点击Window菜单下的Organizer项），选中您的设备，看一下设备名称左侧的小灯是什么颜色的。若是灰色代表未开启开发模式。此时在右边窗口中点击“Use for Development”即可。若是黄色请重新插拔设备，若是绿色代表设备已经开启开发模式</p>
+<p> 点击Use for Development后，会要求输入Apple ID，这里点击取消即可。这时启用设备开发模式的进程会立即终止。设备名称旁边应该有一个黄灯。此时重新插拔设备，Organizer中会出现一个进度条），等这个进度条跑完，小灯就会变成绿色，开发模式已经启用。<br> 最近经常有人提问说，无论怎么搞，Organizer中的灯始终是黄色的。这种情况几乎可以百分之百的确定是您的Xcode版本不够高。如果您的设备是iOS 5.1.1，则必须使用Xcode 4.3.2或以上版本。同样的道理，iOS 5.0.1对应Xcode 4.3.1，iOS 5.0对应Xcode 4.3……</p>
+</li>
+<li><p>我的iOS版本/Xcode版与你的不同，能用吗？</p>
+<p> 解答：本人测试过的环境和设备已经在文章开头给出。其他环境我没有测试过，也没有条件测试，因此当您的环境与我的不同时，别问我可不可用，您可以试一下，然后把结果告诉我，也为其他的网友提供方便，在此先谢谢您了！</p>
+</li>
+<li><p>真机调试时出现Error launching remote program: failed to get the task for process xxx错误</p>
+<p> 解答：如果该错误出现在编译运行之后，且现象为设备上的程序闪退，则是由于签名错误导致的，这是由于您没有严格按照上述步骤来做导致的，请参考常见问题3。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://kuangqi.me/ios/ios-development-without-idp/" data-id="wv4nnppc358nyp9x" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tricks/add-weibo-show-in-hexo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          在Hexo博客中添加微博秀
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ios/flush-dns-cache-on-osx/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在Mac OS X下刷新DNS缓存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+
+<section id="comments">
+<!-- Duoshuo Comment BEGIN -->
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- Duoshuo Comment END -->
+</section>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">11</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">11</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05">五月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03">三月 2014</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/07">七月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/06">六月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/05">五月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/02">二月 2013</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12">十二月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/10">十月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/08">八月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/04">四月 2012</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/02">二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/01">一月 2012</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/12">十二月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/10">十月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/09">九月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/08">八月 2011</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/06">六月 2011</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05">五月 2011</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/02">二月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/01">一月 2011</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/12">十二月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/10">十月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/07">七月 2010</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/05">五月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/03">三月 2010</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/02">二月 2010</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2010/01">一月 2010</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/12">十二月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/10">十月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/09">九月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/07">七月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/06">六月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/05">五月 2009</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2009/02">二月 2009</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2007/11">十一月 2007</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/silkscreen-in-allegro/">如何在Allegro PCB Editor中正确地添加丝印</a>
+          </li>
+        
+          <li>
+            <a href="/essay/arduino-in-action-translators-preface/">《Arduino实战》译者序</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/add-weibo-show-in-hexo/">在Hexo博客中添加微博秀</a>
+          </li>
+        
+          <li>
+            <a href="/ios/ios-development-without-idp/">Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略</a>
+          </li>
+        
+          <li>
+            <a href="/ios/flush-dns-cache-on-osx/">在Mac OS X下刷新DNS缓存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Advertisement</h3>
+    <div class="widget-weibo" style="height:250px;">
+    <div height="100px"></div>
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- 边栏广告 -->
+      <ins class="adsbygoogle"
+        style="display:block"
+        data-ad-client="ca-pub-7369855808070117"
+        data-ad-slot="6736518548"
+        data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 况琪<br>
+      Powered by <a href="http://zespia.tw/hexo/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script type="text/javascript" src="/js/script.js"></script>
+  </div>
+</body>
+</html>
