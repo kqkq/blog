@@ -79,6 +79,6 @@ categories: 工巧匠心
 <% } %>
 ```
 
-再次生成博客页码，你会发现一切都和谐了！
+再次生成博客页面，你会发现一切都和谐了！
 
 [weibo-code]: /images/weibo-show-1.png
