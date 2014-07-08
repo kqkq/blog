@@ -14,12 +14,12 @@ fancybox: true
 sidebar: right
 widgets:
 - category
+- recent_posts
 - tag
 - tagcloud
-- archive
-- recent_posts
 - weibo
 - link
+# - archive
 
 # Miscellaneous
 host_name: kuangqi.me
