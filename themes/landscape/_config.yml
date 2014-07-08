@@ -25,6 +25,7 @@ widgets:
 host_name: kuangqi.me
 google_analytics: UA-49728497-1
 baidu_analytics: true
+switch_banner: true
 favicon: /favicon.png
 twitter: kuangqi
 google_plus:
