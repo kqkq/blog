@@ -67,14 +67,17 @@ date: 2014-03-19 22:55:48
 
 * 书名： [*Arduino in Action*](http://www.manning.com/mevans/)
 * 作者：Martin Evans、Joshua Noble、Jordan Hochenbaum
-* 出版社/出版年：Minning，2013
+* 出版社：Minning
+* 出版时间：2013年5月
 * ISBN：978-1-617-29024-4
 
 ### 中文版：
 
 * 书名：[《Arduino实战》](http://www.ptpress.com.cn/Book.aspx?id=37499)
-* 译者：况琪
-* 出版社/出版年：人民邮电出版社，2014
+* 译者：况琪（[关于我](/about/)）
+* 出版社：人民邮电出版社（信息技术分社）
+* 出版时间：2014年4月
+* CIP核字号：中国版本图书馆CIP数据核字(2014)第005150号
 * ISBN：978-7-115-34331-4
 * 评论、购买此书：
 	- [豆瓣读书](http://book.douban.com/subject/25856541/)
@@ -85,7 +88,7 @@ date: 2014-03-19 22:55:48
 
 您可以查看[《Arduino实战》译者序](/essay/arduino-in-action-translators-preface/)。
 
-## Exploring Arduino
+## Arduino魔法书：实现梦想的工具和技术
 
 ![][ea-cover]
 
@@ -93,14 +96,26 @@ date: 2014-03-19 22:55:48
 
 * 书名：[*Exploring Arduino - Tools and Techniques for Engineering Wizardry*](http://as.wiley.com/WileyCDA/WileyTitle/productCd-1118549368.html)
 * 作者：Jeremy Blum
-* 出版社/出版年：Wiley，2013
+* 出版社：Wiley
+* 出版时间：2013年7月
 * ISBN：978-1-118-54936-0
 
 ### 中文版：
 
-* 正在编辑中
-* 译者：况琪、王俊升
-* 出版社/出版年：电子工业出版社，2014
+* 书名：[《Arduino魔法书：实现梦想的工具和技术》](http://www.phei.com.cn/module/goods/wssd_content.jsp?bookid=41253)
+* 译者：况琪（[关于我](/about/)）、王俊升
+* 出版社：电子工业出版社（博文视点）
+* 出版时间：2014年10月
+* CIP核字号：中国版本图书馆CIP数据核字(2014)第187091号
+* ISBN: 978-7-121-24067-6
+* 购买、评论此书
+	* [豆瓣读书](http://book.douban.com/subject/26108418/)
+	* [京东](http://item.jd.com/11560655.html)
+	* [当当](http://product.dangdang.com/23582796.html)
+	* [亚马逊](http://www.amazon.cn/dp/B00OHZ9OYM)
+	* [ChinaPub互动出版网](http://product.china-pub.com/4371011)
+
+请移步本书的[专题页面](/arduino/)，获取在线视频教程资源、配套元器件购买链接等。您还可以免费[下载本书的试读样章](/arduino/exploring_arduino_preview.pdf)！
 
 
 [aia-cover]: /images/aia-cover.png
