@@ -96,6 +96,7 @@ exclude_generator:
 plugins:
 - hexo-generator-feed
 - hexo-generator-sitemap
+- hexo-generator-baidu-sitemap
 - hexo-math
 
 # Markdown
