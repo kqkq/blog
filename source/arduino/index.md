@@ -1,12 +1,12 @@
-title: Arduino魔法书——实现梦想的工具和技术
-date: 2014-10-29 19:49:03
+title: 《Arduino魔法书》中文版官方专题页面
+date: 2014-12-23 22:29:11
 ---
 
 ## 内容简介
 
 ![][en_cover]
 
-《Arduino魔法书——实现梦想的工具和技术》是利用Arduino平台进行创意电子制作的实战指南。本书深入浅出地讲解了Arduino平台的方方面面。
+《Arduino魔法书：实现梦想的工具和技术》是利用Arduino平台进行创意电子制作的实战指南。本书深入浅出地讲解了Arduino平台的方方面面。
 
 本书在组织上分为4个部分：
 
@@ -98,7 +98,7 @@ date: 2014-10-29 19:49:03
 * 套件3（用于完成本书8~11章）：[购买链接](#)
 * 套件4（用于完成本书12~14章）：[购买链接](#)
 
-根据本书中示例电路的特点，我们还为本书读者以及广大Arduino发烧友专门设计了一款低成本的Arduino替代品，我们称之为Srduino Uno。使用Srduino Uno与Arduino Uno保持兼容，本书中所有需要使用Arduino Uno完成的实验，均可使用Srduino Uno完成。目前您可以[以**39.00**元的价格购买Srduino Uno](#)，您还可以[以**79.00**元的超低价购买《Arduino魔法书》实体书 + Srduino Uno板卡套装](#)。
+根据本书中示例电路的特点，我们还为本书读者以及广大Arduino发烧友专门设计了一款低成本的Arduino替代品，我们称之为Srduino Uno。使用Srduino Uno与Arduino Uno保持兼容，本书中所有需要使用Arduino Uno完成的实验，均可使用Srduino Uno完成。目前您可以[以**39.00**元的价格购买Srduino Uno](http://item.taobao.com/item.htm?id=43370691714)，您还可以[以**79.00**元的超低价购买《Arduino魔法书》实体书 + Srduino Uno板卡套装](http://item.taobao.com/item.htm?id=43468360030)。
 
 
 [en_cover]: /images/ea-cover.png
