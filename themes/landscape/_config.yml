@@ -30,3 +30,5 @@ switch_banner: true
 favicon: /favicon.png
 twitter: kuangqi
 google_plus:
+fb_admins:
+fb_app_id:
