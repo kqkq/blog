@@ -2,6 +2,7 @@ title: Beginning iOS 5 Development阅读笔记
 date: 2012-02-02 23:57:17
 tags:
 categories: 果粉手札
+toc: true
 ---
 
 2011年12月的新书，居然下到了电子版，之前打印的Beginning iPhone 4 Development貌似还没看几页就过时了。。。不过对比着读还是很不错的~
@@ -10,7 +11,7 @@ categories: 果粉手札
 
 <!--more-->
 
-### 第三章 基础交互
+## 第三章 基础交互
 
 类似于Hello world的一个程序
 
@@ -22,7 +23,7 @@ categories: 果粉手札
 2. 在iOS 4中通常习惯用`alloc`分配一个新的`NSString`，`initWithFormat`后使用，然后用完再`release`，在上一个版本的书里都是这样写的。不过新版的书都将其改为了直接调用类方法`stringWithFormat`。我以为这是iOS 5的新函数，一查文档在iOS 2时就有了，不知道为啥现在才拿来用。网上的说法是，这个类方法也会申请内存，但是`autorelease`的，这样说来iOS 4也可以这样写嘛，可为什么到现在才改成这样呢？难道跟iOS 5的ARC有关么。。。
 3. Product菜单中的Analyze命令可以分析并发现内存泄露等缺陷，貌似很好用，之前没发现。
 
-### 第四章 控件大杂烩
+## 第四章 控件大杂烩
 
 1. 学会了一个常用的快捷键，`Command + =`，让控件大小适应内容。如果一个Label要显示长度会变的内容时，在设计界面时就先敲入可能的最长内容，然后按这个快捷键，控件的大小就刚好合适了。 
 2. 按背景隐藏键盘，这个我之前的做法一直是插入一个透明的Custom按钮，放大到全屏，再加Action，还要调整层叠次序。这章介绍的方法是直接将视图的基类从默认的`UIView`改成`UIControl`，这样视图本身就可以响应事件了~太神奇了！而且超方便~
@@ -41,7 +42,7 @@ UIImage *strhHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:12
 ```
 8. 在Action响应函数中，那些以Index标志的东西要加上注释，提高代码的可读性。比如`index`为0的segmented control是哪一个，比如ActionSheet中的第1个按钮是什么含义等等。
 
-### 第五章 自动旋转
+## 第五章 自动旋转
 
 1. 先学学英语吧，protrait指的是竖屏（又高又窄），landscape指的是横屏（又矮又宽）
 2. 建立一个iPhone工程，默认的Supported Device Orientations是除了“Upside down”以外的三个，而建立一个iPad工程时，默认则是支持全部的四个方向。这是为什么呢？因为iPhone在使用过程中面临突然有电话打进来的情况，用户没法在设备倒置的情况下打电话，因为话筒和听筒安装在电话的两端，没法混用，这就造成了不方便。而iPad则不存在电话和听筒位置的问题，所以默认是支持四个方向。一个细节而已，没啥用，就是挺吃惊的。
@@ -89,7 +90,7 @@ UIImage *strhHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:12
 
 	我就来翻译一下吧：它作为Objective-C自动引用计数(ARC)的一部分，用来替换`retain`修饰符。在非ARC代码中，它就是`retain`的同义词。
 
-### 第六章 多视图应用
+## 第六章 多视图应用
 
 很长的一章，代码挺多的，第一次从空工程构建出一个App。。。
 
@@ -124,7 +125,7 @@ UIImage *strhHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:12
 4. 一点疑问，书上说superview有status bar了，那么subview就不应该设置status bar，这样系统才能正确计算出尺寸。我实验中恰好相反，在subview里加上了status bar，显示出的控件位置才跟Interface Builder里的一样。
 5. 视图切换的动画。AnimationCurve的概念，Animation block的概念。
 
-### 第七章 TabBar和DataPicker
+## 第七章 TabBar和DataPicker
 
 1. 学会了如何手动从空工程建立Tabbed Application。可以直接在AppDelegate里载入TabBar View Controller的xib，代码只要在`didFinishLaunchingWithOptions`方法中加两行
 	```
@@ -174,7 +175,7 @@ UIImage *strhHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:12
 
 终于读完了这一章！！！好长
 
-### 第八章 TableView初步
+## 第八章 TableView初步
 
 1. 还是说说内存管理吧。`self.XXX = YYY;`跟`XXX = YYY;`其中`XXX`是声明为`retain`的属性。这两种写法是不一样的。前者会发挥`retain`的作用，而后者直接给指针赋值。如果你随后又将`YYY`给`release`了的话，那第二种写法就会出错，必须使用第一种。还有，在读取一个属性的时候，加不加`self`是没区别的~
 2. 这一章有以下后续内容，暂时用不到，以后再看吧：
@@ -182,7 +183,7 @@ UIImage *strhHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:12
 	- 基于Category(分类)的深拷贝
 	- 搜索栏
 
-### 第十一章 定位服务（LBS）
+## 第十一章 定位服务（LBS）
 
 1. Core Location框架使用很方便，经纬度、海拔、精度、旅行距离都能直接测出来
 2. 编译的时候要加上CoreLocation.framework，加这个框架有3三种方法

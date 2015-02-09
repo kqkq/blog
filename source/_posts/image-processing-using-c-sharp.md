@@ -2,11 +2,12 @@ title: 使用C#进行图像处理的几种方法
 date: 2009-02-26 19:10:54
 tags:
 categories: 绘云描鲤
+toc: true
 ---
 
 本文讨论了C#图像处理中Bitmap类、BitmapData类和unsafe代码的使用以及字节对齐问题。
 
-### Bitmap类
+## Bitmap类
 
 命名空间：`System.Drawing`
 
@@ -31,7 +32,7 @@ public void GetPixel_Example(PaintEventArgs e)
 
 可见，`Bitmap`类使用一种优雅的方式来操作图像，但是带来的性能的降低却是不可忽略的。比如对一个800*600的彩色图像灰度化，其耗费的时间都要以秒为单位来计算。在实际项目中进行图像处理，这种速度是决对不可忍受的。
 
-### BitmapData类
+## BitmapData类
 
 命名空间：`System.Drawing.Imaging`
 
@@ -89,7 +90,7 @@ private void LockUnlockBitsExample(PaintEventArgs e)
 
  
 
-### `unsafe`代码
+## `unsafe`代码
 
 而在实际中上面的做法仍然不能满足我们的要求，图像处理是一种运算量比较大的操作，不同于我们写的一般的应用程序。我们需要的是一种性能可以同C++程序相媲美的图像处理程序。C++是怎么提高效率的呢，答曰：指针。幸运的是.Net也允许我们使用指针，只能在非安全代码块中使用指针。何谓非安全代码？
 
@@ -125,7 +126,7 @@ unsafe
 
 毫无疑问，采用这种方式是最快的，所以在实际工程中都是采用指针的方式来访问图像像素的。
 
-### 字节对齐问题 
+## 字节对齐问题 
 
 上例中`ptr += data.Stride - data.Width * 3`，表示跨过无用的区域，其原因是图像数据在内存中存储时是按4字节对齐的，具体解释如下：
 

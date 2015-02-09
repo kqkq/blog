@@ -2,11 +2,12 @@ title: C++ STL学习笔记之容器
 date: 2010-03-07 15:32:12
 tags:
 categories: 编程之美
+toc: true
 ---
 
 今天去OJ刷水题，与其说去刷题，不如说是去学C++标准库。现将学习成果记录下来。
 
-### 1. 使用map容器进行单词统计
+## 使用map容器进行单词统计
 
 题目地址：<http://acm.bnu.edu.cn/contest/problem_show.php?pid=4045>
 
@@ -65,7 +66,7 @@ int main()
 ```
  
 
-### 2. 使用vector容器简化排序操作
+## 使用vector容器简化排序操作
 
 题目地址：<http://acm.bnu.edu.cn/contest/problem_show.php?pid=4166>
 
@@ -121,7 +122,7 @@ int main()
 }
 ```
 
-### 3. 使用stack容器优化种子填充算法（非递归）
+## 使用stack容器优化种子填充算法（非递归）
 
 题目地址：<http://acm.bnu.edu.cn/contest/problem_show.php?pid=4165>
 
@@ -219,7 +220,7 @@ int main()
 }
 ```
 
-### 4. 用vector实现的线性表插入、查找和删除操作
+## 用vector实现的线性表插入、查找和删除操作
 
 题目地址：<http://acm.bnu.edu.cn/contest/problem_show.php?pid=4101>
 
