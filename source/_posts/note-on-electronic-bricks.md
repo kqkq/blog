@@ -3,6 +3,7 @@ date: 2012-04-22 14:45:35
 tags:
 categories: 软硬兼施
 toc: true
+math: true
 ---
 
 ## 2012年3月24日

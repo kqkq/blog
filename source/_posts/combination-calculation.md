@@ -2,6 +2,7 @@ title: 整数运算计算组合数C(n, k)
 date: 2012-01-27 18:00:15
 tags:
 categories: 编程之美
+math: true
 ---
 
 计算组合数$C_n^k$的公式为

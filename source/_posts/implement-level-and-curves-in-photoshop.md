@@ -2,6 +2,7 @@ title: Photoshop中的色阶/曲线命令原理详解与编程实现
 date: 2009-05-22 19:51:12
 tags:
 categories: 绘云描鲤
+math: true
 ---
 
 Photoshop功能强大，使用灵活。初级使用者通常有几个难点：
