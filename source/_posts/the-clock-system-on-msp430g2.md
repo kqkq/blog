@@ -59,17 +59,13 @@ WDTCTL是一个16位的寄存器，顾名思义，就是看门狗的控制寄存
 1. 低频时钟源配置——寄存器BCSCTL3 (Basic Clock System Control Register 3)
     配置低频时钟的时钟源其实就是修改上面图中的LFXT1Sx，这两个标志位位于BCSCTL3这个8位寄存器的第4、5位。
 
-	```
-	//使用频率约为12kHz的VLO作为低频时钟源
-	BCSCTL3 |= LFXT1S_2;
-	```
+		//使用频率约为12kHz的VLO作为低频时钟源
+		BCSCTL3 |= LFXT1S_2;
 
 	头文件中定义了LFXT1S_2，其实就是第4位为1，第5位为0. 含义是使用VLO
 
-	```
 	    // 使用Launchpad自带的32768Hz外部晶振，电容12.5pF
 	    BCSCTL3 |= LFXT1S_0 + XCAP_3; 
-	```
 
 	头文件中定义的LFXTS_0含义是使用外部晶振，同时设置 XCAP_3，含义是晶振的负载电容是12.5pF
 
@@ -77,13 +73,11 @@ WDTCTL是一个16位的寄存器，顾名思义，就是看门狗的控制寄存
 
 3. 系统时钟MCLK的时钟源选择——寄存器BCSCTL2 (Basic Clock System Control Register 2)
 
-	```
-    // 清晶振错误标志位
-    IFG1 &= ~OFIFG;
-    // 不懂。。。
-    __bis_SR_register(SCG1 + SCG0);
-    //系统时钟选择为低频，/8分频
-    BCSCTL2 |= SELM_3 + DIVM_3;
-	```
+	    // 清晶振错误标志位
+	    IFG1 &= ~OFIFG;
+	    // 不懂。。。
+	    __bis_SR_register(SCG1 + SCG0);
+	    //系统时钟选择为低频，/8分频
+	    BCSCTL2 |= SELM_3 + DIVM_3;
 
 [clock]: /images/msp430g2-clock-system-1.jpg
