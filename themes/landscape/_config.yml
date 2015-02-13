@@ -6,8 +6,13 @@ menu:
   关于我: /about
   《Arduino魔法书》专题页面: /arduino
   本博客源代码: https://gitcafe.com/kqkq/blog
-  Fork this blog on GitHub: https://github.com/kqkq/blog
 rss: /atom.xml
+
+# SNS Links
+github_url: https://github.com/kqkq
+weibo_url: http://weibo.com/kqwd
+renren_url: http://www.renren.com/240043689
+twitter_url: https://twitter.com/kuangqi
 
 # Content
 excerpt_link: 继续阅读

@@ -90,10 +90,10 @@ $nav-link
   @extend $nav-link
   font-family: font-icon
   text-align: center
-  font-size: font-size
+  font-size: 16px
   width: font-size
   height: font-size
-  padding: 20px 15px
+  padding: 20px 18px
   position: relative
   cursor: pointer
 
@@ -114,7 +114,23 @@ $nav-link
 #sub-nav
   float: right
   margin-right: -15px
+    
+#nav-github-link
+  &:before
+    content: "\f113"
 
+#nav-weibo-link
+  &:before
+    content: "\f18a"
+    
+#nav-renren-link
+  &:before
+    content: "\f18b"
+    
+#nav-twitter-link
+  &:before
+    content: "\f099"
+    
 #nav-rss-link
   &:before
     content: "\f09e"

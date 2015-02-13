@@ -19,6 +19,18 @@
         <% } %>
       </nav>
       <nav id="sub-nav">
+        <% if (theme.github_url){ %>
+          <a id="nav-github-link" class="nav-icon" href="<%- theme.github_url %>" target="_blank" title="GitHub"></a>
+        <% } %>
+        <% if (theme.weibo_url){ %>
+          <a id="nav-weibo-link" class="nav-icon" href="<%- theme.weibo_url %>" target="_blank" title="Sina Weibo"></a>
+        <% } %>
+        <% if (theme.renren_url){ %>
+          <a id="nav-renren-link" class="nav-icon" href="<%- theme.renren_url %>" target="_blank" title="RenRen"></a>
+        <% } %>
+        <% if (theme.twitter_url){ %>
+          <a id="nav-twitter-link" class="nav-icon" href="<%- theme.twitter_url %>" target="_blank" title="Twitter"></a>
+        <% } %>
         <% if (theme.rss){ %>
           <a id="nav-rss-link" class="nav-icon" href="<%- theme.rss %>" title="RSS Feed"></a>
         <% } %>
