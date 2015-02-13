@@ -27,7 +27,7 @@ landscape主题的banner虽然很大，但是只能是一张静态图片，略�
 </script>
 ```
 
-这段代码比较简单，随机生成一个1~6之间的随机整数，然后通过这个整数合成一个URL。我一共找了6张不同的banner图片，如果你的图片张数不同，也可以相应地修改`number_of_banners`数值。banner图片要放到`themes/landscape/source/css/images/`目录下，命名为`banner*.jpg`，其中的星号是一个数字。6张图片必须连续地使用1~6这6个数字。
+这段代码比较简单，随机生成一个1～6的随机整数，然后通过这个整数合成一个URL。我一共找了6张不同的banner图片，如果你的图片张数不同，也可以相应地修改`number_of_banners`数值。banner图片要放到`themes/landscape/source/css/images/`目录下，命名为`banner*.jpg`，其中的星号是一个数字。6张图片必须连续地使用1～6这6个数字。
 
 ## 修改模板调用上述脚本
 
