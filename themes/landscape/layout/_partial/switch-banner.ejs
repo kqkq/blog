@@ -1,8 +1,9 @@
 <script>
     <% if (theme.switch_banner){ %>
-    var number_of_banners = 6;
-    var randnum = Math.floor(Math.random() * number_of_banners + 1);
-    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + randnum + ".jpg)";
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / <%- theme.banner_count %>));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
     <% } else { %>
     document.getElementById("banner").style.backgroundImage = "url(/css/images/banner.jpg)";
     <% } %>

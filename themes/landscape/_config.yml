@@ -29,6 +29,7 @@ host_name: kuangqi.me
 google_analytics: UA-49728497-1
 baidu_analytics: true
 switch_banner: true
+banner_count: 6
 favicon: /favicon.png
 twitter: kuangqi
 google_plus:
