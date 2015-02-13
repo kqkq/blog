@@ -29,6 +29,27 @@ landscape主题的banner虽然很大，但是只能是一张静态图片，略�
 
 这段代码比较简单，随机生成一个1～6的随机整数，然后通过这个整数合成一个URL。我一共找了6张不同的banner图片，如果你的图片张数不同，也可以相应地修改`number_of_banners`数值。banner图片要放到`themes/landscape/source/css/images/`目录下，命名为`banner*.jpg`，其中的星号是一个数字。6张图片必须连续地使用1～6这6个数字。
 
+**2015年02月13日更新**
+
+每次刷新都更换图片可能会占用较多的资源，也会影响访问速度。更科学的做法是隔一段时间自动换一张图片，而不是每次刷新都换。我的想法是每个小时将所有图片轮换一次，目前有6张图片，也就相当于每10分钟换一张。修改后的`switch-banner.ejs`如下：
+
+```html
+<script>
+    <% if (theme.switch_banner){ %>
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / <%- theme.banner_count %>));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    <% } else { %>
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner.jpg)";
+    <% } %>
+</script>
+```
+
+代码也比较简单，通过JavaScript的`Date`对象的`getMinutes()`来获取当前时间的分钟数，这是一个0～59的数，然后经过一点小算术映射到图片的文件名的编号，注意处理边界情况。
+
+这里还有一个小修改，就是将图片的张数改成了可配置的，而不是硬编码的。这就需要在landscape模板的配置文件中设置一个数字。在`themes/landscape/_config.yml`中添加一行`banner_count: 6`。请根据实际图片的张数来修改这个数字。
+
 ## 修改模板调用上述脚本
 
 下面要修改布局文件来调用这段脚本。在`themes/landscape/layout/_partial/header.ejs`的最后一行（`</header>`标记）之前加入一行`<%- partial('switch-banner') %>`即可。
