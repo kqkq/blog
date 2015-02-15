@@ -85,7 +85,8 @@ pagination_dir: page
 # Disqus
 disqus_shortname: 
 
-duoshuo_shortname: kqkq    #duoshuo short name
+# Duoshuo
+duoshuo_shortname: kqkq
 
 # Extensions
 ## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
