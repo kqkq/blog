@@ -32,7 +32,11 @@
       <% } %>
     </div>
     <footer class="article-footer">
-      <%- partial('post/baidu-share') %>
+      <% if (theme.baidu_share){ %>
+        <%- partial('post/baidu-share') %>
+      <% } else { %>
+        <a data-url="<%- post.permalink %>" data-id="<%= post._id %>" class="article-share-link">Share</a>
+      <% } %>
       <% if (post.comments && config.disqus_shortname){ %>
         <a href="<%- post.permalink %>#disqus_thread" class="article-comment-link">Comments</a>
       <% } %>
