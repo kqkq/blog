@@ -42,7 +42,7 @@ $$
 
 下面使用C#编程实现，编译时请打开`/unsafe`编译开关。
 
-``` 
+```cs
 using System.Drawing;//图像处理
 using System.Drawing.Imaging;//LockBits
 

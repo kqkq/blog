@@ -8,18 +8,12 @@ categories: 果粉手札
 
 1. 对于Tiger或更低版本 Mac OS：
 
-	``` bash
-	sudo lookupd -flushcache
-	```
+		sudo lookupd -flushcache
 	
 2. 对于Leopard和Snow Leopard：
 
-	``` bash
-	sudo dscacheutil -flushcache
-	```
+		sudo dscacheutil -flushcache
 	
 3. 对于Lion、Mountain Lion和Mavericks：
 
-	``` bash
-	sudo killall -HUP mDNSResponder
-	```
+		sudo killall -HUP mDNSResponder

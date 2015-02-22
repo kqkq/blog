@@ -17,7 +17,7 @@ toc: true
 
 <!--more-->
 
-```
+```cs
 public void GetPixel_Example(PaintEventArgs e) 
 { 
     // Create a Bitmap object from an image file. 
@@ -48,7 +48,7 @@ public void GetPixel_Example(PaintEventArgs e)
 
 下面的MSDN中的示例代码演示了如何使用 `PixelFormat`、`Height`、`Width` 和`Scan0`属性；`LockBits`和 `UnlockBits`方法；以及 `ImageLockMode`枚举。
 
-```
+```cs
 private void LockUnlockBitsExample(PaintEventArgs e) 
 {
 
@@ -103,7 +103,7 @@ private void LockUnlockBitsExample(PaintEventArgs e)
 
 以下代码演示如何借助`BitmapData`类采用指针的方式来遍历一幅图像，这里的`unsafe`代码块中的代码就是非安全代码。
 
-```
+```cs
 //创建图像 
 Bitmap image = new Bitmap("C:\\images\\image.gif"); 
 //获取图像的BitmapData对像 

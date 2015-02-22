@@ -55,35 +55,27 @@ toc: true
 
 1. 进入iPhone SDK目录
 
-	``` bash
-	cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/
-	```
+		cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/
 
 	不同版本的Xcode只是最后的版本号不同。在Xcode 5.0中是`iPhoneOS7.0.sdk`，未来版本可能版本高一些，早期版本的就低一些。这个请大家自己改动。
 	
 2. 备份原文件
 
-	``` bash
-	sudo cp SDKSettings.plist SDKSettings.plist.orig
-	```
+		sudo cp SDKSettings.plist SDKSettings.plist.orig
 	
 3. 编辑配置文件
 
 	在不同版本的Xcode中，这个配置文件的编码方式并不相同。有的版本是XML格式，有的版本则是二进制格式的。为了方便修改，我们可以直接用Xcode打开这个文件。首先要打开这个文件所在目录：
 	
-	``` bash
-	open .
-	```
+		open .
 	
 	在弹出的Finder窗口中双击`SDKSettings.plist`，会启动Xcode的图形界面，我们展开`DefaultProperties`分支，将下面的`CODE_SIGNING_REQUIRED`和`ENTITLEMENTS_REQUIRED`两个属性改为`NO`
 
 4. 编辑另外一个配置文件
 
-	``` bash
-	cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
-	sudo cp Info.plist Info.plist.orig
-	open .
-	```
+		cd /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform
+		sudo cp Info.plist Info.plist.orig
+		open .
 
 	在弹出的Finder窗口中双击打开`Info.plist`。将全部的`XCiPhoneOSCodeSignContext`修改成`XCCodeSignContext`，共有3处。分别在`DefaultProperties`分支下、`RuntimeRequirements`分支下和`OverrideProperties`分支下。
 
@@ -158,13 +150,11 @@ f.close()
 2. 添加自定义的生成后脚本
 在Build Phases中添加一个Build Phase，输入以下脚本
 
-	``` bash
-	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
-	if [ "${PLATFORM_NAME}" == "iphoneos" ] || [ "${PLATFORM_NAME}" == "ipados" ]; then
-	/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py "my.company.${PROJECT_NAME}" "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent";
-	codesign -f -s "iPhone Developer" --entitlements "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent" "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/"
-	fi
-	```
+		export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate
+		if [ "${PLATFORM_NAME}" == "iphoneos" ] || [ "${PLATFORM_NAME}" == "ipados" ]; then
+		/Applications/Xcode.app/Contents/Developer/iphoneentitlements/gen_entitlements.py "my.company.${PROJECT_NAME}" "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent";
+		codesign -f -s "iPhone Developer" --entitlements "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent" "${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/"
+		fi
 
 	对于Xcode 5，要在Editor菜单下的Add Build Phase项中添加，Build Phase，如图：
 
@@ -200,7 +190,6 @@ f.close()
 3. 联机调试时程序秒退，或者无法安装到设备，或者任何时候报错，错误信息中包含“code signing”、“CERT”、“signature”或者“certificate”字样的（最常见的错误）
 
 	解答：证书错误或者签名错误，肯定是因为您没有严格文中的步骤做。提醒您检查的地方有：
-
 	- 第一步中的plist文件是否已经正确修改
 	- 有没有设置为Don't Code signing
 	- 生成后事件的代码是否已经正确粘贴
@@ -208,10 +197,10 @@ f.close()
 	- 设备是否已经越狱并安装AppSync
 	- 第一步的iPhone Developer证书是否已经正确创建
 
-	其中最可能出问题的就是生成后事件代码（文中的那个Run Script）没有正确执行。可能是您忘记了添加Run Script并粘贴那段代码，也可能是您没复制全，或者复制到了啥特殊字符导致执行出错。查看那个脚本执行结果的方法是在Xcode左侧的侧边栏里，点最靠右的一个标签（Show the Log navigator），看最近的一个Build日志（不是Debug日志），找到一行Run custom shell script "Run Script"那一行，正常情况下那一行跟其他行一样，是不能展开的。如果那一行左边有个小箭头，点击后能展开的话，说明执行出错，展开后的信息即为出错的信息。请认真查看错误信息并修正脚本中的错误。如果Build日志里根本没有Run custom shell script "Run Script"，那说明您忘记添加Build script了。。。
-
-	Run Script经常报的一条错误是“replacing existing signature”。。。这个提示的意思是“替换已有的签名”，出现这个提示的原因是，你并没有成功的阻止Xcode使用默认的方法为应用程序签名。因为这个破解的原理就是阻止Xcode为app签名，而用script中的自定义过程手动为app签名。当script为app签名时，发现app已经被Xcode签名过了，就会报这个错误。出这个错误后提醒您检查的地方有两个：
-
+		其中最可能出问题的就是生成后事件代码（文中的那个Run Script）没有正确执行。可能是您忘记了添加Run Script并粘贴那段代码，也可能是您没复制全，或者复制到了啥特殊字符导致执行出错。查看那个脚本执行结果的方法是在Xcode左侧的侧边栏里，点最靠右的一个标签（Show the Log navigator），看最近的一个Build日志（不是Debug日志），找到一行Run custom shell script "Run Script"那一行，正常情况下那一行跟其他行一样，是不能展开的。如果那一行左边有个小箭头，点击后能展开的话，说明执行出错，展开后的信息即为出错的信息。请认真查看错误信息并修正脚本中的错误。如果Build日志里根本没有Run custom shell script "Run Script"，那说明您忘记添加Build script了。。。
+		
+		Run Script经常报的一条错误是“replacing existing signature”。。。这个提示的意思是“替换已有的签名”，出现这个提示的原因是，你并没有成功的阻止Xcode使用默认的方法为应用程序签名。因为这个破解的原理就是阻止Xcode为app签名，而用script中的自定义过程手动为app签名。当script为app签名时，发现app已经被Xcode签名过了，就会报这个错误。出这个错误后提醒您检查的地方有两个：
+		
 		- SDKSettings.plist中需要修改的地方是否已经正确修改
 		- 工程设置里是否将那5个签名的选项全部设为Don't Code signing
 

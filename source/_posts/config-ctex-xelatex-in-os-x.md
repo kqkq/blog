@@ -5,6 +5,7 @@ categories: 果粉手札
 ---
 
 我的软件环境是：
+
 * 操作系统：Mac OS X Lion 10.7
 * TeX系统：MacTeX 2011
  
@@ -28,7 +29,7 @@ sudo vim /usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-wi
 
 输入密码后将其内容替换为：
 
-``` plain
+```
 \setCJKmainfont[BoldFont={STHeiti},ItalicFont=STKaiti]{STSong}
 \setCJKsansfont{STHeiti}
 \setCJKmonofont{STFangsong}
@@ -58,7 +59,7 @@ sudo vim /usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-ad
 
 加入两行以支持隶书和幼圆，修改后的内容为：
 
-``` plain
+```
 \setCJKmainfont[BoldFont=Adobe Heiti Std,ItalicFont=Adobe Kaiti Std]{Adobe Song Std}
 \setCJKsansfont{Adobe Heiti Std}
 \setCJKmonofont{Adobe Fangsong Std}
@@ -84,7 +85,7 @@ sudo vim /usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-ad
 
 测试文档使用xiaoyong的[高层方案](http://blog.xiaoyong.org/?p=85)，内容如下：
 
-```plain
+```
 \documentclass[UTF8]{ctexart} % 采用Mac字体
 %\documentclass[UTF8,adobefonts]{ctexart} % 采用Adobe字体
 
