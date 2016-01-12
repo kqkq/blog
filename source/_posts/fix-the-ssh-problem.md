@@ -1,3 +1,4 @@
+---
 title: Mac OS X通过SSH连接Linux服务器时中文出现乱码的解决方法
 date: 2012-12-06 00:46:20
 tags:

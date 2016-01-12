@@ -1,3 +1,4 @@
+---
 title: 为用Code::Blocks写的程序添加图标
 date: 2010-05-05 22:19:27
 tags:

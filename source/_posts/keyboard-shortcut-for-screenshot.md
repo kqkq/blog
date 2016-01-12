@@ -1,3 +1,4 @@
+---
 title: Mac OS X 截图快捷键
 date: 2011-08-01 22:34:01
 tags:

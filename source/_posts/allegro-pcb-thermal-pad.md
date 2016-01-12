@@ -1,3 +1,4 @@
+---
 title: Allegro PCB Editor与十字花焊盘有关的技巧
 date: 2013-07-12 22:52:56
 tags:

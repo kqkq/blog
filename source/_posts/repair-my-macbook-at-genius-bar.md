@@ -1,3 +1,4 @@
+---
 title: Macbook维修记
 date: 2011-08-01 22:56:11
 tags:

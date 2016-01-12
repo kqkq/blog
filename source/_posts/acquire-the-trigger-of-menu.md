@@ -1,3 +1,4 @@
+---
 title: C#判断ContextMenuStrip右键菜单的来源
 date: 2009-06-26 22:48:08
 tags:

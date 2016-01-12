@@ -1,3 +1,4 @@
+---
 title: 关于ISP、IAP、DFU和bootloader
 date: 2012-08-27 19:46:22
 tags:

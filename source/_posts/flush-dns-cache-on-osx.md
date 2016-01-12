@@ -1,3 +1,4 @@
+---
 title: 在Mac OS X下刷新DNS缓存
 date: 2014-03-12 01:50:56
 tags:

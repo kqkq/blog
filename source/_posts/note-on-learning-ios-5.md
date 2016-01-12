@@ -1,3 +1,4 @@
+---
 title: Beginning iOS 5 Development阅读笔记
 date: 2012-02-02 23:57:17
 tags:

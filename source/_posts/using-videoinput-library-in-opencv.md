@@ -1,3 +1,4 @@
+---
 title: OpenCV使用VideoInput库从摄像头捕获视频
 date: 2010-07-11 22:50:13
 tags:

@@ -1,3 +1,4 @@
+---
 title: 如何在Allegro PCB Editor中正确地添加丝印
 date: 2014-05-01 00:39:55
 tags:

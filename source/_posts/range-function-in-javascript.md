@@ -1,3 +1,4 @@
+---
 title: 在JavaScript中实现类似于Python的range()函数
 date: 2014-05-12 23:41:53
 tags:

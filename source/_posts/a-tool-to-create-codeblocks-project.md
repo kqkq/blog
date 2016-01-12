@@ -1,3 +1,4 @@
+---
 title: 快速建立CodeBlocks工程的小工具
 date: 2010-01-29 23:36:55
 tags:

@@ -1,3 +1,4 @@
+---
 title: 修理MacBook的多点触控板
 date: 2011-08-08 17:30:42
 tags:

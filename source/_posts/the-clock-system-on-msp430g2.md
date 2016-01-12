@@ -1,3 +1,4 @@
+---
 title: MSP430 Value Line MCU的时钟系统
 date: 2012-05-16 01:16:12
 tags:

@@ -1,3 +1,4 @@
+---
 title: 山寨J-Link V8仿真器与Cortex-M4开发板之不得不吐的槽 
 date: 2012-05-16 13:22:23
 tags:

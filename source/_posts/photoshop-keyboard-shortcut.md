@@ -1,3 +1,4 @@
+---
 title: Photoshop常用快捷键（带助记）
 date: 2010-12-16 23:19:13
 tags:

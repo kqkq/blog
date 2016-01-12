@@ -1,3 +1,4 @@
+---
 title: 自动随机切换Hexo博客的banner图片
 date: 2014-07-09 00:24:19
 tags:

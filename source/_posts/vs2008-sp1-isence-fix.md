@@ -1,3 +1,4 @@
+---
 title: Visual Studio安装SP1后智能感知文本还原为英语
 date: 2009-05-18 21:30:36
 tags:

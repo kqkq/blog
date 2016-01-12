@@ -1,3 +1,4 @@
+---
 title: 在Mac OS系统下配置CTeX+XeLaTeX方案处理中文文档
 date: 2011-08-07 15:28:48
 tags:

@@ -1,3 +1,4 @@
+---
 title: 端午节之Inner Peace
 date: 2011-06-06 21:22:22
 tags:
