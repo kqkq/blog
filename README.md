@@ -5,7 +5,7 @@ Here is the source code of my personal blog [*The Bloom of Youth*](http://kuangq
 
 The blog is based on Hexo project. All of the Markdown files, images, attachments and themes are available.
 
-The source files of this blog are hosted on [GitHub](https://github.com/kqkq/blog) and [GitCafe](https://gitcafe.com/kqkq/blog). The HTML files are hosted on *GitCafe Pages* service. Checkout the `gitcafe-pages` branch on [GitCafe repository](https://gitcafe.com/kqkq/blog/tree/gitcafe-pages) for HTML files.
+The source files of this blog are hosted on [GitHub](https://github.com/kqkq/blog) and [Coding.net](https://coding.net/u/kqkq/p/blog/git). The HTML files are hosted on *Coding.net Pages* service. Checkout the `coding-pages` branch on [Coding.net repository](https://coding.net/u/kqkq/p/blog/git/tree/coding-pages) for HTML files.
 
 ---
 

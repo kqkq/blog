@@ -102,7 +102,7 @@ deploy:
   message: ""
   repo:
     github: git@github.com:kqkq/blog.git,gh-pages
-    gitcafe: git@gitcafe.com:kqkq/blog.git,gitcafe-pages
+    coding: git@git.coding.net:kqkq/blog.git,coding-pages
     
 # Sitemap
 ## https://github.com/hexojs/hexo-generator-sitemap
