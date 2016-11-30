@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Arduino ESLOV深度解析 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="近日来，一款名为ESLOV IoT Invention Kit的产品上线著名众筹网站Kickstarter众筹，众筹目标达到了惊人的425万瑞典克朗（约合人民币323万元），截止发稿时，仅筹集到80余万瑞典克朗，且剩余时间仅7天。不出意外的话，这个项目的众筹会以失败告终。在一个成功率不到4成的众筹网站上，像这样不能打动观众的项目在Kickstarter上比比皆是。Arduino ESLOV IoT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Arduino ESLOV深度解析">
+<meta property="og:url" content="http://kuangqi.me/embedded/in-depth-analysis-on-arduino-eslov/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="近日来，一款名为ESLOV IoT Invention Kit的产品上线著名众筹网站Kickstarter众筹，众筹目标达到了惊人的425万瑞典克朗（约合人民币323万元），截止发稿时，仅筹集到80余万瑞典克朗，且剩余时间仅7天。不出意外的话，这个项目的众筹会以失败告终。在一个成功率不到4成的众筹网站上，像这样不能打动观众的项目在Kickstarter上比比皆是。Arduino ESLOV IoT">
+<meta property="og:image" content="http://kuangqi.me/images/eslov-modules.gif">
+<meta property="og:image" content="http://kuangqi.me/images/eslov-prog.gif">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-30T15:34:31.575Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Arduino ESLOV深度解析">
+<meta name="twitter:description" content="近日来，一款名为ESLOV IoT Invention Kit的产品上线著名众筹网站Kickstarter众筹，众筹目标达到了惊人的425万瑞典克朗（约合人民币323万元），截止发稿时，仅筹集到80余万瑞典克朗，且剩余时间仅7天。不出意外的话，这个项目的众筹会以失败告终。在一个成功率不到4成的众筹网站上，像这样不能打动观众的项目在Kickstarter上比比皆是。Arduino ESLOV IoT">
+<meta name="twitter:image" content="http://kuangqi.me/images/eslov-modules.gif">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-in-depth-analysis-on-arduino-eslov" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/in-depth-analysis-on-arduino-eslov/" class="article-date">
+  <time datetime="2016-11-30T15:15:53.000Z" itemprop="datePublished">2016年11月30日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Arduino ESLOV深度解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Arduino的起源与发展"><span class="toc-number">1.</span> <span class="toc-text">一、Arduino的起源与发展</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、教育用Arduino衍生产品现状"><span class="toc-number">2.</span> <span class="toc-text">二、教育用Arduino衍生产品现状</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、下一代教育用电子积木产品特点"><span class="toc-number">3.</span> <span class="toc-text">三、下一代教育用电子积木产品特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、Arduino-ESLOV是给谁用的"><span class="toc-number">4.</span> <span class="toc-text">四、Arduino ESLOV是给谁用的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、写在最后"><span class="toc-number">5.</span> <span class="toc-text">五、写在最后</span></a></li></ol>
+            </div>
+        
+
+        <p>近日来，一款名为ESLOV IoT Invention Kit的产品上线著名众筹网站Kickstarter众筹，众筹目标达到了惊人的425万瑞典克朗（约合人民币323万元），截止发稿时，仅筹集到80余万瑞典克朗，且剩余时间仅7天。不出意外的话，这个项目的众筹会以失败告终。在一个成功率不到4成的众筹网站上，像这样不能打动观众的项目在Kickstarter上比比皆是。Arduino ESLOV IoT Invention Kit在Kickstarter上实在是一个平庸的项目，这个项目要做的东西在外行人看来是一堆奇奇怪怪的电路板，在接触过Arduino的人看来，可能也只是一些简单的Arduino模块。</p>
+<p>那今天我为什么要拿这个项目来说事，煞有介事地写一篇长文呢？因为我认为，Arduino ESLOV代表了电子积木发展的趋势，是Arduino从艺术家、工程师群体真正走向教育、科普市场的冲锋号，是下一代电子积木产品。</p>
+<a id="more"></a>
+<h2 id="一、Arduino的起源与发展"><a href="#一、Arduino的起源与发展" class="headerlink" title="一、Arduino的起源与发展"></a>一、Arduino的起源与发展</h2><p>也许Arduino团队怎么也想象不到，一块简单的不能再简单的单片机开发板（甚至称不上开发板，也就是个最小系统），如今会流行到这种程度，并成为快速原型搭建方案的事实标准，被Intel、Microsoft、ARM、ST、Freescale、Microchip、Atmel等一系列业界如雷贯耳的公司所接受。</p>
+<p>Arduino是为交互艺术家设计的，在没有Arduino之前，交互艺术家大都使用PIC单片机编程，Arduino封装了很多底层硬件的细节，并基于艺术家熟悉的Processing软件开发了Arduino IDE。Arduino在交互艺术家群体中受到欢迎之后，也逐渐被一些黑客和电子爱好者所接受、使用和完善，并以不可思议的方式逐渐被全球的玩家所喜爱。在国内，会编程的艺术家比较少见，更多的Arduino玩家还是“技术流”的电子爱好者，以及有志于在中小学中推广电子和计算机课程的教育工作者。</p>
+<h2 id="二、教育用Arduino衍生产品现状"><a href="#二、教育用Arduino衍生产品现状" class="headerlink" title="二、教育用Arduino衍生产品现状"></a>二、教育用Arduino衍生产品现状</h2><p>尽管Arduino已经进入了教育工作者的视野，但它作为一个教育产品的缺陷是显而易见的。C++编程语言、电子线路，这两个词让电子信息类专业的大一学生听到，也会感到心头一紧。事实上，C/C++和电子线路类课程是电子信息类新生普遍反映比较难的课程。然而Arduino开发却离不开C++编程和搭建电子线路这两个最基础的技能。</p>
+<p>之所以提起C++和电子线路两门课，是因为这两门课代表了Arduino中最重要的几个步骤：电路设计、电气连接、控制程序编写。为了让Arduino能被低龄、非专业的用户所接受，这三个步骤必须被简化。而各家使用的方法也是八仙过海各显神通。</p>
+<p>为了简化编程，各种图形化编程工具应运而生，试图用图形化的方式代替代码输入。基于MIT Scratch图形化编程的思路，衍生的工具有ArduBlock、Mixly、Mind+等等。为了简化电气连接和电路设计，以Sparkfun为代表的国外公司和以Seeedstudio、DFRobot为代表国内的公司开发了大量的电子模块，这些模块上集成了核心器件以及必要的外围电路，配合传感器扩展版，这些模块可以直接用带有防呆接口的连线插到Arduino上，从而免去了在面包板上插线搭建外围电路的恼火体验。最近流行的microduino mCookies更是使用了乐高积木和磁性连接，进一步简化了搭建过程。</p>
+<p>然而，这不管工程师、设计师和商人把基于Arduino的教育产品包装得多么鲜嫩可口，它的内心始终是一颗电子工程和计算机科学的硬核。来自教育界的一线教师和中小学生如果不加注意就咬下去，不免会被硌到牙。我来举个例子让大家明白“硬核”是什么。</p>
+<p>假设我们要教孩子使用<code>for</code>循环，最简单的例子就是用循环语句计算1+2+3+…+100，伪代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">初始化变量 S = 0；</div><div class="line">for(初始化变量  i = 1；循环条件 i ≤ 100；自增 i = i + 1)</div><div class="line">&#123;</div><div class="line">    S = S + i；</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>循环将重复执行100次，每次i的值都会加一，循环体将i的值累加到变量<code>S</code>上，执行结束后<code>S</code>中的值就是最终的结果。</p>
+<p>绝大部分没有受过编程训练的人，不论是成年人还是儿童，是无法一次正确地写出循环体<code>S = S + i</code>的，通常第一反应是<code>S = S + 1</code>或者<code>S = i + 1</code>之类写法。</p>
+<p>印象最深的是我在大学的英语老师，作为一个受过高等教育、在985重点高校当老师，比较年轻、掌握计算机基本操作的人，她也无法很快理解为什么是<code>S = S + i</code>，在我仔细讲过之后她还是花了一点时间来体会，并在最后感叹这是“计算机的逻辑”。</p>
+<p>这正是以Scratch为代表的图形化编程工具的荒唐之处。仿Scratch的图形化编程工具将C语言的重要语句与图形化色块一一对应，编写后直接翻译成符合C语言语法的代码，确实很符合程序员的思路，这种图形化编程工具也不难开发。但这种图形化编程不能简化程序逻辑，只能屏蔽代码的语法细节。相信即使是使用图形化编程来编写上述的累加逻辑，没学过编程的人照样无法理解<code>S = S + i</code>的含义。</p>
+<p>遗憾的是，图形化编程不但没有达到简化编程的目的，还很可能帮了倒忙。图形化的逻辑代码会占据大量的屏幕空间，随着代码量的增加，图形块很快就会庞大到人类无法管理的地步。比如制作一个简单的抢答器，要有抢答提示、超时提示、违规提示等基本功能，代码量很可能会达到100行左右的规模，图形化编程在这种简单的应用中都会捉襟见肘。</p>
+<p>说完了图形化编程再来说说电路设计。既然是电子 “积木”，就要从“积木块”说起。让孩子用积木盖房子，我们给了他们形状各异的木块，而不是板砖和水泥。但纵观现在几乎所有的电子积木，绝大部分的“积木块”都是电子元件（焊接在一块PCB上的电子元件也是电子元件）。这里要强调的是“元件”两个字。元件是构成电路最基本的元素，我们可以认为“元件”是不可再分的，就像人们最初认识的“原子”一样。让非专业的玩家学习使用“元件”是一件非常荒唐的事情，就像给想玩积木的孩子板砖一样荒唐。</p>
+<p>可以说每一个电子元件都是人类智慧的结晶，要想学会使用一个元件，并运用它设计电路，就必须要知道它的工作原理。当看到某些电子积木中居然有独立的晶体三极管“积木块”的时候，我真的是哭笑不得。围绕着晶体管不知道产生过多少个诺贝尔奖，基本可以说现代的电子工业就站在晶体管的肩膀上。不知道有多少电子信息类的新生面对P型半导体、N型半导体、空穴导电之类的专业名词挠破头皮，让外行人学习使用分立的三极管完全是天方夜谭。不了解元器件原理，就给创新设定了一个极低的天花板——说明书上的所有电路。也就是说，如果一套电子积木是以元件为单位组织的，那非专业人士用它最多也就是学完附带说明书上的全部案例，几乎没有自己创新的余地可言。</p>
+<p>同时，丰富的元件模块带来了繁杂的接口标准。1-Wire、I2C、SPI、UART这些是都是非常常用的接口技术。有些器件还需要使用特定的并行传输协议、模拟信号还需要进行放大和模数转换。还有一些常用的技巧，比如上拉电阻、脉宽调制（PWM）、三极管扩流等。一个简单的项目很可能就需要对上述这些接口技术熟练掌握、运用并加以组合。对于电子行业的从业者或者电子信息类专业的大学生来说，这些是必须掌握的基本技能，但对于科目教育所面向的对象（中小学生）而言，这些是没有必要了解的额外细节，同时也是他们无力学习和掌握的细节。</p>
+<h2 id="三、下一代教育用电子积木产品特点"><a href="#三、下一代教育用电子积木产品特点" class="headerlink" title="三、下一代教育用电子积木产品特点"></a>三、下一代教育用电子积木产品特点</h2><p>绕了这么多弯子，我们终于要具体地说一下Arduino ESLOV这个产品了。这款产品现在公开的资料非常少，各种技术细节都是一笔带过。但从看到这个产品的第一眼起，我就知道它与我们团队5年前的一个想法不谋而合。要说这个产品的革命性，我们先来看两张图，这是发布在Arduino官方博客上产品谍照：</p>
+<p><img src="/images/eslov-modules.gif" alt="ESLOV的模块长这样↑">  </p>
+<p><img src="/images/eslov-prog.gif" alt="ESLOV的图形化编程工具长这样↑">  </p>
+<p>这个产品革命性的2点：</p>
+<ol>
+<li><p>从第一张图上可以看出：每个模块上都有一个单片机（就连最简单的按键开关也不例外），所有模块之间通过I2C总线连接，接口使用统一的通信协议、统一的机械外形。这使得每个模块成为了一个具有独立功能的设备，而不是简单的一个电子元件。</p>
+</li>
+<li><p>从第二张图上可以看出：图形化编程工具是非过程化的，操作的对象是信息本身。这张图非常不清晰，大概可以看出是将一个湿度计和一个麦克风模块，分别连接到了2个流程控制模块上，可以想象后面应该可以直接连接输出设备模块。</p>
+</li>
+</ol>
+<p>下面详细说一下这两个特性为什么是革命性的。</p>
+<p>先说第一点，给每个模块加上单片机，很多人听到这个想法一定认为我疯了，尤其是做消费电子的人。单片机多贵啊！一个开关2毛钱，一个单片机好几块钱，你弄一个高大上的单片机，就为了操作一个开关？多浪费！但是我请你想一下，单片机确实比开关贵一个数量级，但是又能贵到哪里去呢？5块钱以内的单片机一抓一大把，而且对教育产品来说，成本并不敏感。但是加上单片机的好处就多了，首先就是接口外形的统一，再者就是利用串行总线技术，我们可以获得2项优势。第一，串行传输使得每个模块可以用非常少的线连在一起，在ESLOV上，是5条线。除了I2C的2条、电源2条以外，还有一条“多功能线”，这条线可以用于唤醒、设备发现以及中断请求。第二，总线技术使得我们可以在一条总线上挂载多个设备，多个设备可以首尾相连接在一起（但从电路原理上看是并联在一起），无需关注是谁连着谁。</p>
+<p>这个方案使用具有独立功能的设备而非简单的元件，这解决了传统电子积木电路设计的问题，从而跳过电路设计，直接进行功能设计。由于模块具有单片机，这使得串行总线技术和即插即用技术有了实现的可能，允许模块无脑式的首尾相连，解决了传统电子积木电气连接的问题。</p>
+<p>再说第二点，基于信息流的编程是比基于具体逻辑的编程更高一个层次的编程。这里我想不到什么更贴切的类比，只能做一个比较专业的类比。在基于Node.js的Web开发中，在设计RESTful API时要考虑HTTP请求的处理流程，由一些代码决定这个请求要交给哪个子程序去处理，这称为“路由”。请求的路由方式是一个在逻辑上比较高层次的东西，而处理这些请求的特定代码，是逻辑上比较底层的东西。在设计路由的时候，我们的研究对象是HTTP请求，我们考虑要对请求做怎样的判断，来将它交给谁，但对于交给的那个程序的具体处理过程，不太关心。在设计好路由之后，我们才会编写具体的处理请求的代码，这时我们关心的对象又重新回到了过程化的程序逻辑。</p>
+<p>同样地，在ESLOV的图形化编程中，我们关注的对象标是“数据”，我们关心一个数据是从哪个传感器来的（例如湿度传感器传来的湿度数值），通过处理模块做出决定之后（例如湿度大于阈值），要将这个决定送到哪个效应器上产生操作（例如送到继电器模块打开除湿机）。</p>
+<p>尽管底层的Arduino代码还是原来C++的样子，但暴露给用户的模型是与传统的仿Scratch图形化编程完全不同的。在ESLOV图形化编程界面上进行的连线，代表着数据流转的路径。而传统程序流程图中的连线，代表的是程序控制权的转移，夸张点来说就是CPU的PC（程序计数器）指针指向地址的跳动。</p>
+<p>我希望再强调一次，这种基于信息流的编程方式，使用的是与传统过程化编程完全不同的模型，也是一种更加符合人类直觉、容易理解的模型。编程模型是一个逻辑上的概念，最后程序都会被编译成机器码执行，最后的结果是一样的。也就是说物理本质是一样的，但逻辑上的建模是完全不同的。</p>
+<p>利用这种全新的编程模型，我们可以方便地构建相对复杂的项目。例如我们希望搭建一个气象站，信息流就是：温湿度传感器模块（原始数据）-&gt;数字和字符串拼接模块（带文字提示的显示内容）-&gt;显示器模块（显示具体内容）。如果想要根据温湿度报警，那就将原始数再送入阈值判断模块，将判断的结果送入报警器模块。甚至还可以将数据送入Wi-Fi通信模块，将数据发送到云端上。其实我们设计一个电子产品时也需要设计类似的流程，然后再根据这个流程编写C/C++代码。而ESLOV的先进之处就在于，这个流程就是程序本身，完成了流程就完成了整个程序，每一步处理的内部实现细节（例如“测温度”这个操作）都在模块上集成的单片机里自动完成了。</p>
+<p>ESLOV正是利用这种基于信息流的编程，解决了传统电子积木在教育领域应用的第二个难题，也就是编程难的问题。我认为这种编程模型的变革，是打开可编程电子积木在教育界应用大门的金钥匙。少年儿童可以无痛地了解一些东西背后的基本原理，利用这些设备采集到的数据（例如刚才的例子，记录气象数据）甚至可以用于课外研究性学习活动。</p>
+<h2 id="四、Arduino-ESLOV是给谁用的"><a href="#四、Arduino-ESLOV是给谁用的" class="headerlink" title="四、Arduino ESLOV是给谁用的"></a>四、Arduino ESLOV是给谁用的</h2><p>这篇文章其实到这里就应该已经写完的。但是作为一名良心博主，我还是要再献上一点私货。</p>
+<p>ESLOV这样的产品，也许更适用于少年儿童使用，或者是适合教育市场使用。而对于相对专业的玩家而言，可能并不受欢迎，因为担心“学不到东西”。ESLOV隐藏了太多的底层细节。要知道灵活性和易用性难以两全，好的设计就其实就是好的妥协。幸运的是，ESLOV还是给我们提供了良好的灵活性，ESLOV的每一个模块都是可以重编程的。刚才说道这些模块都是I2C接口的，ESLOV在每个模块的单片机中都烧入了一个I2C的bootloader，这使得这些模块可以通过I2C接口接收新的程序，并实现在系统编程。当然，编程的语言还是大家熟悉的Arduino C++。开源的设计，使得用户在模块封装的功能不能满足需求的时候，有能力打开这个黑盒子，看到它自带程序并在它的基础上做修改和增强。而这些，都不需要专用的编程器设备，甚至不需要安装额外的软件，只要访问在线IDE，在浏览器中就能完成（需要装个浏览器插件）。</p>
+<h2 id="五、写在最后"><a href="#五、写在最后" class="headerlink" title="五、写在最后"></a>五、写在最后</h2><p>之所以为一套众筹即将失败的产品写这么长一篇文章，是因为我曾经独立地设计出了一套几乎一样的东西，而且是在ESLOV出现的5年前。</p>
+<p>2012年左右，我还是Arduino的普通玩家，也是北京师范大学的一名大三学生。那时我萌生了设计一套可编程电子积木的想法，并且将这个想法作为了《嵌入式系统》课程的课程设计。我独立设计了与ESLOV非常类似的总线结构，也是给每个模块都加上了一个51单片机，并且所有的模块都通过串口daisy-chain连在一起。如果一个模块遇到自己认识的信息，就吃掉并处理或执行这条信息，遇到不认识的信息，就利用引脚复用，将这条信息从另一组引脚的串口发送给下一个模块。除了主板外，我还设计了数码管显示、1602液晶显示、温度传感器、矩阵键盘四种模块。</p>
+<p>在一次演示中，我拔下相连在一起的两个数码管显示器其中的一个，将1602显示器接在第一个数码管显示器后面。这时，数码管显示器上显示了温度的前几位数字，1602显示器上就直接显示了温度的后几位数字。之所以能这样，就是因为我给1602模块和数码管模块设计的通信协议是非常类似的，而1602液晶和数码管在电子元件层面是完全不同的原理和操作方法，在传统的电子积木中，不改程序就将液晶和数码管显示器互换，是天方夜谭的事情。</p>
+<p>后来，这个设计也经历了一些进化，串口daisy-chain变成了485总线。我现在仍然认为485总线是比ESLOV采用的I2C更好的选择，因为I2C是为板内芯片互联设计的，I2C基于同步时钟的电平信号，难以实现远距离的通信。相比之下，485总线使用的差分信号异步通信是现代数字电路技术的大杀器，可以实现非常可靠的设备间通信。</p>
+<p>在编程模型方面，我们设计了基于事件的编程模型，定义了相关的API。这么做就是为了方便在未来实现这种基于信息流的图形化编程。但由于我们没有找到开发图形化编程工具的可靠人选，图形化编程最终没有实现。</p>
+<p>这个项目后来还获得了教育部的经费支持，参加了不少展示活动和比赛，获过几个奖。但由于人手的短缺以及大学中变态严格的财务制度，使得这个项目最终没能走向成熟，留下一堆research code和在洞洞板上焊接的prototype。</p>
+<p>今日突然发现Arduino ESLOV项目，我的心情百感交集。首先是欣慰，Arduino社区做了我5年前做过的东西，这么说我还算是曾经站到过这个领域的前沿。然后是遗憾，很遗憾我没能用百分之百的能力去推进自己当年的项目，也遗憾当时的自己和导师都没有充分意识到这个项目的巨大意义。也许会后悔，如果再来一次我是不是能做出一个比Arduino还牛逼的东西，当然更多的是释怀，虽然ESLOV应该不会众筹成功，但Arduino社区应该还是会把它推进到底。既然Arduino做了，我应该不会再有机会做出当年设想的东西并在市场上打败Arduino。但能为多年的幻想画上句号，也是一种释怀。</p>
+<p>我非常期待ESLOV的市场表现，但不论它的市场表现如何，我都认为它是下一代的电子积木产品。我不敢说我代表了Arduino社区的想法，我只能说出我在5年前做一个跟ESLOV几乎完全一样的产品时的想法。 也希望我的这篇文章能帮助所有关注Arduino和中小学STEM教育的创客、教育工作者和商人了解Arduino去做ESLOV的意义所在。</p>
+<p>对了，如果谁想开发类似的产品，我可以当顾问哦～</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/embedded/in-depth-analysis-on-arduino-eslov/">http://kuangqi.me/embedded/in-depth-analysis-on-arduino-eslov/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/tricks/append-a-copyright-info-after-every-post/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">为Hexo博客的每一篇文章自动追加版权信息</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

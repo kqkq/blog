@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>自动随机切换Hexo博客的banner图片 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="个人网站最重要的是什么？个性！hexo自带的landscape是个不错的主题，首先呈现在眼前的就是高度为300像素的大banner，一个精美的banner无疑会一下抓住访客的眼球，建立起对全站的第一印象。
+landscape主题的banner虽然很大，但是只能是一张静态图片，略显死板。如果我们能对其稍加改造，让banner图片自动地随机切换为一些预设的图片，一定会是一件很酷的事情。下面我们就来动手">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自动随机切换Hexo博客的banner图片">
+<meta property="og:url" content="http://kuangqi.me/tricks/hexo-banner-auto-switcher/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="个人网站最重要的是什么？个性！hexo自带的landscape是个不错的主题，首先呈现在眼前的就是高度为300像素的大banner，一个精美的banner无疑会一下抓住访客的眼球，建立起对全站的第一印象。
+landscape主题的banner虽然很大，但是只能是一张静态图片，略显死板。如果我们能对其稍加改造，让banner图片自动地随机切换为一些预设的图片，一定会是一件很酷的事情。下面我们就来动手">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.177Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自动随机切换Hexo博客的banner图片">
+<meta name="twitter:description" content="个人网站最重要的是什么？个性！hexo自带的landscape是个不错的主题，首先呈现在眼前的就是高度为300像素的大banner，一个精美的banner无疑会一下抓住访客的眼球，建立起对全站的第一印象。
+landscape主题的banner虽然很大，但是只能是一张静态图片，略显死板。如果我们能对其稍加改造，让banner图片自动地随机切换为一些预设的图片，一定会是一件很酷的事情。下面我们就来动手">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-hexo-banner-auto-switcher" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/hexo-banner-auto-switcher/" class="article-date">
+  <time datetime="2014-07-08T16:24:19.000Z" itemprop="datePublished">2014年07月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自动随机切换Hexo博客的banner图片
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#添加随机切换图片的脚本"><span class="toc-number">1.</span> <span class="toc-text">添加随机切换图片的脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#修改模板调用上述脚本"><span class="toc-number">2.</span> <span class="toc-text">修改模板调用上述脚本</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#制作banner图片时的注意事项"><span class="toc-number">3.</span> <span class="toc-text">制作banner图片时的注意事项</span></a></li></ol>
+            </div>
+        
+
+        <p>个人网站最重要的是什么？个性！hexo自带的landscape是个不错的主题，首先呈现在眼前的就是高度为300像素的大banner，一个精美的banner无疑会一下抓住访客的眼球，建立起对全站的第一印象。</p>
+<p>landscape主题的banner虽然很大，但是只能是一张静态图片，略显死板。如果我们能对其稍加改造，让banner图片自动地随机切换为一些预设的图片，一定会是一件很酷的事情。下面我们就来动手实现这个设想！</p>
+<a id="more"></a>
+<h2 id="添加随机切换图片的脚本"><a href="#添加随机切换图片的脚本" class="headerlink" title="添加随机切换图片的脚本"></a>添加随机切换图片的脚本</h2><p>我们首先要在<code>themes/landscape/layout/_partial/</code>下新建一个ejs文件，我将其命名为<code>switch-banner.ejs</code>，其中是用于切换banner图片的Javascript代码，该文件内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    &lt;% <span class="keyword">if</span> (theme.switch_banner)&#123; %&gt;</div><div class="line">    <span class="keyword">var</span> number_of_banners = <span class="number">6</span>;</div><div class="line">    <span class="keyword">var</span> randnum = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * number_of_banners + <span class="number">1</span>);</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">"banner"</span>).style.backgroundImage = <span class="string">"url(/css/images/banner"</span> + randnum + <span class="string">".jpg)"</span>;</div><div class="line">    <span class="xml"><span class="tag">&lt;<span class="name">%</span> &#125; <span class="attr">else</span> &#123; %&gt;</span></span></div><div class="line">    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner.jpg)";</div><div class="line">    <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这段代码比较简单，随机生成一个1～6的随机整数，然后通过这个整数合成一个URL。我一共找了6张不同的banner图片，如果你的图片张数不同，也可以相应地修改<code>number_of_banners</code>数值。banner图片要放到<code>themes/landscape/source/css/images/</code>目录下，命名为<code>banner*.jpg</code>，其中的星号是一个数字。6张图片必须连续地使用1～6这6个数字。</p>
+<p><strong>2015年02月13日更新</strong></p>
+<p>每次刷新都更换图片可能会占用较多的资源，也会影响访问速度。更科学的做法是隔一段时间自动换一张图片，而不是每次刷新都换。我的想法是每个小时将所有图片轮换一次，目前有6张图片，也就相当于每10分钟换一张。修改后的<code>switch-banner.ejs</code>如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></div><div class="line">    &lt;% <span class="keyword">if</span> (theme.switch_banner)&#123; %&gt;</div><div class="line">    <span class="keyword">var</span> d = <span class="keyword">new</span> <span class="built_in">Date</span>();</div><div class="line">    <span class="keyword">var</span> m = d.getMinutes();</div><div class="line">    <span class="keyword">var</span> num = <span class="built_in">Math</span>.ceil((m + <span class="number">1</span>) / (<span class="number">60</span> / <span class="xml"><span class="tag">&lt;<span class="name">%-</span> <span class="attr">theme.banner_count</span> %&gt;</span>));</span></div><div class="line">    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";</div><div class="line">    <span class="tag">&lt;<span class="name">%</span> &#125; <span class="attr">else</span> &#123; %&gt;</span></div><div class="line">    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner.jpg)";</div><div class="line">    <span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>代码也比较简单，通过JavaScript的<code>Date</code>对象的<code>getMinutes()</code>来获取当前时间的分钟数，这是一个0～59的数，然后经过一点小算术映射到图片的文件名的编号，注意处理边界情况。</p>
+<p>这里还有一个小修改，就是将图片的张数改成了可配置的，而不是硬编码的。这就需要在landscape模板的配置文件中设置一个数字。在<code>themes/landscape/_config.yml</code>中添加一行<code>banner_count: 6</code>。请根据实际图片的张数来修改这个数字。</p>
+<h2 id="修改模板调用上述脚本"><a href="#修改模板调用上述脚本" class="headerlink" title="修改模板调用上述脚本"></a>修改模板调用上述脚本</h2><p>下面要修改布局文件来调用这段脚本。在<code>themes/landscape/layout/_partial/header.ejs</code>的最后一行（<code>&lt;/header&gt;</code>标记）之前加入一行<code>&lt;%- partial(&#39;switch-banner&#39;) %&gt;</code>即可。</p>
+<p>最后，我们需要修改landscape模板的配置文件来开启这个特性。在<code>themes/landscape/_config.yml</code>中添加一行<code>switch_banner: true</code>。重新生成博客，多刷新几次，看看效果吧！</p>
+<p>虽然实现了期望中的效果，但是我们发现浏览器还是会去请求原来的老banner，也就是<code>themes/landscape/source/css/images/banner.jpg</code>，这个文件比较大，会影响网页的打开速度。要避免浏览器请求这个文件，还需要修改一个CSS，打开<code>themes/landscape/source/css/_partial/header.styl</code>，找到<code>#banner</code>这一节，将其中的<code>background: url(banner-url) center #000</code>改成<code>background: center #000</code>，浏览器就不会再去请求已经废弃的<code>banner.jpg</code>了。如果在<code>_config.yml</code>中关掉了自动切换，我们的<code>switch-banner.ejs</code>脚本还是可以请求这个文件的，所以老的<code>banner.jpg</code>不用删掉。</p>
+<h2 id="制作banner图片时的注意事项"><a href="#制作banner图片时的注意事项" class="headerlink" title="制作banner图片时的注意事项"></a>制作banner图片时的注意事项</h2><p>为了适应不同尺寸的显示器，CSS中对banner图片对齐方式的设定为<code>center</code>。我们假设图片是比较宽的条形（我制作的图片均为1920×800像素），<strong>图片左右会两端会对齐到网页边缘，而上下部分会被切掉，只露出中间的高度为300像素的一条。</strong>不论显示器多大，图片露出来的高度始终为300像素，而宽度则取决于显示器尺寸和窗口大小。又因为图片是等比例缩放的，所以换句话说，窗口越大，我们看到的图片内容就越少。如果你不明白这个道理，请取消网页的最大化，然后改变网页的宽度，观察banner图片的变化，就明白了~</p>
+<p>正是由于这个原因，我们精心挑选的图片在一些显示器上会被剪裁的一塌糊涂。为了能在各种尺寸的显示器上都达到较好的显示效果，我们应该尽量将需要呈现的主体放在图片的中间位置（垂直方向的中间，水平方向无所谓），高度不要超过300像素太多。否则在大显示器上，就会出现明显的剪裁。对于不满足要求的图片，我们可以通过Photoshop对其进行一些处理，移动其主体的位置。移动之后，我们还可以通过Photoshop中的“内容感知缩放”（Content-Aware Scale）来填充移动后产生的空白。当然我们也可以选择一些风景画、抽象画等对剪裁不敏感的图片。</p>
+<p>最后，由于图片尺寸较大，会占用较多的网络带宽，可能会对网页的打开速度带来影响。所以我们应该设置一个较高的JPEG压缩比，在Photoshop中将质量参数设为5或者6，将图片的大小控制在100KB出头是比较理想的。对于一些由色块构成的抽象画，则可以设置更高的压缩比。总之，建议大家尝试着调整压缩比，找到一个文件比较小，又不明显影响图片质量的压缩比。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/tricks/hexo-banner-auto-switcher/">http://kuangqi.me/tricks/hexo-banner-auto-switcher/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/embedded/build-a-ultimaker-original-printer/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ultimaker Original 3D打印机DIY手记
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tricks/fix-open-with-dialog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">无法更改文件打开方式的解决办法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

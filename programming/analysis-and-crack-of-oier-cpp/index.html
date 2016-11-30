@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>垃圾软件OIer C++深度分析及破解指南 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今天是8月3日，一个有那么一点点纪念价值的日子。3年前的今天，我在哈尔滨第三中学完成了第9届全国中小学电脑制作活动的现场答辩并参加了颁奖典礼。今天跟同学聊到这件事，想到电脑制作竞赛这几年应该也是进行的如火如荼，于是搜索了一下。果然，今年已经是第12届了，直接看获奖名单的程序设计分支，居然有3个山东的作品。想想我当年“零的突破”，自嘲一下……
+说正事，获奖名单的第一个作品叫《OIer C++》，看起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="垃圾软件OIer C++深度分析及破解指南">
+<meta property="og:url" content="http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="今天是8月3日，一个有那么一点点纪念价值的日子。3年前的今天，我在哈尔滨第三中学完成了第9届全国中小学电脑制作活动的现场答辩并参加了颁奖典礼。今天跟同学聊到这件事，想到电脑制作竞赛这几年应该也是进行的如火如荼，于是搜索了一下。果然，今年已经是第12届了，直接看获奖名单的程序设计分支，居然有3个山东的作品。想想我当年“零的突破”，自嘲一下……
+说正事，获奖名单的第一个作品叫《OIer C++》，看起">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.169Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="垃圾软件OIer C++深度分析及破解指南">
+<meta name="twitter:description" content="今天是8月3日，一个有那么一点点纪念价值的日子。3年前的今天，我在哈尔滨第三中学完成了第9届全国中小学电脑制作活动的现场答辩并参加了颁奖典礼。今天跟同学聊到这件事，想到电脑制作竞赛这几年应该也是进行的如火如荼，于是搜索了一下。果然，今年已经是第12届了，直接看获奖名单的程序设计分支，居然有3个山东的作品。想想我当年“零的突破”，自嘲一下……
+说正事，获奖名单的第一个作品叫《OIer C++》，看起">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-analysis-and-crack-of-oier-cpp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/analysis-and-crack-of-oier-cpp/" class="article-date">
+  <time datetime="2011-08-02T18:34:50.000Z" itemprop="datePublished">2011年08月03日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      垃圾软件OIer C++深度分析及破解指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <p>今天是8月3日，一个有那么一点点纪念价值的日子。3年前的今天，我在哈尔滨第三中学完成了第9届全国中小学电脑制作活动的现场答辩并参加了颁奖典礼。今天跟同学聊到这件事，想到电脑制作竞赛这几年应该也是进行的如火如荼，于是搜索了一下。果然，今年已经是第12届了，直接看获奖名单的程序设计分支，居然有3个山东的作品。想想我当年“零的突破”，自嘲一下……</p>
+<p>说正事，获奖名单的第一个作品叫《OIer C++》，看起来好高端，估计是一个C++的编译器，带着膜拜之情Google了一下，发现我想错了，只是一个IDE而已……更重要的是，这个IDE，一个高中生做的IDE，居然还要收费20元……官方网站上的下载链接都是死链，情何以堪。再看产品介绍中浮夸的文字，不用下载我也对这个作品的德性有点估计了。</p>
+<a id="more"></a>
+<p>在第三方网站上下载到了这个软件，安装完成，一打开就是一个浮夸的启动画面，然后要求输入用户名和注册码，否则连软件界面都见不到。我随便输入一个，卡了几秒，当即提示错误，并没有要求重启验证。被小我三届的孩子恶搞我当然不会就此罢休。心想非破了这个软件不可。网站上一再的强调使用者的计算机必须安装.Net Framework 3.5，不出意外的话这个程序就是用C#或者VB.Net写的了。想想上次逆向.Net程序，应该是大一上学期恶搞英语学习大厅的时候了。翻出当年的“武器”.Net Reflector，好久不用都过期了，升级了一下终于打开了。</p>
+<p>二话不说把主程序拖进去，分析过程很顺畅，软件确实是.Net编写的，代码没有经过混淆，所有标识符清晰可见。虽然目前还没能进去软件的主界面，但从逆向的结果来看，整个软件只有5个对话框，如此简单的程序也能卖钱，让我很是好奇。</p>
+<p>先看注册窗口，找到了注册按钮的事件处理程序</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registryButton_Click</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">string</span> str = <span class="string">"http://115.47.219.143/product/test/"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">try</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> WebClient().DownloadData(<span class="keyword">string</span>.Format(<span class="string">"&#123;0&#125;?name=&#123;1&#125;&amp;number=&#123;2&#125;"</span>, str, <span class="keyword">this</span>.nameTextBox.Text, <span class="keyword">this</span>.serialNumberTextBox.Text));</div><div class="line">        <span class="keyword">string</span> str2 = Encoding.ASCII.GetString(bytes);</div><div class="line">        <span class="keyword">if</span> (str2 == (<span class="keyword">this</span>.nameTextBox.Text + <span class="keyword">this</span>.serialNumberTextBox.Text + <span class="string">"ABCD"</span>))</div><div class="line">        &#123;</div><div class="line">            File.WriteAllText(<span class="string">@"C:\Documents and Settings\All Users\201.dat"</span>, <span class="string">"8888"</span>);</div><div class="line">            <span class="keyword">base</span>.Close();</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">str2 == (<span class="keyword">this</span>.nameTextBox.Text + <span class="keyword">this</span>.serialNumberTextBox.Text + <span class="string">"DCBA"</span></span>))</span></div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"还未收到付款"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"不正确"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (WebException exception)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (exception.Status == WebExceptionStatus.NameResolutionFailure)</div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"请检查网络连接"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">exception.Status == WebExceptionStatus.ProtocolError</span>)</span></div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"服务器错误，请下次重试"</span>);</div><div class="line">        &#125;</div><div class="line">        MessageBox.Show(exception.Status.ToString());</div><div class="line">        MessageBox.Show(exception.Message);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>第一句话就吓我一跳，我擦居然是网络验证的，心想这下完蛋了，算法注册没戏，估计要爆破了。再往下看，我差点吐血……这是一个清晰的分支结构：1.注册成功 2.用户验证成功但未付款  3.用户不存在，失败</p>
+<p>亮点在注册成功的那个分支：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">File.WriteAllText(<span class="string">@"C:\Documents and Settings\All Users\201.dat"</span>, <span class="string">"8888"</span>);</div></pre></td></tr></table></figure>
+<p>牛逼啊！！注册成功要做的事情居然是在<code>C:\Documents and Settings\All Users</code>目录下创建一个名为<code>201.dat</code>的文件，文件的内容是<code>8888</code></p>
+<p>孩子，还8888呢，你想钱想疯了吧……</p>
+<p>不敢相信注册就这么简单，不如看看启动时软件是如何判断是否已经注册的。<code>StartForm</code>这个类看名字应该是启动画面吧，果然不出所料，用于检测注册状态的代码是：</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">StartForm_Shown</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.FindInstall())</div><div class="line">    &#123;</div><div class="line">        MessageBox.Show(<span class="string">"请在http://www.n8lm.cn/ 下载正版n8lm版OIerC++安装程序。"</span>, <span class="string">"警告"</span>, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);</div><div class="line">        Application.Exit();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.FindCopyright())</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">new</span> RegistryDialog().ShowDialog();</div><div class="line">    &#125;</div><div class="line">    OptionSetting.Init();</div><div class="line">    OptionSetting.LoadOption();</div><div class="line">    Thread.Sleep(<span class="number">0x3e8</span>);</div><div class="line">    <span class="keyword">base</span>.Close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里调用了两个函数，如果发现曾经装过软件，那就警告退出。如果没注册就弹出注册窗口。看了核心的东西就在<code>FindCopyright</code>里面了。最后请大家注意<code>Thread.Sleep(0x3e8);</code>这句话，怎么样，浮夸吧！！<code>0x3e8</code>翻译成十进制是<code>1000</code>，这句话就负责将线程阻塞1秒钟，目的是让启动画面多显示一会儿。也就是说启动画面背后并没有做什么工作，而只是单纯的在那儿卡1秒钟……</p>
+<p>继续说<code>FindCopyright</code>，这个函数的定义是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">private bool FindCopyright()</div><div class="line">&#123;</div><div class="line">    string str;</div><div class="line">    try</div><div class="line">    &#123;</div><div class="line">        str = File.ReadAllText(@&quot;C:\Documents and Settings\All Users\201.dat&quot;);</div><div class="line">    &#125;</div><div class="line">    catch (FileNotFoundException)</div><div class="line">    &#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">    return (str == &quot;8888&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>怎么样，跪了吧！验证是否注册的方式就是读取<code>C:\Documents and Settings\All Users\201.dat</code>，然后判断文件内容是否为<code>8888</code>。</p>
+<p>我默默的手动创建了这个文件，再打开，没有任何问题，软件成功启动了。</p>
+<p>话说一篇讲破解的文章应该就此结束了，不过我还是想继续喷一下这个破软件。在我试用这个软件5分钟的时间内，我至少发现了3处错别字，可见这个软件是草草写就。点关闭按钮时不会退出，而是最小化到系统托盘，我想不明白此举的意义何在。当我从菜单中点关闭时，软件直接退出，完全无视我写了一半没保存的代码。再次打开时，没有手动保存的更改就丢失了。</p>
+<p>你有可能要说了，作为一个高中生，能做出这么个东西就不错了。但是这款软件没有让我看到任何值得肯定的东西，也没有发现作者任何有意义的工作。</p>
+<p>我查看了软件的安装文件夹，其中<code>DotNetSkin.dll</code>文件是一个皮肤组件，在该软件中应该是用于显示苹果风格的界面，值得一提的是，<code>DotNetSkin</code>是一款收费软件，最便宜的正版也需要150美金。OIer C++的作者应该是使用了<code>DotNetSkin</code>的破解版。这样也好意思出来收钱，实在是不可理喻！</p>
+<p>再看<code>ICSharpCode.TextEditor.dll</code>，根据名字猜想这个dll应该提供了软件中的代码高亮显示编辑器，网上搜索证实了我的猜想。这个控件是开源的，基于MIT许可证分发。MIT许可证要求使用者必须在产品中注明原作者并保留版权声明。然而在OIer C++软件中我没有找到任何关于<code>ICSharpCode.TextEditor</code>的版权声明，全是作者自己的声明。</p>
+<p>在另外一个文件夹中，我发现了<code>ptoc.exe</code>，这个程序用于将Pascal语言转换为C语言，而这个程序也是现有的工具，并非作者自己实现。</p>
+<p>至此，作者标榜的全部“特色功能”要么是现成的，要么是盗版的。而就是这样一个垃圾软件竟然在全国中小学电脑制作活动中获得了二等奖，并堂而皇之的在网上叫卖，实在是贻笑大方。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/">http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/ios/config-ctex-xelatex-in-os-x/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          在Mac OS系统下配置CTeX+XeLaTeX方案处理中文文档
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ios/remove-ads-in-ios-app/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS应用程序去广告方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

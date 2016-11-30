@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Hexo Landscape主题的字体和JS库优化 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Hexo博客系统的作者来自台湾，因此在这个系统中也使用了一些不符合大陆实际情况的服务，除了留言板、分享按钮等无关大雅的东西之外，直接影响网站打开速度和呈现效果的东西就是来自Google的字体和JavaScript库了，由于Google在大陆基本处于被阻断的状态，所以我们有必要对其中涉及Google服务的地方进行替换。另外，如果使用Windows系统访问，会发现页面上的字体默认为宋体，丑陋的字体也严">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo Landscape主题的字体和JS库优化">
+<meta property="og:url" content="http://kuangqi.me/tricks/hexo-optimizations-for-mainland-china/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="Hexo博客系统的作者来自台湾，因此在这个系统中也使用了一些不符合大陆实际情况的服务，除了留言板、分享按钮等无关大雅的东西之外，直接影响网站打开速度和呈现效果的东西就是来自Google的字体和JavaScript库了，由于Google在大陆基本处于被阻断的状态，所以我们有必要对其中涉及Google服务的地方进行替换。另外，如果使用Windows系统访问，会发现页面上的字体默认为宋体，丑陋的字体也严">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo Landscape主题的字体和JS库优化">
+<meta name="twitter:description" content="Hexo博客系统的作者来自台湾，因此在这个系统中也使用了一些不符合大陆实际情况的服务，除了留言板、分享按钮等无关大雅的东西之外，直接影响网站打开速度和呈现效果的东西就是来自Google的字体和JavaScript库了，由于Google在大陆基本处于被阻断的状态，所以我们有必要对其中涉及Google服务的地方进行替换。另外，如果使用Windows系统访问，会发现页面上的字体默认为宋体，丑陋的字体也严">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-hexo-optimizations-for-mainland-china" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/hexo-optimizations-for-mainland-china/" class="article-date">
+  <time datetime="2015-02-12T06:54:02.000Z" itemprop="datePublished">2015年02月12日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Hexo Landscape主题的字体和JS库优化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#jQuery库的优化"><span class="toc-number">1.</span> <span class="toc-text">jQuery库的优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#跨平台字体优化"><span class="toc-number">2.</span> <span class="toc-text">跨平台字体优化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码等宽字体优化"><span class="toc-number">3.</span> <span class="toc-text">代码等宽字体优化</span></a></li></ol>
+            </div>
+        
+
+        <p>Hexo博客系统的作者来自台湾，因此在这个系统中也使用了一些不符合大陆实际情况的服务，除了留言板、分享按钮等无关大雅的东西之外，直接影响网站打开速度和呈现效果的东西就是来自Google的字体和JavaScript库了，由于Google在大陆基本处于被阻断的状态，所以我们有必要对其中涉及Google服务的地方进行替换。另外，如果使用Windows系统访问，会发现页面上的字体默认为宋体，丑陋的字体也严重影响了访客浏览的体验，我们也需要对跨平台的字体呈现效果进行优化。</p>
+<p>Hexo的Landscape主题对Google的引用主要有2个，第一是使用了在Google上托管的jQuery库，第二是使用了Google的Source Code Pro字体。在Google被封锁后，大部分网友推荐使用360的CDN，也就是useso.com的库，但我经过测试后发现360的CDN在国外的访问速度极慢。网友之所以推荐360的CDN，是因为它可以简单的直接替换Google的服务，只需要改一下域名，URL的其余部分都无需改动。而我发现提供jQuery的国内互联网厂商比比皆是，而提供Google Code Pro字体的除了360还没有找到。因此我希望能够将这两个问题分别解决，而不是用useso一替换了之。</p>
+<a id="more"></a>
+<h2 id="jQuery库的优化"><a href="#jQuery库的优化" class="headerlink" title="jQuery库的优化"></a>jQuery库的优化</h2><p>国内提供jQuery的互联网公司很多，大家耳熟能详的互联网公司基本都免费提供了常用JS库的CDN加速服务。在我的测试中，百度的服务的速度在国内国外都比较理想，因此这里将jQuery替换成百度的。另外，我还希望在百度的服务暂时不可用时，能够以网站上自带的jQuery作为备份。</p>
+<p>我们要修改的是<code>themes/landscape/layout/_partial/after-footer.ejs</code>这个文件，将17行的</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>替换为如下代码：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="xml"></span></div><div class="line">//&lt;![CDATA[</div><div class="line">if (typeof jQuery == 'undefined') &#123;</div><div class="line">  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));</div><div class="line">&#125;</div><div class="line">// ]]&gt;</div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里不但将Google的jQuery替换成了百度的，随后还进行了一个判断，如果获取百度的jQuery失败，则使用本网站自己的jQuery。为了让这段代码有效，我们要去jQuery官方下载合适版本的jQuery并将其放到<code>themes/landscape/source/js/</code>目录下，我将其命名为<code>jquery-2.0.3.min.js</code>。还有一点需要特别注意，那就是jQuery这个文件在hexo生产博客时会被解析，因此一定要将jQuery文件开头处的<code>//@ sourceMappingURL=jquery-2.0.3.min.map</code>这一行代码删去，否则会导致博客无法生成。</p>
+<h2 id="跨平台字体优化"><a href="#跨平台字体优化" class="headerlink" title="跨平台字体优化"></a>跨平台字体优化</h2><p>为了能在各个平台上都显示令人满意的字体，我们要修改CSS文件中的字体设置，列出多个备选的字体，操作系统会依次尝试，使用系统中已安装的字体。我们要修改的是<code>themes/landscape/source/css/_variables.styl</code>这一文件，将其中第22行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">font-sans = "Helvetica Neue", Helvetica, Arial, sans-serif</div></pre></td></tr></table></figure>
+<p>改成如下内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">font-sans = "Helvetica Neue", "Helvetica", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans CN", "WenQuanYi Micro Hei", Arial, sans-serif</div></pre></td></tr></table></figure>
+<p>其中海维提卡（Helvetica）、Arial是英文字体，前者一般存在于苹果电脑和移动设备上，后者一般存在于Windows系统中。冬青黑体（Hiragino Sans GB）、思源黑体（Source Han Sans CN）、文泉驿米黑（WenQuanYi Micro Hei）是中文字体，冬青黑体从OS X 10.6开始集成在苹果系统中，文泉驿米黑在Linux的各大发行版中均较为常见，而思源黑体是近期Google和Adobe合作推出的一款开源字体，很多电脑上也安装了这一字体。这样一来，在绝大部分操作系统中就可以显示美观的字体了。</p>
+<h2 id="代码等宽字体优化"><a href="#代码等宽字体优化" class="headerlink" title="代码等宽字体优化"></a>代码等宽字体优化</h2><p>Hexo默认的等宽字体是Google的Source Code Pro，我认为为了一个等宽字体去牺牲网站的访问速度实在是有点不值得，而且系统中也会提供一些较为美观的等宽字体。所以相比于绞尽脑汁去获取Google的等宽字体，不如弃用这个在国内残念的字体，然后用与之前类似的方法来列出备选的系统自带字体。要编辑的文件同样是<code>themes/landscape/source/css/_variables.styl</code>这一文件，将其中第24行</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">font-mono = "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace</div></pre></td></tr></table></figure>
+<p>改成如下内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">font-mono = Consolas, Monaco, Menlo, monospace</div></pre></td></tr></table></figure>
+<p>最后我们要删除引用Google字体的代码，要编辑的文件是<code>themes/landscape/layout/_partial/after-footer.ejs</code>，将其中的下列代码删除。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">href</span>=<span class="string">"http://fonts.googleapis.com/css?family=Source+Code+Pro"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>重新生成博客，一切都和谐了。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/tricks/hexo-optimizations-for-mainland-china/">http://kuangqi.me/tricks/hexo-optimizations-for-mainland-china/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tricks/append-a-copyright-info-after-every-post/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为Hexo博客的每一篇文章自动追加版权信息
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tricks/enable-table-of-contents-on-hexo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">为Hexo博客添加目录</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

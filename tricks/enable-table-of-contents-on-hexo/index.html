@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>为Hexo博客添加目录 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Hexo博客系统的核心支持生成目录（Table of Contents），但其默认的主题Landscape并不支持目录的显示。我们只需对Landscape的主题文件稍作修改并添加一点目录的CSS就可以在文章前面显示友好的目录了。
+修改Landscape主题的ejs文件我们首先要编辑文章显示页面的模板，也就是themes/landscape/layout/_partial/article.ejs文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为Hexo博客添加目录">
+<meta property="og:url" content="http://kuangqi.me/tricks/enable-table-of-contents-on-hexo/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="Hexo博客系统的核心支持生成目录（Table of Contents），但其默认的主题Landscape并不支持目录的显示。我们只需对Landscape的主题文件稍作修改并添加一点目录的CSS就可以在文章前面显示友好的目录了。
+修改Landscape主题的ejs文件我们首先要编辑文章显示页面的模板，也就是themes/landscape/layout/_partial/article.ejs文件">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.175Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为Hexo博客添加目录">
+<meta name="twitter:description" content="Hexo博客系统的核心支持生成目录（Table of Contents），但其默认的主题Landscape并不支持目录的显示。我们只需对Landscape的主题文件稍作修改并添加一点目录的CSS就可以在文章前面显示友好的目录了。
+修改Landscape主题的ejs文件我们首先要编辑文章显示页面的模板，也就是themes/landscape/layout/_partial/article.ejs文件">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-enable-table-of-contents-on-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/enable-table-of-contents-on-hexo/" class="article-date">
+  <time datetime="2015-02-09T14:02:24.000Z" itemprop="datePublished">2015年02月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为Hexo博客添加目录
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#修改Landscape主题的ejs文件"><span class="toc-number">1.</span> <span class="toc-text">修改Landscape主题的ejs文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为目录编写CSS文件"><span class="toc-number">2.</span> <span class="toc-text">为目录编写CSS文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#收尾工作"><span class="toc-number">3.</span> <span class="toc-text">收尾工作</span></a></li></ol>
+            </div>
+        
+
+        <p>Hexo博客系统的核心支持生成目录（Table of Contents），但其默认的主题Landscape并不支持目录的显示。我们只需对Landscape的主题文件稍作修改并添加一点目录的CSS就可以在文章前面显示友好的目录了。</p>
+<h2 id="修改Landscape主题的ejs文件"><a href="#修改Landscape主题的ejs文件" class="headerlink" title="修改Landscape主题的ejs文件"></a>修改Landscape主题的ejs文件</h2><p>我们首先要编辑文章显示页面的模板，也就是<code>themes/landscape/layout/_partial/article.ejs</code>文件。为了将目录生成在正文之前，我们首先在这个文件中找到<code>&lt;%- post.content %&gt;</code>，并在<strong>这一行之前</strong>加入如下代码：</p>
+<a id="more"></a>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Table of Contents --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%</span> <span class="attr">if</span> (!<span class="attr">index</span> &amp;&amp; <span class="attr">post.toc</span>)&#123; %&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"toc"</span> <span class="attr">class</span>=<span class="string">"toc-article"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">strong</span> <span class="attr">class</span>=<span class="string">"toc-title"</span>&gt;</span>文章目录<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">%-</span> <span class="attr">toc</span>(<span class="attr">post.content</span>) %&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">%</span> &#125; %&gt;</span></div></pre></td></tr></table></figure>
+<p>这段代码的含义清晰明了，<code>if</code>语句中有两个条件，<code>!index</code>是为了不在首页的文章摘要中生成目录，<code>post.toc</code>确保了只在显式地标记了<code>toc: true</code>的文章中生成目录。若这两个条件满足，则创建一个目录的<code>&lt;div&gt;</code>。</p>
+<p>修改完这个文件之后，找一篇包含了多个子标题的文章，并在文章开头的front-matter中添加一句<code>toc: true</code>，在浏览器中访问这篇文章，应该可以看到文章的开头处已经有了带链接的目录。但是这样的目录实在太难看，我们还需要添加相应的CSS来将其指定为我们想要的样式。</p>
+<h2 id="为目录编写CSS文件"><a href="#为目录编写CSS文件" class="headerlink" title="为目录编写CSS文件"></a>为目录编写CSS文件</h2><p>要指定目录的样式，我们要修改的文件是<code>themes/landscape/source/css/_partial/article.styl</code>。在文件的最后，添加如下代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*toc*/</span></div><div class="line"><span class="selector-class">.toc-article</span></div><div class="line">  <span class="selector-tag">background</span> <span class="selector-id">#eee</span></div><div class="line">  <span class="selector-tag">border</span> 1<span class="selector-tag">px</span> <span class="selector-tag">solid</span> <span class="selector-id">#bbb</span></div><div class="line">  <span class="selector-tag">border-radius</span> 10<span class="selector-tag">px</span></div><div class="line">  <span class="selector-tag">margin</span> 1<span class="selector-class">.5em</span> 0 0<span class="selector-class">.3em</span> 1<span class="selector-class">.5em</span></div><div class="line">  <span class="selector-tag">padding</span> 1<span class="selector-class">.2em</span> 1<span class="selector-tag">em</span> 0 1<span class="selector-tag">em</span></div><div class="line">  <span class="selector-tag">max-width</span> 28%</div><div class="line"></div><div class="line"><span class="selector-class">.toc-title</span></div><div class="line">  <span class="selector-tag">font-size</span> 120%</div><div class="line"></div><div class="line"><span class="selector-id">#toc</span></div><div class="line">  <span class="selector-tag">line-height</span> 1<span class="selector-tag">em</span></div><div class="line">  <span class="selector-tag">font-size</span> 0<span class="selector-class">.9em</span></div><div class="line">  <span class="selector-tag">float</span> <span class="selector-tag">right</span></div><div class="line">  <span class="selector-class">.toc</span></div><div class="line">    <span class="selector-tag">padding</span> 0</div><div class="line">    <span class="selector-tag">margin</span> 1<span class="selector-tag">em</span></div><div class="line">    <span class="selector-tag">line-height</span> 1<span class="selector-class">.8em</span></div><div class="line">    <span class="selector-tag">li</span></div><div class="line">      <span class="selector-tag">list-style-type</span> <span class="selector-tag">none</span></div><div class="line"></div><div class="line">  <span class="selector-class">.toc-child</span> </div><div class="line">    <span class="selector-tag">margin-left</span> 1<span class="selector-tag">em</span></div></pre></td></tr></table></figure>
+<p>第一段的<code>toc-article</code>指定了目录整个<code>&lt;div&gt;</code>的背景色、边框色、倒角半径、各种间距以及最大的宽度。注意这里最好指定目录的最大宽度，我将其设为了<code>28%</code>，也就是文章正文那个框的宽度的<code>28%</code>，也可以设为一个固定的长度，比如在笔记本电脑上<code>16em</code>就是个不错的宽度，但为了能适配各种不同尺寸的屏幕，最好还是设置为百分比。如果不指定最大宽度，遇到比较长的标题时，生成的目录会非常难看。这个最大宽度的设置是我在网上其他添加目录的方法中没有见到的。</p>
+<p>第二段的<code>toc-title</code>指的就是“文章目录”那四个字，这四个字要比其他字大一些，将其字号设为其他字的<code>120%</code>。</p>
+<p>第三段的<code>#toc.toc</code>指定了目录列表的一些细节，将<code>font-size</code>设为<code>0.9em</code>会让目录的字比文章的字稍小一些。最后的<code>.toc-child</code>指定了二级目录的缩进量。</p>
+<p>再次生成页面，应该已经可以显示比较美观的目录了。</p>
+<h2 id="收尾工作"><a href="#收尾工作" class="headerlink" title="收尾工作"></a>收尾工作</h2><p>通常情况下我们不需要为每一篇文章都添加目录，因为大部分文章的长度还是相对较短，或者结构简单而没有添加小标题。在我的博客上，需要添加目录的长文还是相对较少的。因为我选择了默认不生成目录，而手动为需要目录的文章添加显式地标记。</p>
+<p>下面我就需要编辑每一篇需要添加目录的文章，在文章开头的front-matter中加入<code>toc: true</code>。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/tricks/enable-table-of-contents-on-hexo/">http://kuangqi.me/tricks/enable-table-of-contents-on-hexo/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tricks/hexo-optimizations-for-mainland-china/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hexo Landscape主题的字体和JS库优化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tricks/open-macdown-when-add-a-new-post/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在为Hexo博客添加文章时自动打开编辑器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

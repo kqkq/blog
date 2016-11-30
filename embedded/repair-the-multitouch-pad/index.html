@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>修理MacBook的多点触控板 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MacBook用了两年多了，触控板貌似出了点问题。必须要非常用力的按才有效，如果轻轻按，虽然能发出咔哒的响声，但电脑没有任何反应。到苹果零售店的“天才吧”检测后，工作人员建议我把触控板整个换掉，要300+大洋，我随即表示放弃维修。
+因为我知道这种现象在鼠标上非常常见，故障原因无非是按键下面的微动开关老化失灵了。很多动手能力强的玩家会自己更换鼠标上的微动开关，从而以低廉的成本让昂贵的鼠标焕发新生。但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修理MacBook的多点触控板">
+<meta property="og:url" content="http://kuangqi.me/embedded/repair-the-multitouch-pad/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="MacBook用了两年多了，触控板貌似出了点问题。必须要非常用力的按才有效，如果轻轻按，虽然能发出咔哒的响声，但电脑没有任何反应。到苹果零售店的“天才吧”检测后，工作人员建议我把触控板整个换掉，要300+大洋，我随即表示放弃维修。
+因为我知道这种现象在鼠标上非常常见，故障原因无非是按键下面的微动开关老化失灵了。很多动手能力强的玩家会自己更换鼠标上的微动开关，从而以低廉的成本让昂贵的鼠标焕发新生。但">
+<meta property="og:image" content="http://kuangqi.me/images/multitouch-pad-1.jpg">
+<meta property="og:image" content="http://kuangqi.me/images/multitouch-pad-2.jpg">
+<meta property="og:image" content="http://kuangqi.me/images/multitouch-pad-3.jpg">
+<meta property="og:image" content="http://kuangqi.me/images/multitouch-pad-4.jpg">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="修理MacBook的多点触控板">
+<meta name="twitter:description" content="MacBook用了两年多了，触控板貌似出了点问题。必须要非常用力的按才有效，如果轻轻按，虽然能发出咔哒的响声，但电脑没有任何反应。到苹果零售店的“天才吧”检测后，工作人员建议我把触控板整个换掉，要300+大洋，我随即表示放弃维修。
+因为我知道这种现象在鼠标上非常常见，故障原因无非是按键下面的微动开关老化失灵了。很多动手能力强的玩家会自己更换鼠标上的微动开关，从而以低廉的成本让昂贵的鼠标焕发新生。但">
+<meta name="twitter:image" content="http://kuangqi.me/images/multitouch-pad-1.jpg">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-repair-the-multitouch-pad" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/repair-the-multitouch-pad/" class="article-date">
+  <time datetime="2011-08-08T09:30:42.000Z" itemprop="datePublished">2011年08月08日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      修理MacBook的多点触控板
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <p>MacBook用了两年多了，触控板貌似出了点问题。必须要非常用力的按才有效，如果轻轻按，虽然能发出咔哒的响声，但电脑没有任何反应。到苹果零售店的“天才吧”检测后，工作人员建议我把触控板整个换掉，要300+大洋，我随即表示放弃维修。</p>
+<p>因为我知道这种现象在鼠标上非常常见，故障原因无非是按键下面的微动开关老化失灵了。很多动手能力强的玩家会自己更换鼠标上的微动开关，从而以低廉的成本让昂贵的鼠标焕发新生。但是MacBook的Multi-Touch Track pad触控板的微动开关是个什么样子？如何更换？通过搜索我并没有找到类似的案例。只能靠自己了。</p>
+<a id="more"></a>
+<p>我先阅读了一些关于MacBook拆解的文章，通过这些文章我可以对整个电脑的结构有一个整体且细致的了解。再加上观察和思考，我们完全可以自己修复触控板的微动开关。</p>
+<p>要做的第一步当然是把触控板从电脑上拆下来。具体的操作可以参考国外一个著名的DIY网站iFixit上的<a href="http://www.ifixit.com/Guide/Repair/MacBook-Unibody-Model-A1278-Upper-Case-Replacement/6029/" target="_blank" rel="external">Step by Step</a></p>
+<p>这个教程讲的是更换MacBook的前面板，我们只要做其中的几部就可以了，需要做的步骤有：</p>
+<ul>
+<li>Step1-Step5：打开电脑的后盖</li>
+<li>Step19-Step20：拆下中间的隔板。这步不是必须的，我没有做这一步，感觉将修好的触控板装回去的时候稍微有些困难。</li>
+<li>Step34：撬下触控板插在主板上的排线。我没有那个塑料棒，就用指甲扣下来了，貌似很容易弄下来。</li>
+<li>Step36：卸下压住排线的挡板</li>
+<li>Step45-Step47：拆下固定触控板的6颗螺丝，并拆下触控板。注意下面那颗大的螺丝是不用拆的，那个螺丝用于调节按键的触感。这六颗螺丝是非常特殊的人字花螺丝（英文叫1.4 mm Y0 Tri-wing screw），这种螺丝刀估计不好找。我用的是一盒30头的多用螺丝刀，其中有一把勉强可以拆卸。</li>
+</ul>
+<p>拆下板子就要开始修了，下面进入正题：</p>
+<p>拆下来的触控板是这样的，红圈处就是微动开关 </p>
+<p><img src="/images/multitouch-pad-1.jpg" alt=""></p>
+<p>再来一张微动开关的特写。这个微动开关跟我们平时见到的鼠标的微动开关很不一样。这个微动开关的结构要简单得多。仔细观察，发现微动开关周围有一层透明的胶纸，用美工刀仔细的将胶纸撬起，然后用镊子轻轻撕下来。发现就是一块比较厚的透明胶带。 </p>
+<p><img src="/images/multitouch-pad-2.jpg" alt=""></p>
+<p>撕下胶带后发现这个微动开关的关键部件就是那块银色的金属小圆片。它呈一个弧面，而且由弹性材料制成。按起来会发出咔哒咔哒的声响。同时会将下面的电路连通。</p>
+<p><img src="/images/multitouch-pad-3.jpg" alt=""></p>
+<p>再给这个小圆片来个特写，我用手指托着它— —||</p>
+<p><img src="/images/multitouch-pad-4.jpg" alt=""></p>
+<p>我发现这个小圆片仍然很有弹性，按起来会发出清脆的声响。但是小圆片内表面的中心位置上貌似有一些黑色的脏东西。我猜想触控板按键失灵的罪魁祸首是小圆片内表面和电路板上的氧化层或者其它脏东西。我用橡皮和棉棒仔细清理了小圆片的内表面和电路板上的金色圆盘，并用美工刀轻轻的刮了一下小圆片与电路板接触的边缘。最后将其按原样贴回电路板上，将电脑组装起来。</p>
+<p>组装的过程中要注意的问题是触控板的定位。将那六颗螺丝拧进螺丝孔，不要完全拧紧。然后在正反两面用双手调节触控板在电脑铝质面板中的位置，使得触控板上下左右的缝隙基本相同。用手按压触控板的左下角和右下角，感受一下触感。应该感到按键非常流畅，而不应该感到触控板的边缘与铝质的面板摩擦。定位好之后将六颗螺丝拧紧。我第一次做的时候就是直接将螺丝拧紧了，后来发现触控板会与面板间发生摩擦，甚至将按键卡住。只好将螺丝拧松后再次调整。这里提醒各位朋友了。</p>
+<p>开机试一下，惊喜的发现触控板的按键已经恢复正常了。哈哈，有类似问题的朋友也来试一下吧！</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/embedded/repair-the-multitouch-pad/">http://kuangqi.me/embedded/repair-the-multitouch-pad/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/ios/show-hidden-files-in-os-x/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Mac OS X系统下显示隐藏文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ios/config-ctex-xelatex-in-os-x/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在Mac OS系统下配置CTeX+XeLaTeX方案处理中文文档</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

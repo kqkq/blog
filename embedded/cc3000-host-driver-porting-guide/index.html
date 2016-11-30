@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>CC3000驱动移植中的几个陷阱 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="文档中的一个小错误wlan_ioctl_get_scan_results函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CC3000驱动移植中的几个陷阱">
+<meta property="og:url" content="http://kuangqi.me/embedded/cc3000-host-driver-porting-guide/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="文档中的一个小错误wlan_ioctl_get_scan_results函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常">
+<meta property="og:image" content="http://kuangqi.me/images/cc3000-porting-1.png">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.172Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CC3000驱动移植中的几个陷阱">
+<meta name="twitter:description" content="文档中的一个小错误wlan_ioctl_get_scan_results函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc3000-porting-1.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-cc3000-host-driver-porting-guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/cc3000-host-driver-porting-guide/" class="article-date">
+  <time datetime="2013-06-16T17:47:44.000Z" itemprop="datePublished">2013年06月17日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CC3000驱动移植中的几个陷阱
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#文档中的一个小错误"><span class="toc-number">1.</span> <span class="toc-text">文档中的一个小错误</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#两组中断控制函数的实现"><span class="toc-number">2.</span> <span class="toc-text">两组中断控制函数的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TI提供的CC3000-Host-Driver假设char类型是无符号的"><span class="toc-number">3.</span> <span class="toc-text">TI提供的CC3000 Host Driver假设char类型是无符号的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#供电"><span class="toc-number">4.</span> <span class="toc-text">供电</span></a></li></ol>
+            </div>
+        
+
+        <h2 id="文档中的一个小错误"><a href="#文档中的一个小错误" class="headerlink" title="文档中的一个小错误"></a>文档中的一个小错误</h2><p><code>wlan_ioctl_get_scan_results</code>函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常会使用一个结构体来接收返回的数据，如果这个字节数不对的话，就会影响内存对齐，从而导致返回的结果错误。这里，我使用的结构体定义如下：</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">typedef struct _wlan_full_scan_results_args_t</div><div class="line">&#123;</div><div class="line">    /*</div><div class="line">        4 Bytes: number of networks found</div><div class="line">        4 Bytes: The status of the scan: 0 - agged results, 1 - results valid, 2 - no results</div><div class="line">        &#123;</div><div class="line">            1 bit isValid - is result valid or not</div><div class="line">            7 bits rssi - RSSI value;</div><div class="line">        &#125;</div><div class="line">        &#123;</div><div class="line">            2 bits: securityMode - security mode of the AP: 0 - Open, 1 - WEP, 2 WPA, 3 WPA2</div><div class="line">            6 bits: SSID name length</div><div class="line">        &#125;</div><div class="line">        2 bytes: the time at which the entry has entered into scans result table</div><div class="line">        32 bytes: SSID name</div><div class="line">        6 bytes: BSSID</div><div class="line">    */</div><div class="line">    uint32_t ap_count;</div><div class="line">    uint32_t ap_state;</div><div class="line">    uint32_t ap_vaild    : 1;</div><div class="line">    uint32_t ap_rssi     : 7;</div><div class="line">    uint32_t ap_security : 2;</div><div class="line">    uint32_t ap_ssidlen  : 6;</div><div class="line">    uint16_t ap_time;</div><div class="line">    char     ap_ssid[32];</div><div class="line">    uint8_t  ap_bssid[6];</div><div class="line">    uint8_t  reserved[2]; //for memory align</div><div class="line">&#125; wlan_scan_result;</div></pre></td></tr></table></figure>
+<p>另外，这个函数读到最后一条结果时，再读会返回一个长度为0的结果，即前四个字节(number of networks found)为零，然后再读才会读出下一次扫描的结果。这一点手册上并没有指出，是我们在编程实践中自己发现的。</p>
+<p><em>2014年3月19日注：目前最新版的CC3000官方API文档中这个错误已经得到了修正。</em></p>
+<h2 id="两组中断控制函数的实现"><a href="#两组中断控制函数的实现" class="headerlink" title="两组中断控制函数的实现"></a>两组中断控制函数的实现</h2><p>如果前面一条是一个小坑的话，这一条绝对是一个大坑。<code>SpiPause</code> - <code>SpiResume</code>与<code>WlanInterruptDisable</code> - <code>WlanInterruptEnable</code>这两组中断控制函数是CC3000整个驱动移植工作中最tricky的部分。目前为止，我见过的CC3000的驱动实现中，不论是开源的、产品正在开发而尚未开源的实现，除了官方的例程以外，还没有人将这两组函数写对。甚至有人能通过降低SPI速率、修改IO中断方式等等办法，使得整个程序得以正常运行，将错误带到了产品中。只要有人说：“我的CC3000驱动有点问题，调了很久都不行。。。”之类的话，不用等他说完，就可以猜想他是把这两组函数写错了。</p>
+<p>这两组函数非常容易错，错了又非常难以发现。这两组函数的实现已经成为了CC3000驱动移植的主要障碍。其主要原因如下：</p>
+<ol>
+<li>是官方的Porting Guide没有明确指出这两组函数的区别。很多人则想当然地认为这两组函数是一样的。甚至是一组中调用另一组。再看官方的实现，又有点不知所云，所以就忽略了这个问题。</li>
+<li>忽略这个问题后，CC3000模块可以正常初始化，还可以正常扫描WiFi热点，有人还能正常进行Smart config，甚至有人还能正常打开socket并使用UDP协议发送数据！开发者根据CC3000驱动自下而上分层的架构来看，看到SPI已经可以进行正常通信，从而直接在心理上排除了SPI驱动实现有误的可能性，错误查来查去还是在原地兜圈子。</li>
+<li>由于这两组函数实现有误导致的错误几乎成了一个人品问题，在不同速度MCU上的错误实现会导致不同的错误现象，以至于大家的描述不统一，很难从现象判断到底是哪儿错了，即使在网上根据错误现象搜索或者发帖求助，也很难得到有针对性的答案。</li>
+</ol>
+<p>为什么这两组函数写错了，会有这么神奇的问题呢？答案就是，这里的错误会导致程序的“竞态问题”，类似于数字电路基础中的“竞争冒险”。SPI速率、AP的品质和信号强度、IO口翻转速度、延时的误差等无关紧要的问题，都可能让竞态问题出现不同的现象。因此，出现的错误现象千奇百怪，貌似跟人品有关就不难解释了。说了这么多，下面就来解释一下这两组函数到底有什么区别：</p>
+<p><code>WlanInterruptDisable</code>的作用是关闭IO口的外部中断，也就是IRQ的下降沿中断。关闭以后，IRQ下降沿的中断将被<strong>丢弃</strong>，在调用<code>WlanInterruptEnable</code>时，会重新使能中断，之后发生在该IO上的外部中断又再次可以响应。而中断被禁用期间，发生的中断都被丢弃，永远不再响应。这个函数一般人都写对了。</p>
+<p><code>SpiPauseSpi</code>函数是暂时挂起IO口外部中断，也就是IRQ下降沿中断，如果在<code>SpiPauseSpi</code>调用之后，IRQ线上再有下降沿，该中断将一直<strong>保持Pending</strong>状态，暂时不调用中断服务程序，该中断必须在调用<code>SpiResumeSpi</code>被重新响应，而不能被丢弃。这里，很多很多很多人，都，写错了。。。</p>
+<p>这种中断的响应方式比较特殊，像STM32就没有在标准驱动库中实现相应的API，而必须通过操作寄存器的方式来手工实现。相应寄存器的定义，既不在芯片Datasheet里，也不在那份大家熟知的STM32F1系列<em>Reference Manual(RM0008)</em>里，而是在很多STM32开发者都没有听说过的一份文档<em>PM0056——STM32F10xxx/20xxx/21xxx/L1xxxx Cortex-M3 programming manual</em>里。有很多MCU，甚至包括TI的MSP430，在硬件上根本就不支持这种响应方式，因此只能用一些猥琐的方法来实现。MSP430该函数的代码居然是向一个配置为输入的IO口写数据，足以让不熟悉MSP430的开发者挠头了。</p>
+<h2 id="TI提供的CC3000-Host-Driver假设char类型是无符号的"><a href="#TI提供的CC3000-Host-Driver假设char类型是无符号的" class="headerlink" title="TI提供的CC3000 Host Driver假设char类型是无符号的"></a>TI提供的CC3000 Host Driver假设<code>char</code>类型是无符号的</h2><p>这个问题可能很多人都不会遇到，因为在嵌入式开发中char通常都是无符号的，基本所有的用于嵌入式平台的编译器默认情况下都会这样设定。而我则比较习惯PC上有符号的<code>char</code>，所以我手贱给GCC加了一个编译参数<code>-fsigned-char</code>……</p>
+<p>TI的Host Driver就比较扯淡，它假设<code>char</code>是无符号的，并且在<code>char</code>有符号时就会因符号位在强制转换中的行为不同而出错。这个问题不容易排查，因为需要跟踪到TI实现的Host Driver里，而大家通常都会假设这个实现是没错的，能跟进去就是一种勇气了……我当时遇到这个问题时，不知道是哪儿的错误，就在很多回调函数中添加了串口打印的语句，通过串口输出，观察各个函数被调用的情况，结合现象，再加以大胆的猜想，才解决了这个问题。</p>
+<h2 id="供电"><a href="#供电" class="headerlink" title="供电"></a>供电</h2><p><img src="/images/cc3000-porting-1.png" alt=""></p>
+<p>这个是一个硬件问题，一个不应该犯的错误。目前大家用的最多的CC3000模块还是Jorjin的WG1300，而Jorjin的文档中并未给出该模块工作时所需的电流。在一些追求体积最小化的应用中，大家也普遍使用了SOT23-5封装的小型LDO，这类LDO的电流通常只有100mA左右。一个单片机才几十毫安的电流，一个WiFi又能大到哪里去呢？</p>
+<p>看看德州仪器官方WiFi模块（TI的WiFi模块封装尺寸和引脚定义与WG1300完全相同，本人咨询Jorjin总代理后得知TI的官方模块正是由Jorjin设计并制造的，与WG1300相比在硬件上也是完全一样的，只是外壳上的字不同而已）的文档后，不禁大吃一惊！发送电流峰值275mA，接收峰值103mA，合起来有接近400mA的峰值电流！正是因为如此，我120mA的LDO被瞬间秒杀，电压从3.3V拉到了2.6V……我居然还不知道！因为STM32可以在2.6V下正常工作，我的还是在各种加断点、各种单步跟踪，完全没有意识到模块已经因电压过低死机了。。。看了一下Sparkcore的电路图，发现它用的LDO型号是MIC5219，一个SOT23-5封装，500mA的LDO，哈哈~</p>
+<p>另外还有一个不算是坑，或者说只是一个小坑~就是<code>security.h</code>文件最后少了一段代码，在用C++编译时可能导致编译出错，并且把错误报到别的文件里，让人很困惑。。。缺少的代码如下，大家一看就懂了~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#ifdef __cplusplus</div><div class="line">&#125;</div><div class="line">#endif</div></pre></td></tr></table></figure>
+<hr>
+<p>如果您在CC3000软硬件方面还有什么其他的困扰，欢迎联系我，QQ：284388369</p>
+<p>本人可以提供关于驱动移植、固件更新、硬件设计、量产优化等方面的有偿技术指导。</p>
+<p>不调试具体网络通信代码，只负责跑通官方BasicWiFiApplication，不承接外包项目。</p>
+<hr>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/embedded/cc3000-host-driver-porting-guide/">http://kuangqi.me/embedded/cc3000-host-driver-porting-guide/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/embedded/allegro-pcb-thermal-pad/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Allegro PCB Editor与十字花焊盘有关的技巧
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ios/wifi-scaning-on-os-x/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Mac系统下的Wi-Fi扫描命令</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

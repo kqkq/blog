@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>关于ISP、IAP、DFU和bootloader | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：
+在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于ISP、IAP、DFU和bootloader">
+<meta property="og:url" content="http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：
+在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于ISP、IAP、DFU和bootloader">
+<meta name="twitter:description" content="这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：
+在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-the-isp-iap-dfu-and-bootloader" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/the-isp-iap-dfu-and-bootloader/" class="article-date">
+  <time datetime="2012-08-27T11:46:22.000Z" itemprop="datePublished">2012年08月27日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于ISP、IAP、DFU和bootloader
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <p>这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：</p>
+<p>在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。另外在编程器里的也有一个MCU，这其中使用软件产生这个时序，从而对目标芯片进行编程。电脑通过串口把程序发到编程器，编程器按照规定的时序把程序送入目标芯片。</p>
+<a id="more"></a>
+<p>但是这种编程模式有几个问题，首先就是需要为特定的芯片购买特定的编程器。这种编程器通常比较昂贵，且只能用于特定型号的MCU. 对于企业来说，编程器的成本算不了什么，但更大的问题是，编程时我们必须把待编程的芯片从产品上拆下来，插到编程器上，编程后再安装回产品中。这种方法对于双列直插式的芯片也许是可行的。但对于现在日益流行的表面贴装技术是很不可行的，尤其是BGA封装的芯片，通常需要专业设备才能拆卸，拆下后需要重新植球才能焊接。。。为了更新固件而将其从高密度的PCB板上拆下来，是非常不可行的。</p>
+<p>为了能不把芯片拆下来就更新程序，人们发明了一种叫ISP的技术，即在系统编程。在系统编程就是通过串口或者其他通用的通用通信接口，为芯片编程。在产品上可以预留一个串口，需要更新时，只要把产品插到电脑上，通过串口把程序传到芯片里，就完成了更新操作。ISP技术的实现，其实就是依赖于芯片在出厂时预先烧写的bootloader程序，bootloader还有很多不同的叫法，比如ISP服务程序（STC宏晶的51单片机这么叫）、bootstrap（MSP430的BSL编程这么叫）等等。但本质上都是相同的。bootloader在芯片复位（或者上电）时，会优先于用户自己的代码启动。这段代码会首先检测芯片的指定引脚上有没有特定的信号，如果没有，则跳入用户程序执行。否则就按照bootloader特定的通信协议，与计算机进行握手，并最终触发计算机将新的程序通过通用接口（如串口）传送到芯片。然后bootloader通过软件的方式（当然需要硬件支持），擦除用户程序区，将新的程序写入到指定的位置。另外提到的是，bootloader是由各个芯片厂家自己写的，因此不是通用的。尽管都是用串口，但通信协议是不同的。比如像国产垃圾STC单片机，通信协议甚至是保密的。因此通常需要厂家提供的专用ISP软件（flash loader）才能给芯片编程。</p>
+<p>另外，比ISP更先进一点的一个技术叫IAP，即在应用编程。IAP技术允许用户程序修改flash。说白了IAP就是允许用户自定义bootloader，或者说有2个bootloader，一个bootloader是芯片出厂时固化的，另一个是用户自定义的。自定义的bootloader在固化的bootloader之后启动。也许你就要问了，用户自定义的bootloader不就是用户程序吗？其实它跟普通用户程序的区别就是它不会那么容易的被擦除。。。一般是先用专用软件，调用固化的bootloader，来写入自定义的bootloader，然后自定义的bootloader利用能写flash的能力，来给芯片写入新的程序。<br>为什么需要自定义bootloader呢？默认的bootloader需要在固定引脚，通过串口，以固定的协议传送程序。如果你对这个过程的任何一点不满意，那你就要自定义bootloader喽~</p>
+<p>再说说DFU，这个名词通常是针对USB设备说的。因为现在的设备基本都是USB了，没用串口的了。。。很多MCU也内置了USB的支持。DFU是Device Firmware Upgrade的缩写，在我的理解中，DFU模式就是支持USB的bootloader。。。DFU模式通常需要特定的驱动程序，因为现在的芯片USB接口通常工作于VCP（Virtual COM Port）模式，插到电脑上后会虚拟成一个串口设备。而DFU模式则于此不同。VCP模式下，PC端是一个串口驱动程序，MCU端是用户程序。而DFU模式下，PC端是DFU驱动程序，MCU端是bootloader。DFU模式的bootloader通常是用户自定义的，并通过固化的bootloader由串口刷入。</p>
+<p>进入bootloader程序通常有两种方式，一种是硬件复位（或者掉电），即按板上的复位按钮。芯片复位后会先执行bootloader。第二种方式是以软复位的方式进入的，软复位通常是通过PC发送一串指定的指令，用户程序中会通过中断服务程序检测到并处理这些指令。满足触发条件后，芯片将执行软复位，并将指定的地址装入PC寄存器，从而通过软件的方式跳入bootloader程序。</p>
+<p>最后我们来看一下Arduino和Maple板子的刷写方式。</p>
+<p>Arduino板上有两个MCU，一个是我们都知道的执行程序的那个MCU，它里面刷写了Arduino自定义的bootloader。另外一个是USB接口附近的一个QFN封装的小芯片，它也是一片MCU，只不过是带USB支持的。在这里它完成USB转串口的功能。更重要的是，它可以监测PC发来的指令流，其中就包含了复位指令。收到USB发来的复位指令后，它会在目标MCU的复位脚加一个负脉冲，使得目标MCU复位，进而将下载指令流放到目标MCU的串口上。使得目标MCU的bootloader检测到，从而完成下载。<br>Maple只有一个MCU，因此从USB收到下载指令后，只不过复位的不是别的芯片，而是复位自己。将自己复位到DFU模式，从而利用bootloader从USB下载程序。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/">http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/essay/a-discussion-with-the-president-of-bnu/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          董奇校长座谈会-我的发言稿（未删节）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/embedded/jlink-clone-and-cm4-board/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">山寨J-Link V8仿真器与Cortex-M4开发板之不得不吐的槽</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

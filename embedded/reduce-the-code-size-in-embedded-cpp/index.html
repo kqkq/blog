@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>如何在嵌入式C++开发中缩减代码尺寸 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。
+一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Fla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在嵌入式C++开发中缩减代码尺寸">
+<meta property="og:url" content="http://kuangqi.me/embedded/reduce-the-code-size-in-embedded-cpp/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。
+一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Fla">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.186Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何在嵌入式C++开发中缩减代码尺寸">
+<meta name="twitter:description" content="最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。
+一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Fla">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-reduce-the-code-size-in-embedded-cpp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/reduce-the-code-size-in-embedded-cpp/" class="article-date">
+  <time datetime="2013-02-07T16:27:14.000Z" itemprop="datePublished">2013年02月08日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      如何在嵌入式C++开发中缩减代码尺寸
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#回收未被调用的函数和数据所占用的空间"><span class="toc-number">1.</span> <span class="toc-text">回收未被调用的函数和数据所占用的空间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用C-的异常机制"><span class="toc-number">2.</span> <span class="toc-text">禁用C++的异常机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#禁用C-的运行时类型识别-RTTI-机制"><span class="toc-number">3.</span> <span class="toc-text">禁用C++的运行时类型识别(RTTI)机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重载new和delete运算符"><span class="toc-number">4.</span> <span class="toc-text">重载new和delete运算符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给出一个-cxa-pure-virtual-的实现"><span class="toc-number">5.</span> <span class="toc-text">给出一个__cxa_pure_virtual()的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#重载标准库的异常处理函数"><span class="toc-number">6.</span> <span class="toc-text">重载标准库的异常处理函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#给出一个-init的实现并使用-fno-use-cxa-atexit编译参数和-nostartfiles连接参数"><span class="toc-number">7.</span> <span class="toc-text">给出一个_init的实现并使用-fno-use-cxa-atexit编译参数和-nostartfiles连接参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用高版本的编译器和精简版的标准库"><span class="toc-number">8.</span> <span class="toc-text">使用高版本的编译器和精简版的标准库</span></a></li></ol>
+            </div>
+        
+
+        <p>最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。</p>
+<p>一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Flash和20KB的SRAM空间，这在8051时代已经是高端大气上档次的豪华配置了，但当我们用C++编译器编译一下那些用C++写成的简单到不能再简单的代码，就会发现这点Flash空间简直就是战斗力只有五的渣渣。。。</p>
+<p>正是由于这种现象，我最近几乎只能花一半的时间编程序，而另外的一半时间却要来设法缩减代码的尺寸。因为在最初的时候，一个闪烁LED并在串口输出一个字符串的程序就需要100K的Flash空间，实在是难以置信。</p>
+<a id="more"></a>
+<p>在此之前，我一直自认为可以熟练的使用GNU工具链进行高效的程序开发，虽然vim水平被大牛耻笑，但也偶尔可以耻笑别人。。。退一步说，至少可以耻笑编译器和编辑器都不能区分的初学者~然而在开源工具链方面的经验却在嵌入式开发中翻了车，极度膨胀的代码尺寸着实让我这个嵌入式新手挠头。</p>
+<p>经过一周的研究，我也逐渐明白了嵌入式C++开发中代码膨胀的主要原因，以及缩减代码尺寸的一些重要技巧。</p>
+<p>为了缩减嵌入式C++的代码，我们必须先要了解为什么一个极为简单的C++程序的代码会这么大。编译原理告诉我们的东西似乎不太够，因为我们写的那些代码根本不可能编译成那么大的目标代码，我们需要知道，C++编译器除了编译了我们写的代码，还在背后干了什么。</p>
+<p>原来，C/C++作为一个具有工业强度的编程语言，除了我们在每本书上都能学到丰富的语言特性之外，还提供了具有极高效率、极佳健壮性和鲁棒性的底层类库。然而使用功能强大、容错性好且执行高效的代码是有代价的，那就是代码尺寸的膨胀。目前我们能够得到的绝大部分标准库，都将效率和健壮性作为设计时的主要考虑，而对代码尺寸则没有特别的追求。这也使标准库中的一些函数过于臃肿。例如最常用的<code>printf</code>和<code>scanf</code>函数，支持字节型、整形、浮点型等各种类型的格式化输入输出，十分方便。然而使用newlib中的printf函数将会占用37KB的Flash和5KB的SRAM空间，这对绝大多数Cortex-M系列的单片机来说都是不可接受的。</p>
+<p>另外，C++还提供的异常(exception)、运行时类型识别(RTTI)以及动态存储分配机制，这些机制是C++的语言特性，但是却是通过库函数实现的。这些特性的使用，会引入stdc++标准类库中的大量基础函数，这些函数在连接时通过连接器添加到目标代码中，是导致C++代码膨胀的重要原因。</p>
+<p>我自己在之前对语言特性的理解一直是与库函数割裂开的。我之前的理解是：语言特性表现在关键字和表达式上，比如C++支持<code>class</code>、<code>virtual</code>、<code>new</code>、<code>delete</code>这些关键字，是语言本身的，仅仅与编译器有关的。C++里可以用<code>new</code>分配内存，是因为C++编译器认识这个关键字。而库函数就是比如<code>strcpy</code>、<code>strlen</code>之类，是与语言无关的。我可以自己写一个<code>strlen</code>，甚至可以用C#、Java等不同的语言来写。而我却不能为C++添加一个关键字，如果硬要加，只能改编译器。</p>
+<p>但事实上这个理解是不准确的，C++的关键字不仅与编译器有关，也与标准库有关。这其实并不难理解，我们可以在C语言中用<code>malloc()</code>函数分配一片内存，这个函数后面对应了C标准库中的一大段代码，我们也是可以想象的。那当我们在C++中使用<code>new</code>分配内存时，<code>new</code>关键字的背后一定也对应了功能类似的一大段代码（实际上更加复杂的一段代码，因为<code>new</code>支持异常），那<code>new</code>对应的这段代码来自哪里呢？是编译器吗？显然不是。它来自C++的标准库。举个例子，<code>goto</code>关键字会被编译器直接编译成一个jmp指令，但<code>new</code>关键字则会被编译成一个函数调用，要调用的代码则在连接阶段，被连接器从标准库中揪过来。</p>
+<p>明白了这些原理，我们就可以整理一下缩减嵌入式C++代码尺寸的一些思路了。Good design demands good compromises. 为了让C++更符合嵌入式系统的实际情境，我们需要放弃或者简化以上提到的很多特性，并通过编译参数的设置、优化掉不需要的代码，从而达到缩减代码尺寸的目的。</p>
+<p>在正式开始介绍之前，先向各位同仁强烈推荐<a href="http://elegantinvention.com/blog/information/smaller-binary-size-with-c-on-baremetal-g/" target="_blank" rel="external">这篇文章</a>，本文的部分内容会翻译这篇文章。<a href="http://www.webalice.it/fede.tft/cpp_on_microcontrollers_tricks/cpp_on_microcontrollers_tricks.html" target="_blank" rel="external">另一篇文章</a>也针C++在嵌入式情境中的应用提出了有益的建议。ARM官方的<a href="http://blogs.arm.com/embedded/879-shrink-your-mcu-code-size-with-gcc-arm-embedded-47/" target="_blank" rel="external">一篇博文</a>对编译器和库函数的优化进行了简单的阐述。</p>
+<p>关于GCC配置参数的优化，主要参考了ARM GCC 2012q4的文档和readme。当然本文还包含一些我自己的理解以及上述文章中没提到的一些技巧。</p>
+<h2 id="回收未被调用的函数和数据所占用的空间"><a href="#回收未被调用的函数和数据所占用的空间" class="headerlink" title="回收未被调用的函数和数据所占用的空间"></a>回收未被调用的函数和数据所占用的空间</h2><p>在嵌入式编程中，我们通常会使用MCU厂商提供的外设驱动库来避免直接对寄存器进行操作，驱动库通常是被整个包含进来的，而我们可能只用到了其中很少的几个函数。因此回收未被调用的函数所占用的空间就很有必要了。通过为连接器传递<code>--gc-sections</code>参数（通常是用<code>-Wl,--gc-sections</code>）可以令连接器回收未被使用的section。但一个section可能会包含很多个函数，所以单独使用这个参数可能还不能取得最好的效果。另外为编译器加上<code>-ffunction-sections</code>和<code>-fdata-sections</code>两个参数，可以强制编译器为每个函数和数据分配独立的section，这样每个冗余的函数都可以独立的被回收了。</p>
+<p>在使用C++标准库函数时，这个技巧尤为重要。因为C++标准库在编译时都已经使用了<code>-ffunction-sections</code>参数，所以这个技巧可以非常显著的缩减C++程序的尺寸。</p>
+<h2 id="禁用C-的异常机制"><a href="#禁用C-的异常机制" class="headerlink" title="禁用C++的异常机制"></a>禁用C++的异常机制</h2><p>异常的捕获和处理需要大量的代码，默认情况下这些代码都会编译到目标文件中。如果不需要使用异常机制，可以在编译阶段禁用它们。禁用异常的编译参数是<code>-fno-exceptions</code></p>
+<h2 id="禁用C-的运行时类型识别-RTTI-机制"><a href="#禁用C-的运行时类型识别-RTTI-机制" class="headerlink" title="禁用C++的运行时类型识别(RTTI)机制"></a>禁用C++的运行时类型识别(RTTI)机制</h2><p>运行时类型信息是很有爱的~它允许我们在运行时根据代码的具体情况进行更安全的类型转换。如果禁用这个机制，我们将不能使用<code>dynamic_cast&lt;&gt;()</code>和<code>typeid()</code>。有趣的是，由RTTI增加的代码是比较少的（不到1KB），所以通常我们可以不用担心这点空间。如果一定要禁用这个机制，方法是添加编译参数<code>-fno-rtti</code></p>
+<h2 id="重载new和delete运算符"><a href="#重载new和delete运算符" class="headerlink" title="重载new和delete运算符"></a>重载new和delete运算符</h2><p>默认的<code>new</code>和<code>delete</code>运算符在堆(heap)空间不足时会抛出<code>std::bad_alloc</code>异常。这意味着，即使使用了<code>-fno-exceptions</code>参数，在我们使用new分配内存的时候仍能看到代码的尺寸显著增大。</p>
+<p>好在重载<code>new</code>和<code>delete</code>的方法很简单，也许我们更希望通过自己实现的调试代码来捕获内存分配时出现的错误。自己实现的调试跟踪代码，有几种方法，比如通过USART串口将错误返回到PC机，或者利用支持semihosting的仿真器来获得错误信息。下面就给出自己实现<code>new</code>和<code>delete</code>的样例代码。出处在<a href="http://pastebin.com/7VKUuTJa" target="_blank" rel="external">http://pastebin.com/7VKUuTJa</a></p>
+<p>该网址貌似需要翻墙才能访问，为方便国内的朋友，我就把代码粘过来了</p>
+<p>更新：笔者使用这个版本的重载时，代码尺寸不降反增，因此这个技巧的有效性还请大家验证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">/* tinynew.cpp</div><div class="line">   </div><div class="line">   Overrides operators new and delete</div><div class="line">   globally to reduce code size.</div><div class="line">   </div><div class="line">   Public domain, use however you wish.</div><div class="line">   If you really need a license, consider it MIT:</div><div class="line">   http://www.opensource.org/licenses/mit-license.php</div><div class="line">   </div><div class="line">   - Eric Agan</div><div class="line">     Elegant Invention</div><div class="line"> */</div><div class="line"></div><div class="line">#include &lt;new&gt;</div><div class="line">#include &lt;malloc.h&gt;</div><div class="line"></div><div class="line">void* operator new(std::size_t size) &#123;</div><div class="line">    return malloc(size);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void* operator new[](std::size_t size) &#123;</div><div class="line">    return malloc(size);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void operator delete(void* ptr) &#123;</div><div class="line">    free(ptr);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void operator delete[](void* ptr) &#123;</div><div class="line">    free(ptr);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/* Optionally you can override the &apos;nothrow&apos; versions as well.</div><div class="line">   This is useful if you want to catch failed allocs with your</div><div class="line">   own debug code, or keep track of heap usage for example,</div><div class="line">   rather than just eliminate exceptions.</div><div class="line"> */</div><div class="line"></div><div class="line">void* operator new(std::size_t size, const std::nothrow_t&amp;) &#123;</div><div class="line">    return malloc(size);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void* operator new[](std::size_t size, const std::nothrow_t&amp;) &#123;</div><div class="line">    return malloc(size);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void operator delete(void* ptr, const std::nothrow_t&amp;) &#123;</div><div class="line">    free(ptr);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void operator delete[](void* ptr, const std::nothrow_t&amp;) &#123;</div><div class="line">    free(ptr);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//eof</div></pre></td></tr></table></figure>
+<h2 id="给出一个-cxa-pure-virtual-的实现"><a href="#给出一个-cxa-pure-virtual-的实现" class="headerlink" title="给出一个__cxa_pure_virtual()的实现"></a>给出一个<code>__cxa_pure_virtual()</code>的实现</h2><p>如果我们在代码的任何位置使用了纯虚函数，即使已经使用<code>-fno-exceptions</code>禁用了异常，我们仍能发现代码尺寸显著的增加了（大概会增大40KB！！！）</p>
+<p>我碰到了这种现象并且花了很久的时间去跟踪。当我们查看目标代码的反汇编代码清单时（通过<code>objdump -h -C -S</code>导出），我们会发现貌似异常处理的代码又回来了。。。</p>
+<p>为了搞明白到底是什么东西这么大，我尝试使用<code>-nostdlib</code>连接参数，这会禁用整个的C++标准库（libstdc++），然后我提供了内容为空的<code>malloc</code>、<code>realloc</code>、<code>free</code>等我们常用的标准库函数，最后g++报错的是一个我从没听说过的东西：<code>__cxa_pure_virtual()</code></p>
+<p>“哈哈”，我想，“一定就是这个东西！”。通过查看该函数的<a href="http://gcc.gnu.org/svn/gcc/tags/gcc_4_4_3_release/libstdc++-v3/libsupc++/pure.cc" target="_blank" rel="external">源代码</a>。这个网址是GNU官方的，给出的代码正是这个函数在GNU C++标准库中的开源实现。我们本地的标准库是经过预编译的，所以这个代码在本地是看不到的，我们发现这个函数调用了<code>std::terminate()</code>，这个（跟异常机制有关）调用将我们那点可怜的Flash蚕食殆尽，完全将白纸黑字的<code>-fno-exceptions</code>爆出翔~</p>
+<p>实际上，当我调用一个纯虚函数时（纯虚函数不能被调用，因为纯虚函数没有实现），系统就会帮我们调用<code>__cxa_pure_virtual()</code>，从而使程序报错。跟<code>new</code>和<code>delete</code>一样，我们也希望通过自己实现的调试跟踪代码来获得有意义的反馈。这个实现很简单粗暴，需要注意的是要添加<code>extern &quot;C&quot;</code>，以防止函数名被修饰（Mangling）。关于C++的函数名修饰，请详见<a href="http://en.wikipedia.org/wiki/Name_mangling" target="_blank" rel="external">维基百科相关条目</a></p>
+<p>具体实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">extern &quot;C&quot; void __cxa_pure_virtual() &#123; while(1); &#125;</div></pre></td></tr></table></figure>
+<h2 id="重载标准库的异常处理函数"><a href="#重载标准库的异常处理函数" class="headerlink" title="重载标准库的异常处理函数"></a>重载标准库的异常处理函数</h2><p>当我们使用异常机制时，代码尺寸会暴增，导致这一现象的原因则是C++标准库提供的冗长的异常处理函数。当有未捕获的异常时，这个函数就会被调用。这个函数做的事情仅仅是打印出发生异常的函数名，但是却需要对函数名进行重组（demangle），而重组函数名的代码是非常复杂的。要如果确实需要异常机制，我们可以重载C++提供的冗长的异常处理函数，代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">namespace __gnu_cxx</div><div class="line">&#123;</div><div class="line">    void __verbose_terminate_handler()</div><div class="line">    &#123;</div><div class="line">        abort();</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个函数必须不能返回，这里简单的终止了程序，我们也可以在里面添加一些别的操作，比如在串口上输出一个错误信息，然后进入一个死循环等等。重点是，通过重新定义这个函数，我们阻止了原始版本的实现被连接到目标代码中，从而显著减小了目标代码的尺寸。</p>
+<h2 id="给出一个-init的实现并使用-fno-use-cxa-atexit编译参数和-nostartfiles连接参数"><a href="#给出一个-init的实现并使用-fno-use-cxa-atexit编译参数和-nostartfiles连接参数" class="headerlink" title="给出一个_init的实现并使用-fno-use-cxa-atexit编译参数和-nostartfiles连接参数"></a>给出一个<code>_init</code>的实现并使用<code>-fno-use-cxa-atexit</code>编译参数和<code>-nostartfiles</code>连接参数</h2><p>一般情况下，芯片厂商提供的example中会包含芯片的启动代码(Startup code)，这样我们就没有必要使用系统库提供的初始化程序，我们给出一个空的<code>_init</code>实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">extern &quot;C&quot; void _init(void)&#123;&#125;</div></pre></td></tr></table></figure>
+<p>另外，我们还可以使用<code>-fno-use-cxa-atexit</code>来去掉编译时自动加上的一些异常处理函数</p>
+<p>至此，程序对标准库的移动和异常处理的依赖被全部解除，我们可以在连接时使用<code>-nostartfiles</code>来避免连接标准库相关的代码。</p>
+<h2 id="使用高版本的编译器和精简版的标准库"><a href="#使用高版本的编译器和精简版的标准库" class="headerlink" title="使用高版本的编译器和精简版的标准库"></a>使用高版本的编译器和精简版的标准库</h2><p>截止到本文成文时，ARM GCC工具链的最新版本是2012q4，其中包含了GCC 4.7.2. 这个版本的GCC包含了更高级的代码优化技术，在使用-Os优化参数时，生成的目标代码比之前的版本小2%</p>
+<p>更重要的是，这个版本的工具链还附带了专门为嵌入式应用而优化的C标准库——Newlib-nano。其中提供了精简版的<code>printf</code>和<code>scanf</code>（默认情况下不支持浮点数，但可以通过编译参数开启），以及更适用于嵌入式环境（小内存）的<code>memset</code>、<code>malloc</code>等内存管理函数。这些函数占用的代码空间只有传统标准库的六分之一。Newlib-nano使用了<code>-fno-exception</code>参数进行编译，且优化设置为<code>-Os</code></p>
+<p>根据ARM官方博客的介绍，使用精简版的标准库编写的Hello world程序中，代码尺寸缩减了80%，而在极端案例中的缩减会超过90%</p>
+<p>要下载新版的工具链，可以前往ARM GCC的<a href="https://launchpad.net/gcc-arm-embedded/" target="_blank" rel="external">项目主页</a></p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/embedded/reduce-the-code-size-in-embedded-cpp/">http://kuangqi.me/embedded/reduce-the-code-size-in-embedded-cpp/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/embedded/note-on-srduino/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          电子积木开发手记（新篇）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/essay/a-tragedy-caused-by-sohu-apt-repo/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">坑爹的搜狐软件源以及由软件源引发的连锁反应</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

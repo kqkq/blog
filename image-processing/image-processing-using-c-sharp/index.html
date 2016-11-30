@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>使用C#进行图像处理的几种方法 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文讨论了C#图像处理中Bitmap类、BitmapData类和unsafe代码的使用以及字节对齐问题。
+Bitmap类命名空间：System.Drawing
+封装GDI+位图，此位图由图形图像及其属性的像素数据组成。Bitmap是用于处理由像素数据定义的图像的对象。
+利用C#类进行图像处理,最方便的是使用Bitmap类，使用该类的GetPixel()与SetPixel()来访问图像的每个像素点。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用C#进行图像处理的几种方法">
+<meta property="og:url" content="http://kuangqi.me/image-processing/image-processing-using-c-sharp/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="本文讨论了C#图像处理中Bitmap类、BitmapData类和unsafe代码的使用以及字节对齐问题。
+Bitmap类命名空间：System.Drawing
+封装GDI+位图，此位图由图形图像及其属性的像素数据组成。Bitmap是用于处理由像素数据定义的图像的对象。
+利用C#类进行图像处理,最方便的是使用Bitmap类，使用该类的GetPixel()与SetPixel()来访问图像的每个像素点。">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.179Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用C#进行图像处理的几种方法">
+<meta name="twitter:description" content="本文讨论了C#图像处理中Bitmap类、BitmapData类和unsafe代码的使用以及字节对齐问题。
+Bitmap类命名空间：System.Drawing
+封装GDI+位图，此位图由图形图像及其属性的像素数据组成。Bitmap是用于处理由像素数据定义的图像的对象。
+利用C#类进行图像处理,最方便的是使用Bitmap类，使用该类的GetPixel()与SetPixel()来访问图像的每个像素点。">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-image-processing-using-c-sharp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/image-processing/image-processing-using-c-sharp/" class="article-date">
+  <time datetime="2009-02-26T11:10:54.000Z" itemprop="datePublished">2009年02月26日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/image-processing/">绘云描鲤</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      使用C#进行图像处理的几种方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Bitmap类"><span class="toc-number">1.</span> <span class="toc-text">Bitmap类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BitmapData类"><span class="toc-number">2.</span> <span class="toc-text">BitmapData类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#unsafe代码"><span class="toc-number">3.</span> <span class="toc-text">unsafe代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字节对齐问题"><span class="toc-number">4.</span> <span class="toc-text">字节对齐问题</span></a></li></ol>
+            </div>
+        
+
+        <p>本文讨论了C#图像处理中Bitmap类、BitmapData类和unsafe代码的使用以及字节对齐问题。</p>
+<h2 id="Bitmap类"><a href="#Bitmap类" class="headerlink" title="Bitmap类"></a>Bitmap类</h2><p>命名空间：<code>System.Drawing</code></p>
+<p>封装GDI+位图，此位图由图形图像及其属性的像素数据组成。<code>Bitmap</code>是用于处理由像素数据定义的图像的对象。</p>
+<p>利用C#类进行图像处理,最方便的是使用<code>Bitmap</code>类，使用该类的<code>GetPixel()</code>与<code>SetPixel()</code>来访问图像的每个像素点。下面是MSDN中的示例代码：</p>
+<a id="more"></a>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">GetPixel_Example</span>(<span class="params">PaintEventArgs e</span>) </span></div><div class="line">&#123; </div><div class="line">    <span class="comment">// Create a Bitmap object from an image file. </span></div><div class="line">    Bitmap myBitmap = <span class="keyword">new</span> Bitmap(<span class="string">"Grapes.jpg"</span>); </div><div class="line">    <span class="comment">// Get the color of a pixel within myBitmap. </span></div><div class="line">    Color pixelColor = myBitmap.GetPixel(<span class="number">50</span>, <span class="number">50</span>); </div><div class="line">    <span class="comment">// Fill a rectangle with pixelColor. </span></div><div class="line">    SolidBrush pixelBrush = <span class="keyword">new</span> SolidBrush(pixelColor); </div><div class="line">    e.Graphics.FillRectangle(pixelBrush, <span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可见，<code>Bitmap</code>类使用一种优雅的方式来操作图像，但是带来的性能的降低却是不可忽略的。比如对一个800*600的彩色图像灰度化，其耗费的时间都要以秒为单位来计算。在实际项目中进行图像处理，这种速度是决对不可忍受的。</p>
+<h2 id="BitmapData类"><a href="#BitmapData类" class="headerlink" title="BitmapData类"></a>BitmapData类</h2><p>命名空间：<code>System.Drawing.Imaging</code></p>
+<p>指定位图图像的属性。<code>BitmapData</code>类由<code>Bitmap</code>类的<code>LockBits</code>和 <code>UnlockBits</code>方法使用。不可继承。</p>
+<p>好在我们还有<code>BitmapData</code>类，通过<code>BitmapData LockBits()</code>可将 Bitmap 锁定到系统内存中。该类的公共属性有：</p>
+<ul>
+<li><code>Width</code>：获取或设置<code>Bitmap</code>对象的像素宽度。这也可以看作是一个扫描行中的像素数。</li>
+<li><code>Height</code>：获取或设置<code>Bitmap</code>对象的像素高度。有时也称作扫描行数。</li>
+<li><code>PixelFormat</code>：获取或设置返回此 <code>BitmapData</code>对象的<code>Bitmap</code>对象中像素信息的格式。</li>
+<li><code>Scan0</code>：获取或设置位图中第一个像素数据的地址。它也可以看成是位图中的第一个扫描行。</li>
+<li><code>Stride</code>：获取或设置<code>Bitmap</code>对象的跨距宽度（也称为扫描宽度）。</li>
+</ul>
+<p>下面的MSDN中的示例代码演示了如何使用 <code>PixelFormat</code>、<code>Height</code>、<code>Width</code> 和<code>Scan0</code>属性；<code>LockBits</code>和 <code>UnlockBits</code>方法；以及 <code>ImageLockMode</code>枚举。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">LockUnlockBitsExample</span>(<span class="params">PaintEventArgs e</span>) </span></div><div class="line">&#123;</div><div class="line"></div><div class="line">    <span class="comment">// Create a new bitmap. </span></div><div class="line">    Bitmap bmp = <span class="keyword">new</span> Bitmap(<span class="string">"c:\\fakePhoto.jpg"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Lock the bitmap's bits.  </span></div><div class="line">    Rectangle rect = <span class="keyword">new</span> Rectangle(<span class="number">0</span>, <span class="number">0</span>, bmp.Width, bmp.Height); </div><div class="line">    System.Drawing.Imaging.BitmapData bmpData = </div><div class="line">        bmp.LockBits(rect, System.Drawing.Imaging.ImageLockMode.ReadWrite, </div><div class="line">        bmp.PixelFormat); </div><div class="line">    <span class="comment">// Get the address of the first line. </span></div><div class="line">    IntPtr ptr = bmpData.Scan0;</div><div class="line"></div><div class="line">    <span class="comment">// Declare an array to hold the bytes of the bitmap. </span></div><div class="line">    <span class="comment">// This code is specific to a bitmap with 24 bits per pixels. </span></div><div class="line">    <span class="keyword">int</span> bytes = bmp.Width * bmp.Height * <span class="number">3</span>; </div><div class="line">    <span class="keyword">byte</span>[] rgbValues = <span class="keyword">new</span> <span class="keyword">byte</span>[bytes];</div><div class="line"></div><div class="line">    <span class="comment">// Copy the RGB values into the array. </span></div><div class="line">    System.Runtime.InteropServices.Marshal.Copy(ptr, rgbValues, <span class="number">0</span>, bytes);</div><div class="line"></div><div class="line">    <span class="comment">// Set every red value to 255.  </span></div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> counter = <span class="number">0</span>; counter &lt; rgbValues.Length; counter+=<span class="number">3</span>) </div><div class="line">        rgbValues[counter] = <span class="number">255</span>; </div><div class="line">    <span class="comment">// Copy the RGB values back to the bitmap </span></div><div class="line">    System.Runtime.InteropServices.Marshal.Copy(rgbValues, <span class="number">0</span>, ptr, bytes);</div><div class="line"></div><div class="line">    <span class="comment">// Unlock the bits. </span></div><div class="line">    bmp.UnlockBits(bmpData);</div><div class="line"></div><div class="line">    <span class="comment">// Draw the modified image. </span></div><div class="line">    e.Graphics.DrawImage(bmp, <span class="number">0</span>, <span class="number">150</span>);</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的代码演示了如何用数组的方式来访问一幅图像，而不在使用低效的<code>GetPixel()</code>和<code>SetPixel()</code>。</p>
+<h2 id="unsafe代码"><a href="#unsafe代码" class="headerlink" title="unsafe代码"></a><code>unsafe</code>代码</h2><p>而在实际中上面的做法仍然不能满足我们的要求，图像处理是一种运算量比较大的操作，不同于我们写的一般的应用程序。我们需要的是一种性能可以同C++程序相媲美的图像处理程序。C++是怎么提高效率的呢，答曰：指针。幸运的是.Net也允许我们使用指针，只能在非安全代码块中使用指针。何谓非安全代码？</p>
+<p>为了保持类型安全，默认情况下，C#不支持指针运算。不过，通过使用<code>unsafe</code>关键字，可以定义可使用指针的不安全上下文。在公共语言运行库（CLR）中，不安全代码是指无法验证的代码。C#中的不安全代码不一定是危险的，只是其安全性无法由CLR进行验证的代码。因此，CLR只对在完全受信任的程序集中的不安全代码执行操作。如果使用不安全代码，由您负责确保您的代码不会引起安全风险或指针错误。不安全代码具有下列属性：</p>
+<p>方法、类型和可被定义为不安全的代码块。<br>在某些情况下，通过移除数组界限检查，不安全代码可提高应用程序的性能。当调用需要指针的本机函数时，需要使用不安全代码。使用不安全代码将引起安全风险和稳定性风险。在C#中，为了编译不安全代码，必须用<code>/unsafe</code>编译应用程序。</p>
+<p>正如《C#语言规范》中所说无论从开发人员还是从用户角度来看，不安全代码事实上都是一种“安全”功能。不安全代码必须用修饰符<code>unsafe</code>明确地标记，这样开发人员就不会误用不安全功能，而执行引擎将确保不会在不受信任的环境中执行不安全代码。</p>
+<p>以下代码演示如何借助<code>BitmapData</code>类采用指针的方式来遍历一幅图像，这里的<code>unsafe</code>代码块中的代码就是非安全代码。</p>
+<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//创建图像 </span></div><div class="line">Bitmap image = <span class="keyword">new</span> Bitmap(<span class="string">"C:\\images\\image.gif"</span>); </div><div class="line"><span class="comment">//获取图像的BitmapData对像 </span></div><div class="line">BitmapData data = image.LockBits(<span class="keyword">new</span> Rectangle(<span class="number">0</span>, <span class="number">0</span>, image.Width, image.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);  </div><div class="line"><span class="comment">//循环处理 </span></div><div class="line"><span class="keyword">unsafe</span> </div><div class="line">&#123;  </div><div class="line">    <span class="keyword">byte</span>* ptr = (<span class="keyword">byte</span>*)(data.Scan0);  </div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; data.Height ; i++) </div><div class="line">    &#123; </div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; data.Width; j++) </div><div class="line">        &#123; </div><div class="line">            <span class="comment">// write the logic implementation here </span></div><div class="line">            ptr += <span class="number">3</span>;   </div><div class="line">        &#125; </div><div class="line">        ptr += data.Stride - data.Width * <span class="number">3</span>; </div><div class="line">    &#125; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>毫无疑问，采用这种方式是最快的，所以在实际工程中都是采用指针的方式来访问图像像素的。</p>
+<h2 id="字节对齐问题"><a href="#字节对齐问题" class="headerlink" title="字节对齐问题"></a>字节对齐问题</h2><p>上例中<code>ptr += data.Stride - data.Width * 3</code>，表示跨过无用的区域，其原因是图像数据在内存中存储时是按4字节对齐的，具体解释如下：</p>
+<p>假设有一张图片宽度为6，假设是<code>Format24bppRgb</code>格式的(每像素3字节，在以下的讨论中，除非特别说明，否则<code>Bitmap</code>都被认为是24位RGB)。显然，每一行需要6<em>3=18个字节存储。对于<code>Bitmap</code>就是如此。但对于<code>BitmapData</code>，虽然<code>data.Width</code>还是等于<code>image.Width</code>，但大概是出于显示性能的考虑，每行的实际的字节数将变成大于等于它的那个离它最近的4的整倍数，此时的实际字节数就是<code>Stride</code>。就此例而言，18不是4的整倍数，而比18大的离18最近的4的倍数是20，所以这个<code>data.Stride = 20</code>。显然，当宽度本身就是4的倍数时，`data.Stride = image.Width </em> 3`。</p>
+<p>画个图可能更好理解。R、G、B分别代表3个原色分量字节，BGR就表示一个像素。为了看起来方便我在们每个像素之间插了个空格，实际上是没有的。X表示补足4的倍数而自动插入的字节。为了符合人类的阅读习惯我分行了，其实在计算机内存中应该看成连续的一大段。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">|---------Stride----------|</div><div class="line">|---------Width--------|  | </div><div class="line">Scan0： </div><div class="line">BGR BGR BGR BGR BGR BGR XX</div><div class="line">BGR BGR BGR BGR BGR BGR XX</div><div class="line">BGR BGR BGR BGR BGR BGR XX </div><div class="line">...</div></pre></td></tr></table></figure>
+<p>首先用<code>data.Scan0</code>找到第0个像素的第0个分量的地址，这个地址指向的是个<code>byte</code>类型，所以当时定义为<code>byte* ptr</code>。行扫描时，在当前指针位置（不妨看成当前像素的第0个颜色分量）连续取出三个值（3个原色分量。注意，0、1、2代表的次序是B、G、R。在取指针指向的值时，貌似<code>p[n]</code>和<code>p += n</code>再取<code>p[0]</code>是等价的），然后下移3个位置（<code>ptr += 3</code>，看成指到下一个像素的第0个颜色分量）。做过<code>Bitmap.Width</code>次操作后，就到达了<code>Bitmap.Width * 3</code>的位置，应该要跳过图中标记为X的字节了（共有<code>Stride - Width * 3</code>个字节），代码中就是<code>ptr += dataIn.Stride - dataIn.Width * 3</code>。</p>
+<p>通过阅读本文，相信你已经对使用C#进行图像处理可能用到的几种方法有了一个了解。至于采用哪种方式，取决于你的性能要求。其中第一种方式最优雅；第三种方式最快，但不是安全代码；第二种方式取了个折中，保证是安全代码的同时又提高了效率。熟悉C/C++编程的人可能会比较偏向于第三种方式，我个人也比较喜欢第三种方式。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/image-processing/image-processing-using-c-sharp/">http://kuangqi.me/image-processing/image-processing-using-c-sharp/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/programming/vs2008-sp1-isence-fix/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Visual Studio安装SP1后智能感知文本还原为英语
+        
+      </div>
+    </a>
+  
+  
+    <a href="/essay/monitors-campaign-speech/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">高二第一学期班长竞职讲演</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

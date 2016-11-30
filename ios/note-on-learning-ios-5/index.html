@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Beginning iOS 5 Development阅读笔记 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="2011年12月的新书，居然下到了电子版，之前打印的Beginning iPhone 4 Development貌似还没看几页就过时了。。。不过对比着读还是很不错的~
+假期准备好好读读这本书，前两章是绪论和一些基础介绍，笔记就从第三章记起吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Beginning iOS 5 Development阅读笔记">
+<meta property="og:url" content="http://kuangqi.me/ios/note-on-learning-ios-5/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="2011年12月的新书，居然下到了电子版，之前打印的Beginning iPhone 4 Development貌似还没看几页就过时了。。。不过对比着读还是很不错的~
+假期准备好好读读这本书，前两章是绪论和一些基础介绍，笔记就从第三章记起吧">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.184Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Beginning iOS 5 Development阅读笔记">
+<meta name="twitter:description" content="2011年12月的新书，居然下到了电子版，之前打印的Beginning iPhone 4 Development貌似还没看几页就过时了。。。不过对比着读还是很不错的~
+假期准备好好读读这本书，前两章是绪论和一些基础介绍，笔记就从第三章记起吧">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-note-on-learning-ios-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/ios/note-on-learning-ios-5/" class="article-date">
+  <time datetime="2012-02-02T15:57:17.000Z" itemprop="datePublished">2012年02月02日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Beginning iOS 5 Development阅读笔记
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第三章-基础交互"><span class="toc-number">1.</span> <span class="toc-text">第三章 基础交互</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四章-控件大杂烩"><span class="toc-number">2.</span> <span class="toc-text">第四章 控件大杂烩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五章-自动旋转"><span class="toc-number">3.</span> <span class="toc-text">第五章 自动旋转</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第六章-多视图应用"><span class="toc-number">4.</span> <span class="toc-text">第六章 多视图应用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第七章-TabBar和DataPicker"><span class="toc-number">5.</span> <span class="toc-text">第七章 TabBar和DataPicker</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第八章-TableView初步"><span class="toc-number">6.</span> <span class="toc-text">第八章 TableView初步</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第十一章-定位服务（LBS）"><span class="toc-number">7.</span> <span class="toc-text">第十一章 定位服务（LBS）</span></a></li></ol>
+            </div>
+        
+
+        <p>2011年12月的新书，居然下到了电子版，之前打印的Beginning iPhone 4 Development貌似还没看几页就过时了。。。不过对比着读还是很不错的~</p>
+<p>假期准备好好读读这本书，前两章是绪论和一些基础介绍，笔记就从第三章记起吧</p>
+<a id="more"></a>
+<h2 id="第三章-基础交互"><a href="#第三章-基础交互" class="headerlink" title="第三章 基础交互"></a>第三章 基础交互</h2><p>类似于Hello world的一个程序</p>
+<ol>
+<li><p>意识到了Action中sender这个变量的作用，之前从来没用过这个变量的。。。</p>
+<pre><code>lblShow.text = [NSString stringWithFormat:@&quot;%@ button pressed.&quot;, [sender titleForState:UIControlStateNormal]];
+</code></pre><p> 这里可以直接获得按下的那个按钮上面的文字</p>
+</li>
+<li><p>在iOS 4中通常习惯用<code>alloc</code>分配一个新的<code>NSString</code>，<code>initWithFormat</code>后使用，然后用完再<code>release</code>，在上一个版本的书里都是这样写的。不过新版的书都将其改为了直接调用类方法<code>stringWithFormat</code>。我以为这是iOS 5的新函数，一查文档在iOS 2时就有了，不知道为啥现在才拿来用。网上的说法是，这个类方法也会申请内存，但是<code>autorelease</code>的，这样说来iOS 4也可以这样写嘛，可为什么到现在才改成这样呢？难道跟iOS 5的ARC有关么。。。</p>
+</li>
+<li>Product菜单中的Analyze命令可以分析并发现内存泄露等缺陷，貌似很好用，之前没发现。</li>
+</ol>
+<h2 id="第四章-控件大杂烩"><a href="#第四章-控件大杂烩" class="headerlink" title="第四章 控件大杂烩"></a>第四章 控件大杂烩</h2><ol>
+<li>学会了一个常用的快捷键，<code>Command + =</code>，让控件大小适应内容。如果一个Label要显示长度会变的内容时，在设计界面时就先敲入可能的最长内容，然后按这个快捷键，控件的大小就刚好合适了。 </li>
+<li>按背景隐藏键盘，这个我之前的做法一直是插入一个透明的Custom按钮，放大到全屏，再加Action，还要调整层叠次序。这章介绍的方法是直接将视图的基类从默认的<code>UIView</code>改成<code>UIControl</code>，这样视图本身就可以响应事件了~太神奇了！而且超方便~</li>
+<li>为了节省资源，控件的Clip Subviews和Clears Graphics Context选项要关掉，Opaque选项不影响视觉效果的话能开就开</li>
+<li>之前不知道拖控件时穿过Text Box的那条参考线是什么意思，现在知道那叫Baseline guide，就是输入的文本的基线。类似于初中写作业用的凯撒牌英语本上的那条红线，哈哈</li>
+<li>提示信息用<code>UIAlertView</code>，里面不能放太多按钮。通过[alert show];显示。让用户选择用<code>UIActionSheet</code>，可以放多个按钮。通过<code>[actionSheet showInView:self.view];</code>显示。得到用户按了哪个按钮，都需要通过<code>delegate</code>。这种阻断程序，让用户做选择的东西统称modal view，貌似是翻译成“模态视图”</li>
+<li>继续体会到了<code>sender</code>的强大，功能类似的一组控件基本上都可以将事件响应写到一个Action响应的函数里，然后根据<code>sender</code>判断按了哪个。还有在<code>slider</code>滑动时的action中直接根据<code>sender</code>获得其<code>value</code>，而不需要为其建立专门的outlet。另外判别是哪个控件触发时，可以利用控件的<code>tag</code>字段</li>
+<li><p>可伸缩图片！！超实用的技巧！！设置不可伸缩部分（Cap），然后剩余部分就被自动拉长，填满控件。书上的代码还不太完善，他将<code>topCapHeight</code>设为了0，导致按钮很高时，两条水平的边缘变得很丑。我将<code>topCapHeight</code>也设为了12，大按钮看起来就很美观了。代码比较经典，直接贴上来备忘吧！用的时候别忘了把<code>Button</code>的类型从<code>Round Rect</code>改为<code>Custom</code></p>
+<pre><code>UIImage *imageNormal = [UIImage imageNamed:@&quot;whiteButton.png&quot;];
+UIImage *strhNormal = [imageNormal stretchableImageWithLeftCapWidth:12 topCapHeight:12];
+UIImage *imageHighlighted = [UIImage imageNamed:@&quot;blueButton.png&quot;];
+UIImage *strhHighlighted = [imageHighlighted stretchableImageWithLeftCapWidth:12 topCapHeight:12];
+[dosthButton setBackgroundImage:strhNormal forState:UIControlStateNormal];
+[dosthButton setBackgroundImage:strhHighlighted forState:UIControlStateHighlighted];
+</code></pre></li>
+<li><p>在Action响应函数中，那些以Index标志的东西要加上注释，提高代码的可读性。比如<code>index</code>为0的segmented control是哪一个，比如ActionSheet中的第1个按钮是什么含义等等。</p>
+</li>
+</ol>
+<h2 id="第五章-自动旋转"><a href="#第五章-自动旋转" class="headerlink" title="第五章 自动旋转"></a>第五章 自动旋转</h2><ol>
+<li>先学学英语吧，protrait指的是竖屏（又高又窄），landscape指的是横屏（又矮又宽）</li>
+<li>建立一个iPhone工程，默认的Supported Device Orientations是除了“Upside down”以外的三个，而建立一个iPad工程时，默认则是支持全部的四个方向。这是为什么呢？因为iPhone在使用过程中面临突然有电话打进来的情况，用户没法在设备倒置的情况下打电话，因为话筒和听筒安装在电话的两端，没法混用，这就造成了不方便。而iPad则不存在电话和听筒位置的问题，所以默认是支持四个方向。一个细节而已，没啥用，就是挺吃惊的。</li>
+<li>支持多个方向最简单的方法是修改控件Autosizing的方式，图形化的界面，非常方便。但在复杂情况下不能满足需求，就要写代码手动调整控件的位置和大小。如果两个方向的界面相差很大，可以在一个Nib里建立两个View，分别制作好，通过代码切换这两个View。按Alt键拖动View在侧边栏里的条目可以复制View。</li>
+<li><p>通过<code>willAnimateRotationToInterfaceOrientation</code>响应设备旋转。这里涉及的技术稍微复杂一些，切换view只需要为View建立outlet并赋值给<code>self.view</code>，重要的是view的定位和方向。开始我没明白为什么要旋转，如果不明白的话，把给transform赋值的那几句话去掉，再运行一下看效果，你瞬间就会明白的！这里利用的是图形学中的旋转矩阵，当年学OpenGL生不如死的现在貌似用上了，一看那个先搞成单位矩阵，再搞仿射变换，瞬间感到一种亲切感！这段代码也挺经典的，以后可以直接拷贝来用，这里收藏一下。</p>
+<pre><code>- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation) interfaceOrientation duration:(NSTimeInterval)duration {
+    if(interfaceOrientation == UIInterfaceOrientationPortrait)
+    {
+        self.view = self.portrait;
+        self.view.transform = CGAffineTransformIdentity;
+        //self.view.transform = CGAffineTransformMakeRotation(0);
+        self.view.bounds = CGRectMake(0.0, 0.0, 320.0, 460.0);
+    }
+    else if(interfaceOrientation == UIInterfaceOrientationLandscapeRight)
+    {
+        self.view = self.landscape;
+        self.view.transform = CGAffineTransformIdentity;
+        self.view.transform = CGAffineTransformMakeRotation(0.5 * M_PI);
+        self.view.bounds = CGRectMake(0.0, 0.0, 480, 300);
+    }
+    else if(interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
+    {
+        self.view = self.landscape;
+        self.view.transform = CGAffineTransformIdentity;
+        self.view.transform = CGAffineTransformMakeRotation(-0.5 * M_PI);
+        self.view.bounds = CGRectMake(0.0, 0.0, 480, 300);
+    }
+}
+</code></pre><p> 需要注意的有：</p>
+<ul>
+<li>仿射变换的参数是弧度制，不是角度制</li>
+<li>RectMake的时候要考虑状态栏的高度</li>
+<li>直立状态时也要为transform赋值，将界面转回正常，否则开始运行时是正确的，横过来再竖过来就错了</li>
+</ul>
+</li>
+<li><p>iOS的新特性outlet collection，Outlet具有一对一的特点，一个Outlet只能对应一个控件，一个控件对应多个Outlet也没有意义。为了能让一个Outlet控制多个控件，新版iOS（据说是iOS 4引入的？不过在这本新版iOS 5的书上才讲到，上一个版本的书没讲）引入了Outlet Collection这个概念，想建立控件-Outlet多对一的关系时，可以创建Outlet Collection，它实际上就是一个Outlet的数组，类型是NSArray。可以用for…in循环来遍历，用containsObject实例方法来查找。</p>
+<p> 下面代码展示了将一个Outlet Collection中所有的控件的属性全部改变的循环</p>
+<pre><code>if([tops containsObject:sender]){
+    msg = @&quot;Top button pressed.&quot;;
+    for(UIButton *btn in tops){
+        btn.hidden = YES;
+    }
+}
+</code></pre></li>
+<li><p>一个新的关键词，<code>strong</code>，没懂啥意思，后来在StackOverflow上搜到了一个很好的解释</p>
+<blockquote>
+<p>It’s a replacement for the retain attribute, as part of Objective-C Automated Reference Counting (ARC). In non-ARC code it’s just a synonym for retain.</p>
+</blockquote>
+<p> 我就来翻译一下吧：它作为Objective-C自动引用计数(ARC)的一部分，用来替换<code>retain</code>修饰符。在非ARC代码中，它就是<code>retain</code>的同义词。</p>
+</li>
+</ol>
+<h2 id="第六章-多视图应用"><a href="#第六章-多视图应用" class="headerlink" title="第六章 多视图应用"></a>第六章 多视图应用</h2><p>很长的一章，代码挺多的，第一次从空工程构建出一个App。。。</p>
+<ol>
+<li><p>在AppDelegate里加载第一个ViewController的时候要计算status bar的高度。但是直接建出的工程就没有这个步骤，不知道为啥。。。计算的代码是</p>
+<pre><code>self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+SwitchViewController *switchController = [[SwitchViewController alloc] initWithNibName:@&quot;SwitchView&quot; bundle:nil];
+self.switchViewController = switchController;
+UIView *switchView = self.switchViewController.view;
+CGRect frame = switchView.frame;
+frame.origin.y += [UIApplication sharedApplication].statusBarFrame.size.height;
+switchView.frame = frame;
+[self.window addSubview:switchView];
+self.window.backgroundColor = [UIColor whiteColor];
+[self.window makeKeyAndVisible];
+[switchController release];
+return YES;
+</code></pre></li>
+<li><p>这里再说一下内存管理吧。。。到第六章才意识到这个问题显然有点晚。通过这本书新旧两个版本的比较阅读，我发现最大的区别就是内存管理。由于ARC的引入，前面版本里跟内存管理有关的讲解和代码在新版里消失的无影无踪，之前各种经典的内存泄露在新版里则成为了范例代码。这些代码搬到iOS 4可以用肆无忌惮来形容，哈哈！不过iOS 5不会那么快的普及，因此我们还是应该了解iOS在内存管理方面的特点，避免内存泄露。就拿上面的那段代码来说，要注意的是</p>
+<pre><code>SwitchViewController *switchController = [[SwitchViewController alloc] initWithNibName:@&quot;SwitchView&quot; bundle:nil];
+self.switchViewController = switchController;
+</code></pre><p> C++用户可能会疑惑，为什么要switchController这个指针多此一举呢？下面这样一句话解决不行吗?</p>
+<pre><code>self.switchViewController = [[SwitchViewController alloc] initWithNibName:@&quot;SwitchView&quot; bundle:nil];
+</code></pre><p> 这是Objective-C的特性决定的，属性<code>switchViewController</code>是由<code>retain</code>修饰的，即对赋值操作自己持有一个副本。这样alloc出来的对象占用一块内存，属性<code>switchViewController</code>由于持有该对象就再占用一块内存。类析构时只能释放后者，而前者则泄露。因此在OC里，如果不开ARC，那么那个临时的指针变量以及随后的<code>release</code>语句就是必须的了。</p>
+</li>
+<li><p>分别建立nib和代码文件时，需要建立两者的联系。需要做的有：</p>
+<ul>
+<li>点nib里的File‘s owner，设置其Custom Class为其Controller类的名字</li>
+<li>将View与File’s owner里的view建立outlet。这两项做完就可以在Assistant界面上拖Outlet和Action了</li>
+</ul>
+</li>
+<li><p>一点疑问，书上说superview有status bar了，那么subview就不应该设置status bar，这样系统才能正确计算出尺寸。我实验中恰好相反，在subview里加上了status bar，显示出的控件位置才跟Interface Builder里的一样。</p>
+</li>
+<li>视图切换的动画。AnimationCurve的概念，Animation block的概念。</li>
+</ol>
+<h2 id="第七章-TabBar和DataPicker"><a href="#第七章-TabBar和DataPicker" class="headerlink" title="第七章 TabBar和DataPicker"></a>第七章 TabBar和DataPicker</h2><ol>
+<li><p>学会了如何手动从空工程建立Tabbed Application。可以直接在AppDelegate里载入TabBar View Controller的xib，代码只要在<code>didFinishLaunchingWithOptions</code>方法中加两行</p>
+<pre><code>[[NSBundle mainBundle] loadNibNamed:@&quot;TabBarController&quot; owner:self options:nil];
+[self.window addSubview:rootController.view];
+</code></pre><p> 当然别忘了把xib中File’s owner的Class改成AppDelegate，还有将TabBar Controller与手动敲的<code>@property (strong, nonatomic) IBOutlet UITabBarController *rootController;</code>建立outlet连接</p>
+</li>
+<li><p>Tab中每个Item除了图标和Title之外还要改两处</p>
+<ul>
+<li>Custom Class</li>
+<li>Nib Name<br>都改成要载入的那个View的类名和xib名</li>
+</ul>
+</li>
+<li>Picker里最常用的一个方法是<code>selectedRowInComponent</code></li>
+<li><p>Picker的两个协议（代理和数据源）中，必须要实现的方法有3个</p>
+<ul>
+<li><code>- (NSInteger) numberOfComponentsInPickerView:(UIPickerView *)pickerView</code></li>
+<li><code>- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component</code></li>
+<li><code>- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component</code></li>
+<li><p><code>- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view</code></p>
+<p>最后两个可以选一个实现。可选的方法是：</p>
+</li>
+<li><p><code>- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component</code></p>
+<p>必选的三个方法记忆方法就是2个<code>NSInteger</code>和一个<code>NSString*</code>，只有记住第一个括号，然后敲Esc补全就可以了。还跟新浪网院的老师学了个歪招，就是按住<code>Command</code>键，点头文件里的协议名，看协议的声明，然后复制协议方法的原型到自己的代码中。</p>
+</li>
+</ul>
+</li>
+<li>用<code>NSDate *selected = [datePicker date];</code>获取Date Picker的日期数据，但返回的是中央时区的时间，貌似还需要Format。这里犯过一个低级错误，就是把<code>NSDate</code>写成了<code>NSData</code>，不仅能过编译，而且还能正常运行！只是这句话上一直有警告。端详了老半天才发现一个字母的差异。。。</li>
+<li>Double Picker那个View写起来明显熟练了很多，基本上没出啥问题，书瞄上一眼就能自己写出来。</li>
+<li>plist读进来是一个<code>Dictionary</code>，用<code>valueForKey</code>方法查找</li>
+<li>如果picker的component之间有依赖关系，需要在<code>didSelectRow</code>协议方法中调用picker的<code>reloadComponent</code>方法来重新载入需要改变的component，或者直接<code>reloadAllComponent</code>。。。</li>
+<li>picker有多个component时，可以把每一列的编号define成一个宏常量，这样判断时就可以用有意义的字符串代替编号，提高代码的可读性</li>
+<li>通过widthForComponent方法可以指定列宽，从而形成各个component不等宽的效果，如果几个Component数据长度差异较大，可以考虑实现这个方法。看书上的代码，各个component的宽度之和为290个像素。另外还有一个指定每行高度的方法叫<code>rowHeightForComponent</code>，还没用过。</li>
+<li><p>一些需要收藏备用的代码</p>
+<ul>
+<li>用代码选定picker中的某一行<code>[picker selectRow:0 inComponent:kZipComponent animated:YES];</code></li>
+<li>上一条的逆操作，即得到现在选中了哪一行<code>[picker selectedRowInComponent:kStateComponent]</code></li>
+<li>对<code>NSArray</code>排序（实例名为<code>sorted</code>）<code>sorted = [sorted sortedArrayUsingSelector:@selector(compare:)];</code></li>
+<li>获取资源的<code>NSURL</code>：<code>NSURL *resURL = [[NSBundle mainBundle] URLForResource:@&quot;文件名&quot; withExtension:@&quot;扩展名&quot;];</code></li>
+<li>通过<code>NSURL</code>将PList读入到<code>NSDictionary</code>：<code>NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfURL:resURL];</code></li>
+<li>从资源中载入图片<code>UIImage *seven = [UIImage imageNamed:@&quot;seven.png&quot;];</code></li>
+<li>动态的通过属性的名称为其赋值<code>[self setValue:新的值 forKey:本类中的属性名];</code></li>
+<li>延迟一会儿再调用某个方法：<code>[self performSelector:@selector(要调用的方法名) withObject:nil afterDelay: 0.5];</code>想不到SDK里居然有这种奇葩的函数。延迟的单位是秒。对另一个函数的调用是同步的，也就是说如果被调的函数执行时间很长，那这样调用仍然会卡住UI线程</li>
+<li><p>播放声音</p>
+<pre><code>NSURL *soundURL = [[NSBundle mainBundle] URLForResource:@&quot;声音文件名&quot; withExtension:@&quot;wav&quot;];
+SystemSoundID soundID;
+AudioServicesCreateSystemSoundID((__bridge CFURLRef)soundURL, &amp;soundID); 
+AudioServicesPlaySystemSound(soundID);
+</code></pre></li>
+</ul>
+<p>那个斜体的__bridge是给ARC看的，iOS4中不用加。使用这些代码需要加头文件<code>#import &lt;AudioToolbox/AudioToolbox.h&gt;</code>，当然还需加框架<code>AudioToolbox</code>~，还记得作为一名文艺青年应该怎么加框架吗？</p>
+<p>重要提示：通过与iOS4旧版图书的比较阅读，发现以上播放声音的代码在没有ARC的时候会导致内存泄露！在没有ARC的情况下，正确的做法是将<code>SystemSoundID</code>作为类的一个属性，在视图载入时就调用<code>AudioServicesCreateSystemSoundID</code>方法创建<code>SoundID</code>，在视图退出时调用<code>AudioServicesDisposeSystemSoundID(soundID);</code>方法释放。奇葩的是，<code>SoundID</code>不能在播放的函数里释放，<code>SoundID</code>必须在播放期间都有效。否则会放不出声音。不这样释放的话，在声音被反复打开时就会出现内存泄露。还有，<code>SoundID</code>貌似一个类，其实就是一个无符号长整型数。</p>
+</li>
+</ol>
+<p>终于读完了这一章！！！好长</p>
+<h2 id="第八章-TableView初步"><a href="#第八章-TableView初步" class="headerlink" title="第八章 TableView初步"></a>第八章 TableView初步</h2><ol>
+<li>还是说说内存管理吧。<code>self.XXX = YYY;</code>跟<code>XXX = YYY;</code>其中<code>XXX</code>是声明为<code>retain</code>的属性。这两种写法是不一样的。前者会发挥<code>retain</code>的作用，而后者直接给指针赋值。如果你随后又将<code>YYY</code>给<code>release</code>了的话，那第二种写法就会出错，必须使用第一种。还有，在读取一个属性的时候，加不加<code>self</code>是没区别的~</li>
+<li>这一章有以下后续内容，暂时用不到，以后再看吧：<ul>
+<li>右侧的索引条</li>
+<li>基于Category(分类)的深拷贝</li>
+<li>搜索栏</li>
+</ul>
+</li>
+</ol>
+<h2 id="第十一章-定位服务（LBS）"><a href="#第十一章-定位服务（LBS）" class="headerlink" title="第十一章 定位服务（LBS）"></a>第十一章 定位服务（LBS）</h2><ol>
+<li>Core Location框架使用很方便，经纬度、海拔、精度、旅行距离都能直接测出来</li>
+<li><p>编译的时候要加上CoreLocation.framework，加这个框架有3三种方法</p>
+<ul>
+<li>普通青年：在原有的框架比如UIKit.framework点右键，在打开的文件夹里找到CoreLocation.framework，然后拖进Xcode里，在向导里点确定</li>
+<li>文艺青年：在项目设置的页面点Build Phase，在Link Binary with Libraries下面点加号，选CoreLocation.framework加进来</li>
+<li><p>2B青年：在项目上右键，Add files to “XXX”，然后依次展开<code>/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.0.sdk/System/Library/Frameworks/</code>找到<code>CoreLocation.framework</code>加进来</p>
+<p>话说我就是差点成了2B青年，最后用普通青年的方法加进来的，书上介绍的方法属于文艺青年~哈哈哈</p>
+</li>
+</ul>
+</li>
+<li><p>程序的代码也是比较固定，可以直接粘贴到需要定位的项目里用，这里也贴上来收藏。头文件如下，需要加的有1头文件，2协议，3需要的Outlet</p>
+<pre><code>#import &lt;UIKit/UIKit.h&gt;
+#import &lt;CoreLocation/CoreLocation.h&gt;
+@interface FirstViewController : UIViewController&lt;CLLocationManagerDelegate&gt;
+@property (retain, nonatomic) CLLocationManager *locManager;
+@property (retain, nonatomic) CLLocation *startPoint;
+@property (retain, nonatomic) IBOutlet UILabel *lblLatitude;
+@property (retain, nonatomic) IBOutlet UILabel *lblLongitude;
+@property (retain, nonatomic) IBOutlet UILabel *lblHorAccu;
+@property (retain, nonatomic) IBOutlet UILabel *lblAltitude;
+@property (retain, nonatomic) IBOutlet UILabel *lblVerAccu;
+@property (retain, nonatomic) IBOutlet UILabel *lblDistance;
+@end
+</code></pre><p> 实现文件中，视图载入后初始化CLLocationManager、设定精度、更新位置信息，这是定位最核心的代码，却非常简洁</p>
+<pre><code>- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    locManager = [[CLLocationManager alloc] init];
+    locManager.delegate = self;
+    locManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [locManager startUpdatingLocation];
+}
+</code></pre><p> 每次更新得到新的坐标后，就会调用这个方法。坐标啥的都在newLocation里了，直接拿来用就行。还有别忘了处理一下错误，如果用户没有授权获取位置信息，那就要做相应的处理。</p>
+<pre><code>#pragma mark - CLLocationManagerDelegate Methods
+- (void)locationManager:(CLLocationManager *)manager 
+    didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    NSString *latitudeString = [NSString stringWithFormat:@&quot;%g\°&quot;, newLocation.coordinate.latitude];
+    lblLatitude.text = latitudeString;
+    NSString *longitudeString = [NSString stringWithFormat:@&quot;%g\°&quot;, newLocation.coordinate.longitude];
+    lblLongitude.text = longitudeString;
+    NSString *horizontalAccuracyString = [NSString stringWithFormat:@&quot;%gm&quot;, newLocation.horizontalAccuracy];
+    lblHorAccu.text = horizontalAccuracyString;
+    NSString *altitudeString = [NSString stringWithFormat:@&quot;%gm&quot;, newLocation.altitude];
+    lblAltitude.text = altitudeString;
+    NSString *verticalAccuracyString = [NSString stringWithFormat:@&quot;%gm&quot;, newLocation.verticalAccuracy];
+    lblVerAccu.text = verticalAccuracyString;
+    CLLocationDistance distance = [newLocation distanceFromLocation:startPoint];
+    NSString *distanceString = [NSString stringWithFormat:@&quot;%gm&quot;, distance];
+    lblDistance.text = distanceString;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    NSString *errorType = (error.code == kCLErrorDenied) ? @&quot;Access Denied&quot; : @&quot;Unknown Error&quot;;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@&quot;Error getting Location&quot; message:errorType delegate:self cancelButtonTitle:@&quot;Okay&quot; otherButtonTitles:nil];
+    [alert show]; 
+}
+</code></pre></li>
+</ol>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/ios/note-on-learning-ios-5/">http://kuangqi.me/ios/note-on-learning-ios-5/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/programming/data-interface-of-weather-com/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          中国天气网的中央气象台实时数据接口
+        
+      </div>
+    </a>
+  
+  
+    <a href="/ios/match-fetion-12520-prefix/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">iOS 5.0.1系统下自动匹配中国移动飞信12520前缀</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

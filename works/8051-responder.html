@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>基于51单片机的四路抢答器 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="开头先抱怨一下这个该死的期末作业！话说想杀死一个程序员不需要用刀，只需要改3次需求就可以了……本来没打算用单片机做的，后来又要求加入犯规判断和超时判断，不用单片机的电路越改越复杂。终于，在得知核心芯片74116无货之后，之前的设计被全部推翻，一切从零开始。
+不想再纠结于复杂的锁存器和门电路，决定用单片机来实现这个抢答器。
+此抢答器具有限时抢答，超时无效的特点，并可以对主持人未喊开始而提前抢答的犯规">
+<meta property="og:type" content="website">
+<meta property="og:title" content="基于51单片机的四路抢答器">
+<meta property="og:url" content="http://kuangqi.me/works/8051-responder.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="开头先抱怨一下这个该死的期末作业！话说想杀死一个程序员不需要用刀，只需要改3次需求就可以了……本来没打算用单片机做的，后来又要求加入犯规判断和超时判断，不用单片机的电路越改越复杂。终于，在得知核心芯片74116无货之后，之前的设计被全部推翻，一切从零开始。
+不想再纠结于复杂的锁存器和门电路，决定用单片机来实现这个抢答器。
+此抢答器具有限时抢答，超时无效的特点，并可以对主持人未喊开始而提前抢答的犯规">
+<meta property="og:image" content="http://kuangqi.me/images/8051-responder-1.png">
+<meta property="og:image" content="http://kuangqi.me/images/8051-responder-2.jpg">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-11-29T15:02:00.251Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于51单片机的四路抢答器">
+<meta name="twitter:description" content="开头先抱怨一下这个该死的期末作业！话说想杀死一个程序员不需要用刀，只需要改3次需求就可以了……本来没打算用单片机做的，后来又要求加入犯规判断和超时判断，不用单片机的电路越改越复杂。终于，在得知核心芯片74116无货之后，之前的设计被全部推翻，一切从零开始。
+不想再纠结于复杂的锁存器和门电路，决定用单片机来实现这个抢答器。
+此抢答器具有限时抢答，超时无效的特点，并可以对主持人未喊开始而提前抢答的犯规">
+<meta name="twitter:image" content="http://kuangqi.me/images/8051-responder-1.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/works/8051-responder.html" class="article-date">
+  <time datetime="2014-03-19T16:51:57.000Z" itemprop="datePublished">2014年03月20日</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      基于51单片机的四路抢答器
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <p>开头先抱怨一下这个该死的期末作业！话说想杀死一个程序员不需要用刀，只需要改3次需求就可以了……本来没打算用单片机做的，后来又要求加入犯规判断和超时判断，不用单片机的电路越改越复杂。终于，在得知核心芯片74116无货之后，之前的设计被全部推翻，一切从零开始。</p>
+<p>不想再纠结于复杂的锁存器和门电路，决定用单片机来实现这个抢答器。</p>
+<p>此抢答器具有限时抢答，超时无效的特点，并可以对主持人未喊开始而提前抢答的犯规情况作出判断。</p>
+<p>由于用了单片机，所以电路很简单。懒得写译码程序，也不想做驱动电路。干脆直接用了一片74LS48译码驱动器来驱动数码管。</p>
+<p><img src="/images/8051-responder-1.png" alt=""></p>
+<p>呵呵，面包板上插一下，由于之前在Proteus中仿真过，所以直接就正常运行了~上一张实物图</p>
+<p>左边的是STC89C52的最小系统版，P1口上接了8个LED，当时做流水灯的。直接拿来用了。P2口是显示输出，P3口接受按键。那个小的芯片就是74LS48啦~下方的是编程器+电源，STC的芯片就是编程方便，支持在线烧写，这么小巧的编程器~</p>
+<p><img src="/images/8051-responder-2.jpg" alt=""></p>
+<p>当然最重要的是程序，附上代码清单。写的比较烂，竟然上了100行，希望不要被大虾们骂得太惨&gt;_&lt;</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div></pre></td><td class="code"><pre><div class="line">#include &lt;reg52.h&gt;</div><div class="line">#define uint unsigned char</div><div class="line"></div><div class="line">//计时变量</div><div class="line">uint s = 0, ms = 0;</div><div class="line"></div><div class="line">//枚举类型：记录抢答器工作状态</div><div class="line">enum Stat</div><div class="line">&#123;</div><div class="line">    Idle = 0,    //空闲状态，比如正在读题</div><div class="line">    Ready = 1,   //就绪状态，可以抢答</div><div class="line">    Respond = 2, //响应状态，有人抢到了</div><div class="line">&#125;stat;</div><div class="line"></div><div class="line">//时钟中断服务程序</div><div class="line">void Timer() interrupt 1 using 1</div><div class="line">&#123;</div><div class="line">    TH0=0x3C;</div><div class="line">    TL0=0xBD;</div><div class="line">    ms ++;</div><div class="line">    s += ms /20;</div><div class="line">    ms %= 20;</div><div class="line">    s %= 60;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//重置时钟</div><div class="line">void ResetTimer()</div><div class="line">&#123;</div><div class="line">    EA = 1;   //允许CPU 中断</div><div class="line">    ET0 = 1;  //定时器中断打开</div><div class="line">    TMOD = 1; //设定时器为方式</div><div class="line">    TR0 = 0;  //关定时器</div><div class="line">    ms = 0;</div><div class="line">    s = 0;</div><div class="line">&#125;</div><div class="line"></div><div class="line">//优先编码(反向输入)</div><div class="line">uint Encode(uint c)</div><div class="line">&#123;</div><div class="line">    uint i, mask = 1;</div><div class="line">    if(c == 0) return 0;</div><div class="line">    for(i = 0; i &lt; 8; i++)</div><div class="line">    &#123;</div><div class="line">        if((c &amp; (mask &lt;&lt; i)) == 0) return i + 1;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"></div><div class="line">void main()</div><div class="line">&#123;</div><div class="line">    uint led = 0xff; //对应P1口，指示灯</div><div class="line">    uint disp = 15;  //对应P2口，数码管</div><div class="line">    uint button;     //对应P3口，按键</div><div class="line">    uint isFoul = 0; //是否犯规（或超时）</div><div class="line">  const uint timeout = 5; //超时时间</div><div class="line">  ResetTimer();</div><div class="line">    while(1)</div><div class="line">    &#123;</div><div class="line">        //设置状态指示灯，用于调试，实际应用中可以去掉</div><div class="line">        if(stat == Idle) P0 = (~1);</div><div class="line">        else if(stat == Ready) P0 = (~2);</div><div class="line">        else if(stat == Respond) P0 = (~4);</div><div class="line">        else stat = 0;</div><div class="line"></div><div class="line">        //超时判断</div><div class="line">        if(timeout - s == 0)</div><div class="line">        &#123;</div><div class="line">            isFoul = 1;</div><div class="line">            disp = 15;</div><div class="line">            stat = Idle;</div><div class="line">            ResetTimer();</div><div class="line">        &#125; </div><div class="line"></div><div class="line">        //读按键</div><div class="line">        button = P3;</div><div class="line"></div><div class="line">        //P3.5复位键按下</div><div class="line">        if((button &amp; 32) == 0)</div><div class="line">        &#123;</div><div class="line">            disp = 15;</div><div class="line">            led = 0xff;</div><div class="line">            stat = Idle;</div><div class="line">            isFoul = 0;</div><div class="line">            ResetTimer();</div><div class="line">        &#125; </div><div class="line"></div><div class="line">        //P3.4开始键按下</div><div class="line">        if((button &amp; 16) == 0)</div><div class="line">        &#123;</div><div class="line">            stat = Ready;</div><div class="line">            P1 = 0;  //所有选手的灯闪烁，提示可以开始抢答</div><div class="line">            TR0 = 1; //开始计时</div><div class="line">        &#125; </div><div class="line"></div><div class="line">        //P3.0-P3.3抢答键按下</div><div class="line">        if((button &amp; 15) != 15)</div><div class="line">        &#123;</div><div class="line">            if(stat == Idle) isFoul = 1; //提前抢，犯规</div><div class="line">            if(stat != Respond)          //正常抢答</div><div class="line">            &#123;</div><div class="line">                led = (button &amp; 15) + 240;</div><div class="line">                disp = Encode(button &amp; 15);</div><div class="line">                stat = Respond;</div><div class="line">            &#125;</div><div class="line">            ResetTimer();</div><div class="line">        &#125; </div><div class="line"></div><div class="line">        //显示</div><div class="line">        if(isFoul) led &amp;= 127; //犯规则点亮</div><div class="line">        if(stat == Ready) disp = timeout - s;</div><div class="line">        P1 = led;</div><div class="line">        P2 = disp;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/works/8051-responder.html">http://kuangqi.me/works/8051-responder.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
