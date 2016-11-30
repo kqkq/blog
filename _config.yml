@@ -1,6 +1,6 @@
 # Hexo Configuration
-## Docs: http://zespia.tw/hexo/docs/configuration.html
-## Source: https://github.com/tommy351/hexo/
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
 
 # Site
 title: The Bloom of Youth | 锦瑟华年
@@ -41,7 +41,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: true
+  auto_detect: false
   tab_replace: "    "
 
 # Category & Tag
@@ -74,15 +74,9 @@ pagination_dir: page
 duoshuo_shortname: kqkq
 
 # Extensions
-## Plugins: https://github.com/tommy351/hexo/wiki/Plugins
-## Themes: https://github.com/tommy351/hexo/wiki/Themes
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
 theme: landscape
-
-plugins:
-- hexo-generator-feed
-- hexo-generator-sitemap
-- hexo-generator-baidu-sitemap
-- hexo-math
 
 # Markdown
 ## https://github.com/chjj/marked
@@ -96,7 +90,7 @@ markdown:
   smartypants: true
 
 # Deployment
-## Docs: http://zespia.tw/hexo/docs/deployment.html
+## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
   message: ""
