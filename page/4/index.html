@@ -112,6 +112,469 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="outer">
         <section id="main">
   
+    <article id="post-reduce-the-code-size-in-embedded-cpp" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/reduce-the-code-size-in-embedded-cpp/" class="article-date">
+  <time datetime="2013-02-07T16:27:14.000Z" itemprop="datePublished">2013年02月08日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/reduce-the-code-size-in-embedded-cpp/">如何在嵌入式C++开发中缩减代码尺寸</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近在做的一项工作是将Arduino Due的类库移植到STM32上，Arduino经过多年的积累，类库已经比较完善了，其中也不乏一些C++的高级或者动态特性。比如虚函数和抽象类、动态存储分配、函数和运算符重载等等。</p>
+<p>一直以来，C++是否适用于资源极其有限的嵌入式系统就是一个备受争议的问题。实际应用中，我也确实遇到了诸多的问题。其中最突出的就是代码尺寸的问题。我选用的ARM单片机有64KB的Flash和20KB的SRAM空间，这在8051时代已经是高端大气上档次的豪华配置了，但当我们用C++编译器编译一下那些用C++写成的简单到不能再简单的代码，就会发现这点Flash空间简直就是战斗力只有五的渣渣。。。</p>
+<p>正是由于这种现象，我最近几乎只能花一半的时间编程序，而另外的一半时间却要来设法缩减代码的尺寸。因为在最初的时候，一个闪烁LED并在串口输出一个字符串的程序就需要100K的Flash空间，实在是难以置信。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/reduce-the-code-size-in-embedded-cpp/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-a-tragedy-caused-by-sohu-apt-repo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/essay/a-tragedy-caused-by-sohu-apt-repo/" class="article-date">
+  <time datetime="2012-12-06T16:50:06.000Z" itemprop="datePublished">2012年12月07日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/essay/a-tragedy-caused-by-sohu-apt-repo/">坑爹的搜狐软件源以及由软件源引发的连锁反应</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>昨天由搜狐提供了ubuntu官方cn软件源挂了，该返回软件包内容的地方返回了一个中文的网页。而我一台Ubuntu 12.04 LTS的服务器、一台Ubuntu 12.10的PC都使用的是该软件源。由此引发的连锁反应一直持续到了今天。。。</p>
+<p>昨天连上ssh，开开心心的apt-get update了一下，结果update的速度巨慢无比，一直在Waiting for header。以为是服务器的问题，于是在Ubuntu的PC上也update了一下，居然是类似的问题。我非常困惑为啥今天的update速度这么慢。回头一看服务器这边，已经结束了，报了一堆错误。但错误的大概意思是说没能成功，继续使用原来旧的数据。由于我急着给服务器装软件，就无视了那个错误，直接install了，没想到居然说这些软件没有认证，是否要强制安装，这可是官方的软件源啊，闹不住啊，于是取消了安装。再看PC这边，update也结束了，也报错了，但错误信息跟服务器不完全相同。于是我在一开始就没往软件源有问题这个方向去想。</p>
+        
+          <p class="article-more-link">
+            <a href="/essay/a-tragedy-caused-by-sohu-apt-repo/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-fix-the-ssh-problem" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/ios/fix-the-ssh-problem/" class="article-date">
+  <time datetime="2012-12-05T16:46:20.000Z" itemprop="datePublished">2012年12月06日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/ios/fix-the-ssh-problem/">Mac OS X通过SSH连接Linux服务器时中文出现乱码的解决方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <p>这个问题跟Mac的终端程序有关。修正方法是：</p>
+<p>编辑Mac系统下<code>/etc/ssh_config</code>这个文件，将其中<code>SendEnv LANG LC_*</code>这一行前面加一个井号，注释掉，保存退出</p>
+<p>再使用ssh连接远程Linux服务器时，中文就不会有问题了~</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/ios/fix-the-ssh-problem/">http://kuangqi.me/ios/fix-the-ssh-problem/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-note-on-ubuntu-installation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/note-on-ubuntu-installation/" class="article-date">
+  <time datetime="2012-10-31T09:32:05.000Z" itemprop="datePublished">2012年10月31日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/tricks/note-on-ubuntu-installation/">实验室电脑装Ubuntu手记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自认为是*nix用户，不过从来没在自己的PC上装Ubuntu，终于有自己的机位了，装了一个Ubuntu Desktop 12.10</p>
+<p>把遇到的一些问题记录一下</p>
+<h2 id="apt-get不能用"><a href="#apt-get不能用" class="headerlink" title="apt-get不能用"></a>apt-get不能用</h2><p>不管是<code>install</code>还是<code>update</code>，任何命令都报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">E: Encountered a section with no Package: header</div><div class="line">E: Problem with MergeList /var/lib/apt/lists/security.debian.org_dists_squeeze_updates_contrib_i18n_Translation-en</div><div class="line">E: The package lists or status file could not be parsed or opened.</div></pre></td></tr></table></figure>
+<p>解决方法是删掉之前坑爹的缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">rm -rf /var/lib/apt/lists/*</div></pre></td></tr></table></figure>
+        
+          <p class="article-more-link">
+            <a href="/tricks/note-on-ubuntu-installation/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-a-discussion-with-the-president-of-bnu" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/essay/a-discussion-with-the-president-of-bnu/" class="article-date">
+  <time datetime="2012-10-28T10:53:23.000Z" itemprop="datePublished">2012年10月28日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/essay/a-discussion-with-the-president-of-bnu/">董奇校长座谈会-我的发言稿（未删节）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>尊敬的董校长、各位领导、各位同学下午好，我是况琪，信息学院2009级计算机系本科生。今天要汇报的是我们在过去两年半的时间里，一直坚持研究开发并着力推进的一个科研项目，也就是我们的自习室空座位实时报告系统。我们的系统通过安装在自习室中的监控摄像机，获得教室的实时图像，通过计算机自动分析的手段，对教室中的空座位进行计数。将教室的空闲情况通过网站、手机、电子屏等方式传达给同学，指导同学去空闲的教室上自习。</p>
+<p>这个项目是完全由学生自主命题，组织申请科研经费并在导师的指导下完成的。这个项目立项之初，就获得了超乎我们想象的关注。同学对我们的期望也是我们进步的动力。在我们的努力下，本项目相关研究先后获得北师大本科生科研基金、北京市大学生科学研究与创业行动计划、教育部大学生创新创业训练项目、100365首善行动-金隅嘉业科技创新支持行动等多项学校、国家和社会企业家的经费支持。我们的研究成果获得2009年度校级优秀项目、第19届、第20届两届京师杯竞赛一等奖第一名、第6届、第7届两届首都“挑战杯”竞赛一等奖、第12届全国挑战杯竞赛三等奖等学术奖项。另外还在中国专利年会、北京国际文博会等大型展会上获得两项与科技创新有关的社会奖项。</p>
+        
+          <p class="article-more-link">
+            <a href="/essay/a-discussion-with-the-president-of-bnu/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-the-isp-iap-dfu-and-bootloader" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/the-isp-iap-dfu-and-bootloader/" class="article-date">
+  <time datetime="2012-08-27T11:46:22.000Z" itemprop="datePublished">2012年08月27日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/the-isp-iap-dfu-and-bootloader/">关于ISP、IAP、DFU和bootloader</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这是嵌入式开发中常用的几个专业术语，其诞生的背景和其具体作用大概如下：</p>
+<p>在很久很久以前，那是8051单片机流行的时代，做单片机开发都需要一个专用工具，就是单片机的编程器，或者叫烧写器。说“烧”写一点不为过，当年的经典芯片AT89C51在编程时需要十几伏的高电压，加在一个特定的引脚上，才能进入编程。对于某款芯片的编程，都有一个特定的时序，这个时序通常在芯片的datasheet里进行描述并以硬件实现。另外在编程器里的也有一个MCU，这其中使用软件产生这个时序，从而对目标芯片进行编程。电脑通过串口把程序发到编程器，编程器按照规定的时序把程序送入目标芯片。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/the-isp-iap-dfu-and-bootloader/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-jlink-clone-and-cm4-board" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/jlink-clone-and-cm4-board/" class="article-date">
+  <time datetime="2012-05-16T05:22:23.000Z" itemprop="datePublished">2012年05月16日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/jlink-clone-and-cm4-board/">山寨J-Link V8仿真器与Cortex-M4开发板之不得不吐的槽</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="下载J-link仿真器驱动"><a href="#下载J-link仿真器驱动" class="headerlink" title="下载J-link仿真器驱动"></a>下载J-link仿真器驱动</h2><p>上了SEGGER的官方网站，找到了下载驱动的地方，点了让我输入序列号，我看仿真器的背面，没序列号啊~我只好点下面的一个我没序列号的链接，点进去它问你为啥没序列号，其中包括板载仿真器、OEM产品等等，我也不知道我为啥没序列号，只好点了一个其他原因。。。然后它让我保证，不将软件和仿真器用于非法用途，好吧，我保证。。。</p>
+<p>下面的一幕我震惊了——网站上出现了十几张仿真器的图片，我以为是让你选自己是哪一款，我一眼就看到了我的那款，鼠标点了没反应，只好仔细看英文提示，结果人家说——这里是一个山寨仿真器大全，如果您使用的是以下这些图片中的仿真器，那基本可以确定你那个是山寨的。这些山寨仿真器基本都是在中国和俄罗斯制造的。如果你不确定你的是不是山寨，请联系XXXXX。。。。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/jlink-clone-and-cm4-board/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-the-clock-system-on-msp430g2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/the-clock-system-on-msp430g2/" class="article-date">
+  <time datetime="2012-05-15T17:16:12.000Z" itemprop="datePublished">2012年05月16日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/the-clock-system-on-msp430g2/">MSP430 Value Line MCU的时钟系统</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="关闭看门狗"><a href="#关闭看门狗" class="headerlink" title="关闭看门狗"></a>关闭看门狗</h2><p>由于要使用仿真器调试，加断点后MCU被挂起，会导致看门狗被触发而将MCU复位。因此在调试阶段，我们需要先关闭看门狗。关闭看门狗的方法是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">WDTCTL = WDTPW + WDTHOLD;</div></pre></td></tr></table></figure>
+<p>WDTCTL是一个16位的寄存器，顾名思义，就是看门狗的控制寄存器。WDTHOLD是控制看门狗开关的标志位。给WDTHOLD置位即关闭看门狗。但是这个WDTPW是什么呢？查手册得知WDTPW是看门狗的密码，这是一个宏，被定义为了0x5A00，这个密码是干什么用的呢？原来，WDTCTL寄存器是一个非常特殊的寄存器，为了防止程序异常时意外关闭看门狗，对它进行赋值操作时必须将其新值的高8位设为0x5A这个特定的值，也就是“密码”。如果赋值时新值的高8位不是0x5A，会导致MCU立即被复位。总之，对WDTCTL进行任何修改操作时，都要加上WDTPW的值。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/the-clock-system-on-msp430g2/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-note-on-electronic-bricks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/note-on-electronic-bricks/" class="article-date">
+  <time datetime="2012-04-22T06:45:35.000Z" itemprop="datePublished">2012年04月22日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/note-on-electronic-bricks/">电子积木开发手记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="2012年3月24日"><a href="#2012年3月24日" class="headerlink" title="2012年3月24日"></a>2012年3月24日</h2><p>最近准备做个串口通信的LED数码管显示板，搞了一堆芯片做实验，遇到的问题挺多的，这里记录一下吧。</p>
+<h3 id="CMOS芯片不用的输入端不能悬空"><a href="#CMOS芯片不用的输入端不能悬空" class="headerlink" title="CMOS芯片不用的输入端不能悬空"></a>CMOS芯片不用的输入端不能悬空</h3><p>浪费一个小时的时间，惨痛的教训证明，数电老师上课强调的事情并非子虚乌有。。。用了一个74HC595串入并出移位寄存器，有个神棍的清零端，我也用不着，就悬空了。结果数码管都是半亮半不亮的状态，很诡异。检查电路，无果。。。后来忽然意识到，这个HC貌似就代表这是个CMOS的芯片，于是把那个清零端接到高电位，和谐了。。。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/note-on-electronic-bricks/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
     <article id="post-bnu-vpn-shock-me" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/tricks/bnu-vpn-shock-me/" class="article-date">
@@ -163,511 +626,9 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 
   
-    <article id="post-data-interface-of-weather-com" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/programming/data-interface-of-weather-com/" class="article-date">
-  <time datetime="2012-02-13T15:13:53.000Z" itemprop="datePublished">2012年02月13日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/programming/">编程之美</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/programming/data-interface-of-weather-com/">中国天气网的中央气象台实时数据接口</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iPhone上的天气预报用的是Yahoo!数据，实在是闹不住，本想写个中央气象台数据的天气应用，结果发现App Store上有一些做的非常好的，于是这个计划就搁浅了。。。不过还是研究了一下中国气象网的接口，这里做个笔记吧~</p>
-        
-          <p class="article-more-link">
-            <a href="/programming/data-interface-of-weather-com/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-note-on-learning-ios-5" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/note-on-learning-ios-5/" class="article-date">
-  <time datetime="2012-02-02T15:57:17.000Z" itemprop="datePublished">2012年02月02日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/note-on-learning-ios-5/">Beginning iOS 5 Development阅读笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2011年12月的新书，居然下到了电子版，之前打印的Beginning iPhone 4 Development貌似还没看几页就过时了。。。不过对比着读还是很不错的~</p>
-<p>假期准备好好读读这本书，前两章是绪论和一些基础介绍，笔记就从第三章记起吧</p>
-        
-          <p class="article-more-link">
-            <a href="/ios/note-on-learning-ios-5/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-match-fetion-12520-prefix" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/match-fetion-12520-prefix/" class="article-date">
-  <time datetime="2012-01-31T16:17:37.000Z" itemprop="datePublished">2012年02月01日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/match-fetion-12520-prefix/">iOS 5.0.1系统下自动匹配中国移动飞信12520前缀</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>手机接收到通过飞信发送的短信时，号码会显示12520+对方手机号码，这种短信在iPhone上会被识别为独立的会话，而不是与同一个人的普通短信在同一个会话中，这就给管理带来了不便，那一大串号码也影响了短信箱的美观。而且我还通过人人网同步了用户的头像，这样的会话也无法显示对方的头像，总之有各种不便。。。</p>
-<p>我们修改的最终目的是让iPhone将同一个人的飞信短信和普通短信放到同一个会话中。修改前需要以下准备工作</p>
-<ol>
-<li>设备需要越狱且为iOS 5.0.1系统（其它系统偏移量有差异，请根据文章后面介绍的文件结构自行计算）</li>
-<li>一个在电脑上访问iPhone上文件的文件管理工具（我在Mac系统下用的iExplorer）</li>
-<li>一个十六进制编辑器（我在Mac下用的HexEdit，Windows下推荐用WinHex）</li>
-</ol>
-        
-          <p class="article-more-link">
-            <a href="/ios/match-fetion-12520-prefix/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-download-offline-docs-for-xcode" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/download-offline-docs-for-xcode/" class="article-date">
-  <time datetime="2012-01-28T16:16:08.000Z" itemprop="datePublished">2012年01月29日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/download-offline-docs-for-xcode/">Xcode中下载和使用离线文档</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p>本文介绍如何使用下载工具高速下载苹果的开发文档并手动安装到Xcode中。</p>
-<ol>
-<li>在Xcode的Preference菜单中选Downloads-Documentation，点击希望下载的文档，点左下角的上箭头图标，展开该项目的详细信息。</li>
-<li>在详细信息中找到Feed地址，用Safari浏览器访问该地址，例如iOS 5的文档<a href="http://developer.apple.com/rss/com.apple.adc.documentation.AppleiPhone5_0.atom" target="_blank" rel="external">http://developer.apple.com/rss/com.apple.adc.documentation.AppleiPhone5_0.atom</a></li>
-<li>在打开的网页中会发现一个xar文件的下载链接，就是它了！用下载工具下载它</li>
-<li>将下载到的xar文件放到<code>/Developer/Documentations/Docset</code>目录下，在终端中执行如下命令</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /Developer/Documentation/Docsets</div><div class="line">sudo xar -xf 下载的文件名.xar</div><div class="line">sudo chown -R -P devdocs 解压后的文件名.docset</div></pre></td></tr></table></figure>
-<p>在Xcode中就可以使用啦~~</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/download-offline-docs-for-xcode/">http://kuangqi.me/ios/download-offline-docs-for-xcode/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-combination-calculation" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/programming/combination-calculation/" class="article-date">
-  <time datetime="2012-01-27T10:00:15.000Z" itemprop="datePublished">2012年01月27日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/programming/">编程之美</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/programming/combination-calculation/">整数运算计算组合数C(n, k)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p>计算组合数$C_n^k$的公式为</p>
-<p>$$<br>C_n^k = \frac{n!}{k! \times (n - k)!}<br>$$</p>
-<p>由于用到了阶乘，极容易导致数据溢出，应用中应采用边乘边除的方法。除法一般需要用到浮点数，但通过数论中的定理，可以通过整数运算实现。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">int C(int n, int k)</div><div class="line">&#123;</div><div class="line">    long long s = 1;</div><div class="line">    int x = 1;</div><div class="line">    if(k &gt; n - k) k = n - k;</div><div class="line">    for(int i = n; i &gt; n - k; i--)</div><div class="line">    &#123;</div><div class="line">        s *= i;</div><div class="line">        s /= x;</div><div class="line">        x++;</div><div class="line">    &#125;</div><div class="line">    return (int)s;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>代码如下如果想测试你自己的实现，请移步<a href="http://poj.org/problem?id=2249" target="_blank" rel="external">POJ 2249题</a></p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/programming/combination-calculation/">http://kuangqi.me/programming/combination-calculation/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-config-vim-on-mac" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/config-vim-on-mac/" class="article-date">
-  <time datetime="2012-01-23T13:32:54.000Z" itemprop="datePublished">2012年01月23日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/config-vim-on-mac/">Mac下vim编辑器最简单配置方法(开启语法高亮)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p>首先执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cp /usr/share/vim/vimrc ~/.vimrc</div></pre></td></tr></table></figure>
-<p>拷贝默认的配置文件</p>
-<p>然后再执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim ~/.vimrc</div></pre></td></tr></table></figure>
-<p>编辑该文件，在文件的最后加入<code>syntax on</code>，保存退出即可。</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/config-vim-on-mac/">http://kuangqi.me/ios/config-vim-on-mac/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-import-nokia-contacts-into-iphone" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/import-nokia-contacts-into-iphone/" class="article-date">
-  <time datetime="2012-01-23T12:37:30.000Z" itemprop="datePublished">2012年01月23日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/import-nokia-contacts-into-iphone/">Mac系统下如何将Nokia手机通讯录导入iPhone</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p>最近遇到这个问题，去网上搜索了一下，大家提出的解决方案大概有两种。</p>
-<ol>
-<li>把电话簿复制到SIM卡中，到iPhone上再复制回手机<br>这个方案的缺点有两个，一是SIM卡容量有限，我的是200条，超过则不能完整复制。二是这样复制在一个人名下有多个号码的情况下，SIM卡中会被分成多个同名的记录，需要手动整理。</li>
-<li>使用Nokia导出通讯录到CF存储卡，然后经过复杂的编码转换??</li>
-</ol>
-<p>另外，在网上看到了一个用Outlook辅助的方案，大概是先把通讯录导入到Outlook，然后再怎么弄到iPhone的。</p>
-<p>Mac系统下没有Outlook，于是只能我自己动手了。我的解决方案是利用Mac系统下的iSync工具再加上Nokia官方的iSync插件实现Nokia手机通讯录与Mac系统通讯录的同步。这时再用iTunes同步iPhone时，自然就会将通讯录同步到iPhone中，这个解决方案非常完美，导入的数据完整，无需整理就可直接使用。</p>
-<p>具体步骤就不详细说了，思路是最重要的。需要特别提醒的是，在Mac OS Lion 10.7系统中，iSync程序已经不存在了，需要手动去网上下载网友从Mac 10.6中提取出来的iSync。然后就是去Nokia官网下载用于iSync的同步插件了。</p>
-<p>这样你的Nokia就可以在iSync中与系统同步了。接下来插上iPhone，剩下的不用说了把~~</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/import-nokia-contacts-into-iphone/">http://kuangqi.me/ios/import-nokia-contacts-into-iphone/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-a-2011-year-end-summary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/a-2011-year-end-summary/" class="article-date">
-  <time datetime="2011-12-31T17:25:10.000Z" itemprop="datePublished">2012年01月01日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/a-2011-year-end-summary/">2011年终盘点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>经历的不必都记起/过去的不会都忘记/有些往事/有些回忆/成全了我/也就陶冶了你</p>
-<p>本想今年不写什么年终总结了，把之前的点名整理了一下。但是不写总是觉得不太对劲，好奇怪…</p>
-<p>2011年对我来说是奋斗和收获的一年。2011年，自始至终一直萦绕在脑海的几个字眼便是”项目”和”竞赛”。的确如此，这一年一定要说的一件事就是”挑战杯”竞赛了。</p>
-<p>“自习室空座位检测”这个话题，我已经在这条尼玛的”不归路”上走了14个月了。从计划书的一纸空文到最后的33页论文。多少行代码，多少次争执，多少个不眠之夜……用今年的流行词汇来说，那真是”男默女泪”啊！ </p>
-        
-          <p class="article-more-link">
-            <a href="/essay/a-2011-year-end-summary/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-an-article-of-myself" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/an-article-of-myself/" class="article-date">
-  <time datetime="2011-12-31T15:32:25.000Z" itemprop="datePublished">2011年12月31日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/an-article-of-myself/">一篇关于我的文章</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>话说这样一个点名，觉得挺有意义的。但是人终归应该从别人那里认识自己，自己对自己的评价总是有太多的主观色彩。但在这里，我不仅是评价自己，也想表达自己。说出我的想法，也许这也是我价值观和人生观的一个缩影吧。</p>
-<h2 id="1-相信知识改变命运，教育奠定未来"><a href="#1-相信知识改变命运，教育奠定未来" class="headerlink" title="1. 相信知识改变命运，教育奠定未来"></a>1. 相信知识改变命运，教育奠定未来</h2><p>想了很久，还是决定把这一项放到第一条。看上去有点上纲上线，但是”追求真知”确实是我最基本的价值观之一。</p>
-<p>中国的教育饱受诟病，一些没受过高等教育的人白手起家，创业成功的故事总是能够成为人们津津乐道的话题。我曾经也怀疑过自己的选择，然而一位智者的话给了我一个坚定的答案。他说，试想，那位白手起家的富翁会怎样教育自己的下一代呢？是让他的子女同样跟自己一样，筚路蓝缕？还是让他们受到更好的教育，成为一名受人尊敬的知识分子？我想答案是毋庸置疑的。因为未来是要靠德才兼备的人去创造的。</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/an-article-of-myself/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -678,7 +639,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -698,15 +659,15 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
           </li>
         
           <li>
-            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+            <a href="/programming/lcs-made-simple/">最长公共子序列（LCS）问题完全解析</a>
           </li>
         
           <li>
-            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+            <a href="/programming/leetcode-number-of-1-bits/">LeetCode 191 Number of 1 Bits 题解</a>
           </li>
         
           <li>
-            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+            <a href="/programming/leetcode-remove-element/">LeetCode 027 Remove Element 题解</a>
           </li>
         
       </ul>
@@ -784,23 +745,6 @@ if (typeof jQuery == 'undefined') {
 
 <script src="/js/script.js"></script>
 
-  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
-</script>
-
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-      all[i].SourceElement().parentNode.className += ' has-jax';
-    }
-  });
-</script>
-
-<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-</script>
-<!-- End: Injected MathJax -->
-<!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </body>
 </html>

@@ -4,6 +4,168 @@
 
     
   <url>
+    <loc>http://kuangqi.me/programming/lcs-made-simple/</loc>
+    <lastmod>2016-12-04T11:59:25.187Z</lastmod>
+    <data>
+        <display>
+        <title>最长公共子序列（LCS）问题完全解析</title>
+        <pubTime>2015-07-31T16:00:00.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-power-of-two/</loc>
+    <lastmod>2016-12-04T11:31:24.396Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 231 Power of Two 题解</title>
+        <pubTime>2015-07-09T07:50:34.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-number-of-1-bits/</loc>
+    <lastmod>2016-12-04T11:31:02.038Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 191 Number of 1 Bits 题解</title>
+        <pubTime>2015-07-09T09:29:46.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-invert-binary-tree/</loc>
+    <lastmod>2016-12-04T11:29:50.903Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 226 Invert Binary Tree 题解</title>
+        <pubTime>2015-07-09T07:33:04.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-remove-element/</loc>
+    <lastmod>2016-12-04T11:13:59.954Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 027 Remove Element 题解</title>
+        <pubTime>2015-07-09T09:02:12.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-longest-common-prefix/</loc>
+    <lastmod>2016-12-04T11:13:28.110Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 014 Longest Common Prefix 题解</title>
+        <pubTime>2015-07-09T07:58:37.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-longest-substring-without-repeating-characters/</loc>
+    <lastmod>2016-12-04T11:11:28.527Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 003 Longest Substring Without Repeating Characters 题解</title>
+        <pubTime>2015-04-10T08:16:49.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-add-two-numbers/</loc>
+    <lastmod>2016-12-04T10:50:54.937Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 002 Add Two Numbers 题解</title>
+        <pubTime>2015-04-09T15:31:03.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/programming/leetcode-two-sum/</loc>
+    <lastmod>2016-12-04T10:49:45.425Z</lastmod>
+    <data>
+        <display>
+        <title>LeetCode 001 Two Sum 题解</title>
+        <pubTime>2015-04-09T10:29:43.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://kuangqi.me/essay/movie-eternal-moment/</loc>
     <lastmod>2016-11-30T15:39:23.860Z</lastmod>
     <data>
@@ -46,17 +208,17 @@
     
     
   <url>
-    <loc>http://kuangqi.me/ios/wifi-scaning-on-os-x/</loc>
+    <loc>http://kuangqi.me/essay/watch-imax-avatar/</loc>
     <lastmod>2016-11-29T15:02:00.191Z</lastmod>
     <data>
         <display>
-        <title>Mac系统下的Wi-Fi扫描命令</title>
-        <pubTime>2013-06-01T15:37:53.000Z</pubTime>
+        <title>IMAX巨幕《阿凡达》观影之旅</title>
+        <pubTime>2010-02-26T14:05:23.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
           
         </display>
     </data>
@@ -82,35 +244,17 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/watch-imax-avatar/</loc>
+    <loc>http://kuangqi.me/ios/wifi-scaning-on-os-x/</loc>
     <lastmod>2016-11-29T15:02:00.191Z</lastmod>
     <data>
         <display>
-        <title>IMAX巨幕《阿凡达》观影之旅</title>
-        <pubTime>2010-02-26T14:05:23.000Z</pubTime>
+        <title>Mac系统下的Wi-Fi扫描命令</title>
+        <pubTime>2013-06-01T15:37:53.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kuangqi.me/programming/vs2008-sp1-isence-fix/</loc>
-    <lastmod>2016-11-29T15:02:00.190Z</lastmod>
-    <data>
-        <display>
-        <title>Visual Studio安装SP1后智能感知文本还原为英语</title>
-        <pubTime>2009-05-18T13:30:36.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
           
         </display>
     </data>
@@ -136,6 +280,42 @@
 
     
   <url>
+    <loc>http://kuangqi.me/programming/vs2008-sp1-isence-fix/</loc>
+    <lastmod>2016-11-29T15:02:00.190Z</lastmod>
+    <data>
+        <display>
+        <title>Visual Studio安装SP1后智能感知文本还原为英语</title>
+        <pubTime>2009-05-18T13:30:36.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/essay/tiananmen-travels/</loc>
+    <lastmod>2016-11-29T15:02:00.189Z</lastmod>
+    <data>
+        <display>
+        <title>夜游天安门</title>
+        <pubTime>2009-10-03T07:41:50.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://kuangqi.me/embedded/the-isp-iap-dfu-and-bootloader/</loc>
     <lastmod>2016-11-29T15:02:00.189Z</lastmod>
     <data>
@@ -147,6 +327,24 @@
            
              
               <breadCrumb title="软硬兼施" url="http://kuangqi.me/categories/embedded/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/essay/the-most-perfect-journey/</loc>
+    <lastmod>2016-11-29T15:02:00.189Z</lastmod>
+    <data>
+        <display>
+        <title>最完美的旅途</title>
+        <pubTime>2011-01-07T01:27:15.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
           
         </display>
     </data>
@@ -190,35 +388,17 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/tiananmen-travels/</loc>
-    <lastmod>2016-11-29T15:02:00.189Z</lastmod>
+    <loc>http://kuangqi.me/ios/show-hidden-files-in-os-x/</loc>
+    <lastmod>2016-11-29T15:02:00.188Z</lastmod>
     <data>
         <display>
-        <title>夜游天安门</title>
-        <pubTime>2009-10-03T07:41:50.000Z</pubTime>
+        <title>Mac OS X系统下显示隐藏文件</title>
+        <pubTime>2011-09-09T11:13:58.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kuangqi.me/essay/the-most-perfect-journey/</loc>
-    <lastmod>2016-11-29T15:02:00.189Z</lastmod>
-    <data>
-        <display>
-        <title>最完美的旅途</title>
-        <pubTime>2011-01-07T01:27:15.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
+              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
           
         </display>
     </data>
@@ -237,24 +417,6 @@
            
              
               <breadCrumb title="软硬兼施" url="http://kuangqi.me/categories/embedded/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kuangqi.me/ios/show-hidden-files-in-os-x/</loc>
-    <lastmod>2016-11-29T15:02:00.188Z</lastmod>
-    <data>
-        <display>
-        <title>Mac OS X系统下显示隐藏文件</title>
-        <pubTime>2011-09-09T11:13:58.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
           
         </display>
     </data>
@@ -298,24 +460,6 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/shi-quan-jiu-mei/</loc>
-    <lastmod>2016-11-29T15:02:00.187Z</lastmod>
-    <data>
-        <display>
-        <title>十全九美</title>
-        <pubTime>2010-01-21T12:52:15.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kuangqi.me/essay/repair-my-macbook-at-genius-bar/</loc>
     <lastmod>2016-11-29T15:02:00.187Z</lastmod>
     <data>
@@ -345,6 +489,24 @@
            
              
               <breadCrumb title="软硬兼施" url="http://kuangqi.me/categories/embedded/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/essay/shi-quan-jiu-mei/</loc>
+    <lastmod>2016-11-29T15:02:00.187Z</lastmod>
+    <data>
+        <display>
+        <title>十全九美</title>
+        <pubTime>2010-01-21T12:52:15.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
           
         </display>
     </data>
@@ -424,24 +586,6 @@
 
     
   <url>
-    <loc>http://kuangqi.me/tricks/note-on-ubuntu-installation/</loc>
-    <lastmod>2016-11-29T15:02:00.185Z</lastmod>
-    <data>
-        <display>
-        <title>实验室电脑装Ubuntu手记</title>
-        <pubTime>2012-10-31T09:32:05.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="工巧匠心" url="http://kuangqi.me/categories/tricks/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kuangqi.me/image-processing/photoshop-keyboard-shortcut/</loc>
     <lastmod>2016-11-29T15:02:00.185Z</lastmod>
     <data>
@@ -478,17 +622,17 @@
 
     
   <url>
-    <loc>http://kuangqi.me/embedded/note-on-srduino/</loc>
-    <lastmod>2016-11-29T15:02:00.184Z</lastmod>
+    <loc>http://kuangqi.me/tricks/note-on-ubuntu-installation/</loc>
+    <lastmod>2016-11-29T15:02:00.185Z</lastmod>
     <data>
         <display>
-        <title>电子积木开发手记（新篇）</title>
-        <pubTime>2013-04-22T16:36:41.000Z</pubTime>
+        <title>实验室电脑装Ubuntu手记</title>
+        <pubTime>2012-10-31T09:32:05.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="软硬兼施" url="http://kuangqi.me/categories/embedded/"/>
+              <breadCrumb title="工巧匠心" url="http://kuangqi.me/categories/tricks/"/>
           
         </display>
     </data>
@@ -507,6 +651,24 @@
            
              
               <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/embedded/note-on-srduino/</loc>
+    <lastmod>2016-11-29T15:02:00.184Z</lastmod>
+    <data>
+        <display>
+        <title>电子积木开发手记（新篇）</title>
+        <pubTime>2013-04-22T16:36:41.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="软硬兼施" url="http://kuangqi.me/categories/embedded/"/>
           
         </display>
     </data>
@@ -568,24 +730,6 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/monitors-campaign-speech/</loc>
-    <lastmod>2016-11-29T15:02:00.182Z</lastmod>
-    <data>
-        <display>
-        <title>高二第一学期班长竞职讲演</title>
-        <pubTime>2007-11-11T02:26:12.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kuangqi.me/essay/nb-china-mobile/</loc>
     <lastmod>2016-11-29T15:02:00.182Z</lastmod>
     <data>
@@ -604,17 +748,17 @@
 
     
   <url>
-    <loc>http://kuangqi.me/ios/keyboard-shortcut-for-screenshot/</loc>
-    <lastmod>2016-11-29T15:02:00.181Z</lastmod>
+    <loc>http://kuangqi.me/essay/monitors-campaign-speech/</loc>
+    <lastmod>2016-11-29T15:02:00.182Z</lastmod>
     <data>
         <display>
-        <title>Mac OS X 截图快捷键</title>
-        <pubTime>2011-08-01T14:34:01.000Z</pubTime>
+        <title>高二第一学期班长竞职讲演</title>
+        <pubTime>2007-11-11T02:26:12.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
           
         </display>
     </data>
@@ -646,6 +790,24 @@
         <display>
         <title>iOS 5.0.1系统下自动匹配中国移动飞信12520前缀</title>
         <pubTime>2012-01-31T16:17:37.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/ios/keyboard-shortcut-for-screenshot/</loc>
+    <lastmod>2016-11-29T15:02:00.181Z</lastmod>
+    <data>
+        <display>
+        <title>Mac OS X 截图快捷键</title>
+        <pubTime>2011-08-01T14:34:01.000Z</pubTime>
         
          
            
@@ -694,12 +856,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/image-processing/implement-level-and-curves-in-photoshop/</loc>
+    <loc>http://kuangqi.me/image-processing/image-processing-using-c-sharp/</loc>
     <lastmod>2016-11-29T15:02:00.179Z</lastmod>
     <data>
         <display>
-        <title>Photoshop中的色阶/曲线命令原理详解与编程实现</title>
-        <pubTime>2009-05-22T11:51:12.000Z</pubTime>
+        <title>使用C#进行图像处理的几种方法</title>
+        <pubTime>2009-02-26T11:10:54.000Z</pubTime>
         
          
            
@@ -712,12 +874,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/image-processing/image-processing-using-c-sharp/</loc>
+    <loc>http://kuangqi.me/image-processing/implement-level-and-curves-in-photoshop/</loc>
     <lastmod>2016-11-29T15:02:00.179Z</lastmod>
     <data>
         <display>
-        <title>使用C#进行图像处理的几种方法</title>
-        <pubTime>2009-02-26T11:10:54.000Z</pubTime>
+        <title>Photoshop中的色阶/曲线命令原理详解与编程实现</title>
+        <pubTime>2009-05-22T11:51:12.000Z</pubTime>
         
          
            
@@ -802,12 +964,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/from-knowledge-to-attainment/</loc>
+    <loc>http://kuangqi.me/essay/from-bjcap-to-challenge-cup/</loc>
     <lastmod>2016-11-29T15:02:00.177Z</lastmod>
     <data>
         <display>
-        <title>让知识成为素养——“北创”项目个人总结</title>
-        <pubTime>2011-05-14T03:23:42.000Z</pubTime>
+        <title>挑战青春，创新未来——从“北创”到“挑战杯”历程回顾</title>
+        <pubTime>2011-10-31T14:00:10.000Z</pubTime>
         
          
            
@@ -820,12 +982,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/from-bjcap-to-challenge-cup/</loc>
+    <loc>http://kuangqi.me/essay/from-knowledge-to-attainment/</loc>
     <lastmod>2016-11-29T15:02:00.177Z</lastmod>
     <data>
         <display>
-        <title>挑战青春，创新未来——从“北创”到“挑战杯”历程回顾</title>
-        <pubTime>2011-10-31T14:00:10.000Z</pubTime>
+        <title>让知识成为素养——“北创”项目个人总结</title>
+        <pubTime>2011-05-14T03:23:42.000Z</pubTime>
         
          
            
@@ -892,24 +1054,6 @@
 
     
   <url>
-    <loc>http://kuangqi.me/ios/fix-the-ssh-problem/</loc>
-    <lastmod>2016-11-29T15:02:00.175Z</lastmod>
-    <data>
-        <display>
-        <title>Mac OS X通过SSH连接Linux服务器时中文出现乱码的解决方法</title>
-        <pubTime>2012-12-05T16:46:20.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kuangqi.me/tricks/enable-table-of-contents-on-hexo/</loc>
     <lastmod>2016-11-29T15:02:00.175Z</lastmod>
     <data>
@@ -921,6 +1065,24 @@
            
              
               <breadCrumb title="工巧匠心" url="http://kuangqi.me/categories/tricks/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/ios/fix-the-ssh-problem/</loc>
+    <lastmod>2016-11-29T15:02:00.175Z</lastmod>
+    <data>
+        <display>
+        <title>Mac OS X通过SSH连接Linux服务器时中文出现乱码的解决方法</title>
+        <pubTime>2012-12-05T16:46:20.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
           
         </display>
     </data>
@@ -982,24 +1144,6 @@
 
     
   <url>
-    <loc>http://kuangqi.me/programming/data-interface-of-weather-com/</loc>
-    <lastmod>2016-11-29T15:02:00.173Z</lastmod>
-    <data>
-        <display>
-        <title>中国天气网的中央气象台实时数据接口</title>
-        <pubTime>2012-02-13T15:13:53.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kuangqi.me/essay/cs-students-looking-for-a-restaurant/</loc>
     <lastmod>2016-11-29T15:02:00.173Z</lastmod>
     <data>
@@ -1036,17 +1180,17 @@
 
     
   <url>
-    <loc>http://kuangqi.me/ios/config-ctex-xelatex-in-os-x/</loc>
-    <lastmod>2016-11-29T15:02:00.172Z</lastmod>
+    <loc>http://kuangqi.me/programming/data-interface-of-weather-com/</loc>
+    <lastmod>2016-11-29T15:02:00.173Z</lastmod>
     <data>
         <display>
-        <title>在Mac OS系统下配置CTeX+XeLaTeX方案处理中文文档</title>
-        <pubTime>2011-08-07T07:28:48.000Z</pubTime>
+        <title>中国天气网的中央气象台实时数据接口</title>
+        <pubTime>2012-02-13T15:13:53.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
+              <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
           
         </display>
     </data>
@@ -1090,17 +1234,17 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/caught-the-thief/</loc>
-    <lastmod>2016-11-29T15:02:00.171Z</lastmod>
+    <loc>http://kuangqi.me/ios/config-ctex-xelatex-in-os-x/</loc>
+    <lastmod>2016-11-29T15:02:00.172Z</lastmod>
     <data>
         <display>
-        <title>小贼哪里跑！——自行车失而复得记</title>
-        <pubTime>2010-07-27T14:03:54.000Z</pubTime>
+        <title>在Mac OS系统下配置CTeX+XeLaTeX方案处理中文文档</title>
+        <pubTime>2011-08-07T07:28:48.000Z</pubTime>
         
          
            
              
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
+              <breadCrumb title="果粉手札" url="http://kuangqi.me/categories/ios/"/>
           
         </display>
     </data>
@@ -1108,12 +1252,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/campus-life-is-a-pearl/</loc>
+    <loc>http://kuangqi.me/essay/caught-the-thief/</loc>
     <lastmod>2016-11-29T15:02:00.171Z</lastmod>
     <data>
         <display>
-        <title>大学是青春的足迹——再谈文化知识与科学素养</title>
-        <pubTime>2011-09-09T15:43:36.000Z</pubTime>
+        <title>小贼哪里跑！——自行车失而复得记</title>
+        <pubTime>2010-07-27T14:03:54.000Z</pubTime>
         
          
            
@@ -1144,6 +1288,24 @@
 
     
   <url>
+    <loc>http://kuangqi.me/essay/campus-life-is-a-pearl/</loc>
+    <lastmod>2016-11-29T15:02:00.171Z</lastmod>
+    <data>
+        <display>
+        <title>大学是青春的足迹——再谈文化知识与科学素养</title>
+        <pubTime>2011-09-09T15:43:36.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://kuangqi.me/tricks/bnu-vpn-shock-me/</loc>
     <lastmod>2016-11-29T15:02:00.170Z</lastmod>
     <data>
@@ -1162,12 +1324,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/arduino-in-action-translators-preface/</loc>
+    <loc>http://kuangqi.me/essay/bnu-diary/</loc>
     <lastmod>2016-11-29T15:02:00.170Z</lastmod>
     <data>
         <display>
-        <title>《Arduino实战》译者序</title>
-        <pubTime>2014-03-22T16:51:49.000Z</pubTime>
+        <title>北师大日记</title>
+        <pubTime>2009-09-16T16:10:52.000Z</pubTime>
         
          
            
@@ -1180,12 +1342,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/bnu-diary/</loc>
+    <loc>http://kuangqi.me/essay/arduino-in-action-translators-preface/</loc>
     <lastmod>2016-11-29T15:02:00.170Z</lastmod>
     <data>
         <display>
-        <title>北师大日记</title>
-        <pubTime>2009-09-16T16:10:52.000Z</pubTime>
+        <title>《Arduino实战》译者序</title>
+        <pubTime>2014-03-22T16:51:49.000Z</pubTime>
         
          
            
@@ -1324,24 +1486,6 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/a-discussion-with-the-president-of-bnu/</loc>
-    <lastmod>2016-11-29T15:02:00.167Z</lastmod>
-    <data>
-        <display>
-        <title>董奇校长座谈会-我的发言稿（未删节）</title>
-        <pubTime>2012-10-28T10:53:23.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kuangqi.me/essay/a-tragedy-caused-by-sohu-apt-repo/</loc>
     <lastmod>2016-11-29T15:02:00.167Z</lastmod>
     <data>
@@ -1371,6 +1515,24 @@
            
              
               <breadCrumb title="编程之美" url="http://kuangqi.me/categories/programming/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kuangqi.me/essay/a-discussion-with-the-president-of-bnu/</loc>
+    <lastmod>2016-11-29T15:02:00.167Z</lastmod>
+    <data>
+        <display>
+        <title>董奇校长座谈会-我的发言稿（未删节）</title>
+        <pubTime>2012-10-28T10:53:23.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="我笔我心" url="http://kuangqi.me/categories/essay/"/>
           
         </display>
     </data>
@@ -1468,12 +1630,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/a-2009-year-end-summary/</loc>
+    <loc>http://kuangqi.me/essay/23rd-birthday/</loc>
     <lastmod>2016-11-29T15:02:00.164Z</lastmod>
     <data>
         <display>
-        <title>站在2009的尾巴上思考</title>
-        <pubTime>2009-12-31T15:11:41.000Z</pubTime>
+        <title>23岁生日之最</title>
+        <pubTime>2013-05-08T15:59:59.000Z</pubTime>
         
          
            
@@ -1486,12 +1648,12 @@
 
     
   <url>
-    <loc>http://kuangqi.me/essay/23rd-birthday/</loc>
+    <loc>http://kuangqi.me/essay/a-2009-year-end-summary/</loc>
     <lastmod>2016-11-29T15:02:00.164Z</lastmod>
     <data>
         <display>
-        <title>23岁生日之最</title>
-        <pubTime>2013-05-08T15:59:59.000Z</pubTime>
+        <title>站在2009的尾巴上思考</title>
+        <pubTime>2009-12-31T15:11:41.000Z</pubTime>
         
          
            

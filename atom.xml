@@ -137,6 +137,377 @@
   </entry>
   
   <entry>
+    <title>最长公共子序列（LCS）问题完全解析</title>
+    <link href="http://kuangqi.me/programming/lcs-made-simple/"/>
+    <id>http://kuangqi.me/programming/lcs-made-simple/</id>
+    <published>2015-07-31T16:00:00.000Z</published>
+    <updated>2016-12-04T11:59:25.187Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>给定两个字符串，输出两个串最长公共子序列的长度。例如字符串<code>abcdgh</code>和字符串<code>aedfhr</code>的最长公共子序列是<code>adh</code>，它的长度是3.</p>
+<a id="more"></a>
+<p>在线评测：</p>
+<ul>
+<li>原始问题（单个字符，EOF结尾）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=16&amp;page=show_problem&amp;problem=1346" target="_blank" rel="external">UVaOJ 10405</a></li>
+<li>原始问题（单个整数）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=12&amp;page=show_problem&amp;problem=1007" target="_blank" rel="external">UVaOJ 10066</a></li>
+<li>原始问题（单个字符，井号结尾）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=13&amp;page=show_problem&amp;problem=1133" target="_blank" rel="external">UVaOJ 10192</a></li>
+<li>输出具体方案（字符串）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=7&amp;page=show_problem&amp;problem=472" target="_blank" rel="external">UVaOJ 531</a></li>
+<li>原始问题+小预处理（需特别注意审题！）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=114&amp;page=show_problem&amp;problem=47" target="_blank" rel="external">UVaOJ 111</a></li>
+<li>要求序列必须连续：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1403" target="_blank" rel="external">HDU 1403</a></li>
+</ul>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>$LCS[A_i, B_j]$代表序列$A$的前$i$个字母和序列$B$的前$j$个字母的最长公共子序列长度。如果$A_i = B_j$，则最长公共子序列的值在之前的基础上增加1，即$LCS[A_i, B_j] = LCS[A_{i-1}, B_{j-1}] + 1$。若$A_i \neq B_j$，则最长公共子序列的长度不能增加，所以当前最长子序列的长度还是之前的长度。长度有可能是$LCS[A_{i-1}, B_j]$，也可能是$LCS[A_i, B_{j-1}]$，我们取两者中较大的一个即可。当然，如果$A_i$或者$B_j$有任意一个是空串，则LCS显然为0.</p>
+<p>综上，最长公共子序列问题的状态转移方程为：</p>
+<p>$$<br>LCS[A_i, B_i] =<br>\left{<br>\begin{array}{rcl}<br>0 &amp;,&amp; (i=0或j=0)\<br>LCS[A_{i-1}, B_{j-1}] + 1 &amp;,&amp;(A_i=B_i)\<br>\max(LCS[A_{i}, B_{j-1}], LCS[A_{i-1}, B_{j}]) &amp;,&amp; (A_i \neq B_i)<br>\end{array}<br>\right.<br>$$</p>
+<p>如果要求最长公共子序列必须连续（即最长公共子串），则状态转义方程为：</p>
+<p>$$<br>LCCS[A_i, B_i] =<br>\left{<br>\begin{array}{rcl}<br>0 &amp;,&amp; (i=0或j=0或A_i \neq B_i)\<br>LCCS[A_{i-1}, B_{j-1}] + 1 &amp;,&amp;(A_i=B_i)<br>\end{array}<br>\right.<br>$$</p>
+<p><strong>特别注意：此处$LCCS[A_i, B_i]$表示的是以$A_i$和$B_i$作为结尾（最后一个字符）的最长连续公共子串的长度。即$A_i$和$B_i$这两个字符必须包含在最长公共子串之中。这与非连续版本的要求（$A_i$和$B_i$只表示两个串的最后一个字符，这量个字符不一定在最长公共子序列之中）是有所不同的。该问题最后的答案也不是<code>dp</code>数组的右下角，而是整个<code>dp</code>数组中的最大值。</strong></p>
+<p>如果需要输出具体的最长公共子序列，可以借助另外一个数组记录公共子序列不断延长的过程，并通过递归的方法在该数组中找到最长子序列延长的位置，并输出这个序列。</p>
+<p><img src="/images/print-lcs.png" alt=""></p>
+<p>如图，在每次为<code>dp</code>数组复制时，同时为记录方向的数组<code>bd</code>赋值，$A_i = B_j$时，赋值为“↖”。$A_i \neq B_j$时，<code>DP[i - 1][j]</code>较大时赋值为“↑”，<code>DP[i][j - 1]</code>较大时赋值为“←”。这个箭头其实是记录了最长公共子序列在两个输入字符串上延长的方式。我们可以选择右下角为起点，递归直到到达左边缘或上边缘，然后在回溯时输出所有标有“↖”处对应的字符即可。</p>
+<p>如果需要输出所有的最长公共子序列，则应在构建<code>bd</code>数组时记录$LCS[A_{i-1}, B_i] = LCS[A_i, B_{i-1}]$的情形，这种情况下说明最长公共子序列有多个，需要对每一个子序列执行类似于深度优先搜索的操作，从而分别构建。具体实现请见文章最后的教学代码。</p>
+<p>构建<code>bd</code>数组只是为了方便编程实现，也方便理解。实际上<code>dp</code>数组已经包含了全部信息，所有在实际编程中<code>bd</code>数组也可以省略。具体代码见编程实现一节。</p>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>对于长度为$M$的串$A$和长度为$N$的串$B$而言，计算最长公共子序列长度的时间复杂度和空间复杂度均为$O(M \times N)$. 如果不需要输出具体方案，则可以只保留<code>dp</code>数组最近的2行，使用 <em>滚动数组</em> 进行优化，将空间复杂度降为$O(\min(M,N))$. 根据<code>dp</code>数组构建最优解的时间复杂度为$O(M+N)$. </p>
+<h2 id="编程实现"><a href="#编程实现" class="headerlink" title="编程实现"></a>编程实现</h2><p>上式中的<code>i</code>、<code>j</code>等变量表示字符时的取值范围是1～N，而等于0时表示取0个字符，而不是第0个字符，取零个字符即空串。而在C语言中，并没有“取<br>0个字符”这一操作。但是算法却要求在LCS二维数组中记录空串时LCS为零的情形。解决这种情形的方法有3种：</p>
+<ol>
+<li>在A、B两个字符串的第0位置添加任意字符，DP数组加一圈，循环[1, Len]，然后通过if判断手动在A[0]和B[0]时填0. 此方法可读性最高且最接近数学上的定义，但要在函数之外预处理字符串，适合学习使用。</li>
+<li>DP数组加一圈，而A、B串保持原状，循环[1, Len]，但在每次访问字符串时要给字符串下标减一，以满足C字符串从0开始的要求。注意此方法中字符串的长度比DP数组每一维的长度不相等，而是少1. 此方法代码最简洁，函数代码可以整体记忆及套用，适合竞赛使用。</li>
+<li>DP数组不动，串A、B也保持原状，循环[0, Len)，但要在每次访问DP数组时判断下标是否为-1，若为-1则用问号表达式返回0. 此方法代码最复杂但可节约少量空间，不推荐使用。</li>
+</ol>
+<p>为了输出具体的最长公共子序列，我们还可以在生成<code>dp</code>数组的同时记录一个<code>bd</code>数组，用数字1、2、3依次代表“←”、“↑”、“↖”。核心代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>])</div><div class="line">&#123;</div><div class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">    bd[i][j] = <span class="number">3</span>;</div><div class="line">    <span class="keyword">continue</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>])</div><div class="line">&#123;</div><div class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j];</div><div class="line">    bd[i][j] = <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span></div><div class="line">&#123;</div><div class="line">    dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">    bd[i][j] = <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在有了<code>bd</code>数组之后，就可以方便地递归输出一个具体的最长公共子序列，输出的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">void construct(int la, int lb)</div><div class="line">&#123;</div><div class="line">    if(la == 0 || lb == 0) return;</div><div class="line">    if(bd[la][lb] == 3)</div><div class="line">    &#123;</div><div class="line">        construct(la - 1, lb - 1);</div><div class="line">        printf(&quot;%s&quot;, a[la - 1]);</div><div class="line">    &#125;</div><div class="line">    else if(bd[la][lb] == 2)</div><div class="line">    &#123;</div><div class="line">        construct(la - 1, lb);</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        construct(la, lb - 1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当然<code>bd</code>数组并不是必需的，<code>dp</code>数组其实已经包含了所需的所有信息。使用<code>dp</code>数组构建最长公共子序列的代码稍微繁杂一些，基本就是将求解过程的条件判断重新写一遍。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">construct</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(a[la - <span class="number">1</span>] == b[lb - <span class="number">1</span>])</div><div class="line">    &#123;</div><div class="line">        construct(la - <span class="number">1</span>, lb - <span class="number">1</span>);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%s"</span>, a[la - <span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dp[la][lb] == dp[la - <span class="number">1</span>][lb])</div><div class="line">    &#123;</div><div class="line">        construct(la - <span class="number">1</span>, lb);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        construct(la, lb - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>或者也可以写成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">construct</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(a[la - <span class="number">1</span>] == b[lb - <span class="number">1</span>])</div><div class="line">    &#123;</div><div class="line">        construct(la - <span class="number">1</span>, lb - <span class="number">1</span>);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%s"</span>, a[la - <span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(dp[la][lb] == dp[la - <span class="number">1</span>][lb])</div><div class="line">        &#123;</div><div class="line">            construct(la - <span class="number">1</span>, lb);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            construct(la, lb - <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样写代码更复杂一点，但形式与计算<code>dp</code>数组时更为接近。</p>
+<h2 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h2><p>UVaOJ 10405 方法1：</p>
+<p>字符串前追加一个无用字符，<code>dp</code>数组加一圈。<code>lcs()</code>函数代码与数学表达式完全一致，注意<code>main()</code>函数中读入数据和求长度的方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">1010</span>];</div><div class="line"><span class="keyword">char</span> b[<span class="number">1010</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">1010</span>][<span class="number">1010</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i] == b[j]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i][j - <span class="number">1</span>] &gt; dp[i - <span class="number">1</span>][j] ?</div><div class="line">                dp[i][j - <span class="number">1</span>] : dp[i - <span class="number">1</span>][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gets(a + <span class="number">1</span>) == <span class="literal">NULL</span>) <span class="keyword">break</span>;</div><div class="line">        gets(b + <span class="number">1</span>);</div><div class="line">        a[<span class="number">0</span>] = <span class="string">' '</span>;</div><div class="line">        b[<span class="number">0</span>] = <span class="string">' '</span>;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lcs(a, <span class="built_in">strlen</span>(a) - <span class="number">1</span>, b, <span class="built_in">strlen</span>(b) - <span class="number">1</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10405 方法2：</p>
+<p>字符串保持原状，<code>dp</code>数组加一圈，此为最常用且简洁的方式，算法导论上也以此方式描述。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">1010</span>];</div><div class="line"><span class="keyword">char</span> b[<span class="number">1010</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">1010</span>][<span class="number">1010</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i][j - <span class="number">1</span>] &gt; dp[i - <span class="number">1</span>][j] ? </div><div class="line">                            dp[i][j - <span class="number">1</span>] : dp[i - <span class="number">1</span>][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gets(a) == <span class="literal">NULL</span>) <span class="keyword">break</span>;</div><div class="line">        gets(b);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lcs(a, <span class="built_in">strlen</span>(a), b, <span class="built_in">strlen</span>(b)));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10405 方法3：</p>
+<p>字符串和<code>dp</code>数组均保持原状，需要使用较为复杂的逻辑处理可能存在的下标越界问题。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">1010</span>];</div><div class="line"><span class="keyword">char</span> b[<span class="number">1010</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">1010</span>][<span class="number">1010</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i] == b[j])</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(i == <span class="number">0</span> || j == <span class="number">0</span>) dp[i][j] = <span class="number">1</span>;</div><div class="line">                <span class="keyword">else</span> dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = (j == <span class="number">0</span> ? <span class="number">0</span> : dp[i][j - <span class="number">1</span>]) &gt; (i == <span class="number">0</span> ? <span class="number">0</span> : dp[i - <span class="number">1</span>][j]) ? </div><div class="line">                            (j == <span class="number">0</span> ? <span class="number">0</span> : dp[i][j - <span class="number">1</span>]) : (i == <span class="number">0</span> ? <span class="number">0</span> : dp[i - <span class="number">1</span>][j]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la - <span class="number">1</span>][lb - <span class="number">1</span>];</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gets(a) == <span class="literal">NULL</span>) <span class="keyword">break</span>;</div><div class="line">        gets(b);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lcs(a, <span class="built_in">strlen</span>(a), b, <span class="built_in">strlen</span>(b)));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10066:</p>
+<p>字符输入变整数输入，改<code>lcs()</code>函数的数据类型即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> a[<span class="number">110</span>], b[<span class="number">110</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> la, <span class="keyword">int</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>] ?</div><div class="line">                            dp[i - <span class="number">1</span>][j] : dp[i][j - <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n1, n2;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> cs = <span class="number">1</span>; ; cs++)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;n1, &amp;n2);</div><div class="line">        <span class="keyword">if</span>(n1 == <span class="number">0</span> || n2 == <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n1; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a[i]);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n2; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;b[i]);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Twin Towers #%d\n"</span>, cs);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Number of Tiles : %d\n\n"</span>, lcs(a, n1, b, n2));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10192:</p>
+<p>规定井号为输入的结束，主函数中简单处理即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">110</span>], b[<span class="number">110</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>] ?</div><div class="line">                            dp[i - <span class="number">1</span>][j] : dp[i][j - <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> cs = <span class="number">1</span>; ; cs++)</div><div class="line">    &#123;</div><div class="line">        gets(a);</div><div class="line">        <span class="keyword">if</span>(a[<span class="number">0</span>] != <span class="string">'#'</span>) gets(b);</div><div class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Case #%d: you can visit at most %d cities.\n"</span>, cs, lcs(a, <span class="built_in">strlen</span>(a), b, <span class="built_in">strlen</span>(b)));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 531:</p>
+<p>要求输出具体的最长公共子序列，且序列的每个元素为一个字符串（单词）。下列代码已经通过注释的方式给出了使用<code>bd</code>数组和不用<code>bd</code>数组的两种实现方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> wds_a[<span class="number">110</span>][<span class="number">35</span>];</div><div class="line"><span class="keyword">char</span> wds_b[<span class="number">110</span>][<span class="number">35</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</div><div class="line"><span class="comment">//int bd[110][110];</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> a[][<span class="number">35</span>], <span class="keyword">int</span> la, <span class="keyword">char</span> b[][<span class="number">35</span>], <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="built_in">strcmp</span>(a[i - <span class="number">1</span>], b[j - <span class="number">1</span>]) == <span class="number">0</span>)</div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                bd[i][j] = <span class="number">3</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>])</div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j];</div><div class="line">                bd[i][j] = <span class="number">2</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">                bd[i][j] = <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">construct</span><span class="params">(<span class="keyword">int</span> depth, <span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">strcmp</span>(wds_a[la - <span class="number">1</span>], wds_b[lb - <span class="number">1</span>]) == <span class="number">0</span>) <span class="comment">//Construct without [bd] array</span></div><div class="line">    <span class="comment">//if(bd[la][lb] == 3) //Construct with [bd] array</span></div><div class="line">    &#123;</div><div class="line">        construct(depth + <span class="number">1</span>, la - <span class="number">1</span>, lb - <span class="number">1</span>);</div><div class="line">        <span class="comment">//printf("[%d]", la);</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%s"</span>, wds_a[la - <span class="number">1</span>]);</div><div class="line">        <span class="keyword">if</span>(depth == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">" "</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dp[la][lb] == dp[la - <span class="number">1</span>][lb])  <span class="comment">//Construct without [bd] array</span></div><div class="line">    <span class="comment">//else if(bd[la][lb] == 2) //Construct with [bd] array</span></div><div class="line">    &#123;</div><div class="line">        construct(depth, la - <span class="number">1</span>, lb);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        construct(depth, la, lb - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> str[<span class="number">35</span>];</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> la = <span class="number">0</span>, lb = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; ; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="built_in">scanf</span>(<span class="string">"%s"</span>, str) == EOF) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span>(str[<span class="number">0</span>] == <span class="string">'#'</span>) <span class="keyword">break</span>;</div><div class="line">            <span class="built_in">strcpy</span>(wds_a[i], str);</div><div class="line">            la++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; ; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%s"</span>, str);</div><div class="line">            <span class="keyword">if</span>(str[<span class="number">0</span>] == <span class="string">'#'</span>) <span class="keyword">break</span>;</div><div class="line">            <span class="built_in">strcpy</span>(wds_b[i], str);</div><div class="line">            lb++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> len = lcs(wds_a, la, wds_b, lb);</div><div class="line">        construct(<span class="number">0</span>, la, lb);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="教学代码"><a href="#教学代码" class="headerlink" title="教学代码"></a>教学代码</h2><p>输入两个字符串，输出两个字符串的最长公共子序列的长度，并列出所有的最长公共子序列，最后以图形化的形式输出用于构建最优解的<code>bd</code>数组。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> dp[<span class="number">100</span>][<span class="number">100</span>];</div><div class="line"><span class="keyword">char</span> a[<span class="number">100</span>], b[<span class="number">100</span>];</div><div class="line"><span class="keyword">int</span> bd[<span class="number">100</span>][<span class="number">100</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="built_in">memset</span>(bd, <span class="number">0</span>, <span class="keyword">sizeof</span>(bd));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>])</div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                bd[i][j] = <span class="number">3</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>])</div><div class="line">                &#123;</div><div class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j];</div><div class="line">                    bd[i][j] = <span class="number">2</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &lt; dp[i][j - <span class="number">1</span>])</div><div class="line">                &#123;</div><div class="line">                    dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">                    bd[i][j] = <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] == dp[i][j - <span class="number">1</span>])</div><div class="line">                &#123;</div><div class="line">                    dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">                    bd[i][j] = <span class="number">4</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printlcs</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb, <span class="keyword">int</span> depth, <span class="built_in">std</span>::<span class="built_in">string</span> s)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(bd[la][lb] == <span class="number">3</span>)</div><div class="line">    &#123;</div><div class="line">        s = a[la - <span class="number">1</span>] + s;</div><div class="line">        printlcs(la - <span class="number">1</span>, lb - <span class="number">1</span>, depth - <span class="number">1</span>, s);</div><div class="line">        <span class="keyword">if</span>(depth == <span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"*%s\n"</span>, s.c_str());</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(bd[la][lb] == <span class="number">2</span>)</div><div class="line">        &#123;</div><div class="line">            printlcs(la - <span class="number">1</span>, lb, depth, s);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(bd[la][lb] == <span class="number">1</span>)</div><div class="line">        &#123;</div><div class="line">            printlcs(la, lb - <span class="number">1</span>, depth, s);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(bd[la][lb] == <span class="number">4</span>)</div><div class="line">        &#123;</div><div class="line">            printlcs(la - <span class="number">1</span>, lb, depth, s);</div><div class="line">            printlcs(la, lb - <span class="number">1</span>, depth, s);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printbd</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">-1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">-1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span>(i == <span class="number">-1</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(j == <span class="number">-1</span>) <span class="built_in">printf</span>(<span class="string">" ＼"</span>);</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(j == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"|b:"</span>);</div><div class="line">                <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"&#123;%c&#125;"</span>, b[j - <span class="number">1</span>]);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(j == <span class="number">-1</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(i == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"a: "</span>);</div><div class="line">                <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"&#123;%c&#125;"</span>, a[i - <span class="number">1</span>]);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span>(bd[i][j] == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"[0]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"[&lt;]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">2</span>) <span class="built_in">printf</span>(<span class="string">"[^]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">3</span>) <span class="built_in">printf</span>(<span class="string">"[\\]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">4</span>) <span class="built_in">printf</span>(<span class="string">"[Y]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"[%d]"</span>, bd[i][j]);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    gets(a);</div><div class="line">    gets(b);</div><div class="line">    <span class="keyword">int</span> la = <span class="built_in">strlen</span>(a);</div><div class="line">    <span class="keyword">int</span> lb = <span class="built_in">strlen</span>(b);</div><div class="line">    <span class="keyword">int</span> len = lcs(a, la, b, lb);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"------------------------\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"LCS-Length = %d\n"</span>, len);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"List of LCS(s):\n"</span>);</div><div class="line">    printlcs(la, lb, len, <span class="string">""</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"--------bd table--------\n"</span>);</div><div class="line">    printbd(la, lb);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ABCBDAB</div><div class="line">BDCABA</div></pre></td></tr></table></figure>
+<p>程序输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">------------------------</div><div class="line">LCS-Length = 4</div><div class="line">List of LCS(s):</div><div class="line">*BCBA</div><div class="line">*BCAB</div><div class="line">*BDAB</div><div class="line">--------bd table--------</div><div class="line"> ＼|b:&#123;B&#125;&#123;D&#125;&#123;C&#125;&#123;A&#125;&#123;B&#125;&#123;A&#125;</div><div class="line">a: [0][0][0][0][0][0][0]</div><div class="line">&#123;A&#125;[0][Y][Y][Y][\][&lt;][\]</div><div class="line">&#123;B&#125;[0][\][&lt;][&lt;][Y][\][&lt;]</div><div class="line">&#123;C&#125;[0][^][Y][\][&lt;][Y][Y]</div><div class="line">&#123;B&#125;[0][\][Y][^][Y][\][&lt;]</div><div class="line">&#123;D&#125;[0][^][\][Y][Y][^][Y]</div><div class="line">&#123;A&#125;[0][^][^][Y][\][Y][\]</div><div class="line">&#123;B&#125;[0][\][^][Y][^][\][Y]</div></pre></td></tr></table></figure>
+<p>其中<code>&lt;</code>表示左箭头，<code>^</code>表示上箭头，<code>\</code>表示左上箭头，<code>Y</code>表示分支（向上或向左都可以，需要分别搜索两条路径）。搜索的起点应设为右下角。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/lcs-made-simple/">http://kuangqi.me/programming/lcs-made-simple/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h2&gt;&lt;p&gt;给定两个字符串，输出两个串最长公共子序列的长度。例如字符串&lt;code&gt;abcdgh&lt;/code&gt;和字符串&lt;code&gt;aedfhr&lt;/code&gt;的最长公共子序列是&lt;code&gt;adh&lt;/code&gt;，它的长度是3.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 191 Number of 1 Bits 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-number-of-1-bits/"/>
+    <id>http://kuangqi.me/programming/leetcode-number-of-1-bits/</id>
+    <published>2015-07-09T09:29:46.000Z</published>
+    <updated>2016-12-04T11:31:02.038Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>求一个整数的二进制中1的个数。例如32位整数11的二进制为<code>00000000000000000000000000001011</code>，共有3个1，所以返回3.</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>利用位运算<code>n &amp; (n - 1)</code>消去最后一个1，直到整数为零为止。这个位运算的具体解释请参见<a href="../leetcode-power-of-two/">231题：Power of Two</a>. 直接上代码了。</p>
+<p>C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">uint32_t</span> n)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> sum = <span class="number">1</span>;</div><div class="line">    <span class="keyword">if</span>(n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(n = (n &amp; (n - <span class="number">1</span>))) sum++;</div><div class="line">    <span class="keyword">return</span> sum;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>sum</code>要初始化为1，因为最后一个1被消掉时<code>while</code>循环是进不去的，所以少累加了一次，要补上。输入0时，循环也进不去，但要返回0，这里要特别判定一下。另外附上讨论区里面给的一个非常神棍而变态的无循环版的位运算解法，耗时跟我的解法一样，都是4ms。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">hammingWeight</span><span class="params">(<span class="keyword">uint32_t</span> n)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> c; </div><div class="line">    c =  ((n &amp; <span class="number">0xfff</span>) * <span class="number">0x1001001001001</span>ULL &amp; <span class="number">0x84210842108421</span>ULL) % <span class="number">0x1f</span>;</div><div class="line">    c += (((n &amp; <span class="number">0xfff000</span>) &gt;&gt; <span class="number">12</span>) * <span class="number">0x1001001001001</span>ULL &amp; <span class="number">0x84210842108421</span>ULL) % <span class="number">0x1f</span>;</div><div class="line">    c += ((n &gt;&gt; <span class="number">24</span>) * <span class="number">0x1001001001001</span>ULL &amp; <span class="number">0x84210842108421</span>ULL) % <span class="number">0x1f</span>;</div><div class="line">    <span class="keyword">return</span> c;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个解法大家看看热闹就好~</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-number-of-1-bits/">http://kuangqi.me/programming/leetcode-number-of-1-bits/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;求一个整数的二进制中1的个数。例如32位整数11的二进制为&lt;code&gt;00000000000000000000000000001011&lt;/code&gt;，共有3个1，所以返回3.&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 027 Remove Element 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-remove-element/"/>
+    <id>http://kuangqi.me/programming/leetcode-remove-element/</id>
+    <published>2015-07-09T09:02:12.000Z</published>
+    <updated>2016-12-04T11:13:59.954Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一个字符串，要求就地（in-place）移除其中所有值为<code>val</code>的元素，返回新字符串长度。大于该长度的空间内的内容不影响题目判定。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>题目思路比较简单，用两个指针一个指向当前字符，一个指向最后一个字符。左边指针不断右移，右边指针不断左移。题目的细节比较多，比如要确保<code>tail</code>指针指向的值不为<code>val</code>。再就是不断地检查当前值，若为<code>val</code>则将其移向队尾。</p>
+<p>C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">fixTail</span><span class="params">(<span class="keyword">int</span> *nums, <span class="keyword">int</span> tail, <span class="keyword">int</span> val)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(nums[tail] == val)</div><div class="line">    &#123;</div><div class="line">        tail--;</div><div class="line">        <span class="keyword">if</span>(tail == <span class="number">-1</span>) <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> tail;</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">removeElement</span><span class="params">(<span class="keyword">int</span>* nums, <span class="keyword">int</span> numsSize, <span class="keyword">int</span> val)</span> </span>&#123;</div><div class="line">    <span class="keyword">if</span>(numsSize == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> head = <span class="number">0</span>, tail = fixTail(nums, numsSize - <span class="number">1</span>, val);</div><div class="line">    <span class="keyword">if</span>(tail == <span class="number">-1</span>) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span>(head &lt;= tail)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(nums[head] == val)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> tmp = nums[tail];</div><div class="line">            nums[tail] = nums[head];</div><div class="line">            nums[head] = tmp;</div><div class="line">            tail = fixTail(nums, tail, val);</div><div class="line">        &#125;</div><div class="line">        head++;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> tail + <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>fixTail</code>函数用于处理<code>tail</code>指针，确保其指向的值不为<code>val</code>.另外需要判定一些长度为0的情况。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-remove-element/">http://kuangqi.me/programming/leetcode-remove-element/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;给一个字符串，要求就地（in-place）移除其中所有值为&lt;code&gt;val&lt;/code&gt;的元素，返回新字符串长度。大于该长度的空间内的内容不影响题目判定。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 014 Longest Common Prefix 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-longest-common-prefix/"/>
+    <id>http://kuangqi.me/programming/leetcode-longest-common-prefix/</id>
+    <published>2015-07-09T07:58:37.000Z</published>
+    <updated>2016-12-04T11:13:28.110Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一堆字符串，求这一堆字符串的<em>最长公共前缀</em>。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这个题目比较简单，读了几遍题才确定确实是如此简单。最长公共前缀，意味着起点就固定在第一个字符，所以就依次检测所有字符串的第2个、第3个字符……直到有某个字符串的下一个字符与别人不同为止。</p>
+<p>C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">char</span>* <span class="title">longestCommonPrefix</span><span class="params">(<span class="keyword">char</span>** strs, <span class="keyword">int</span> strsSize)</span> </span>&#123;</div><div class="line">    <span class="keyword">char</span> c;</div><div class="line">    <span class="keyword">int</span> n = <span class="number">0</span>;</div><div class="line">    <span class="keyword">if</span>(strsSize == <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; ; i++) <span class="comment">// H</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> j;</div><div class="line">        c = strs[<span class="number">0</span>][i];</div><div class="line">        <span class="keyword">if</span>(c == <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">for</span>(j = <span class="number">0</span>; j &lt; strsSize; j++) <span class="comment">// V</span></div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(c != strs[j][i]) <span class="keyword">break</span>;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(j != strsSize) <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">else</span> n++;</div><div class="line">    &#125;</div><div class="line">    strs[<span class="number">0</span>][n] = <span class="number">0</span>;</div><div class="line">    <span class="keyword">return</span> strs[<span class="number">0</span>];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要特别判断的是输入字符串为空，则返回空字符串<code>&quot;&quot;</code>。外层循环是横向指针，指到每个字符串的第几个字符。内层循环是纵向指针，在不同字符串的同一个位置间跳转。内层循环之前将下一个公共字符初始化为第一个字符串的下一次字符，注意判断字符串的结尾即可。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-longest-common-prefix/">http://kuangqi.me/programming/leetcode-longest-common-prefix/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;给一堆字符串，求这一堆字符串的&lt;em&gt;最长公共前缀&lt;/em&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 231 Power of Two 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-power-of-two/"/>
+    <id>http://kuangqi.me/programming/leetcode-power-of-two/</id>
+    <published>2015-07-09T07:50:34.000Z</published>
+    <updated>2016-12-04T11:31:24.396Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一个整数，判断这个数是否是2的整数次方。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>这个题目非常简单，32位整数范围内2的整数次方也就32个数，一个一个判断都可以。而一个比较好的策略是利用位运算。我们知道2的整数次方的二进制一定是在某个位只有一个1，而其他位均为0. 例如：</p>
+<ul>
+<li>$2^0 = (1)_{10} = (1)_{2}$</li>
+<li>$2^1 = (2)_{10} = (10)_{2}$</li>
+<li>$2^2 = (4)_{10} = (100)_{2}$</li>
+<li>$2^3 = (6)_{10} = (1000)_{2}$</li>
+<li>$2^4 = (8)_{10} = (10000)_{2}$</li>
+<li>……</li>
+</ul>
+<p>有一个经典的位运算，<code>(n &amp; (n - 1))</code>，其作用是将一个数的二进制中最低位的一个1变成0. 而其中<code>n - 1</code>的作用是将最低的为1的位的右边（低位方向）所有位都变成1，而之前最低的那个1变成0. 例如$(01001000)_2$，减一之后是$(01000111)_2$。而这个数再与原数进行与运算，其结果就是最低位的1变成了0. </p>
+<p>在这道题中，如果原数是2的整数次方，则整个数中只有一个1，消掉最低位的1就意味着整个数就变成了0. 这就可以证明原数是2的整数次方，而如果原数不是2的整数次方，则二进制中不止一个1，消掉最后一个1原数也不为0. 代码很简单，只有1行。</p>
+<p>C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">bool</span> <span class="title">isPowerOfTwo</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> n &gt; <span class="number">0</span> &amp;&amp; !((n - <span class="number">1</span>) &amp; n);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要注意的是，评测数据中有0和负数，所有要多判断一下n大于0. 另外，这个位运算还可以用来解Leetcode上的<a href="../leetcode-number-of-1-bits/">191题：Number of 1 Bits</a>，这道题更简单粗暴，直接要求统计1的个数。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-power-of-two/">http://kuangqi.me/programming/leetcode-power-of-two/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;给一个整数，判断这个数是否是2的整数次方。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 226 Invert Binary Tree 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-invert-binary-tree/"/>
+    <id>http://kuangqi.me/programming/leetcode-invert-binary-tree/</id>
+    <published>2015-07-09T07:33:04.000Z</published>
+    <updated>2016-12-04T11:29:50.903Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>翻转一棵二叉树，例如将</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">     4</div><div class="line">   /   \</div><div class="line">  2     7</div><div class="line"> / \   / \</div><div class="line">1   3 6   9</div></pre></td></tr></table></figure>
+<p>翻转为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">     4</div><div class="line">   /   \</div><div class="line">  7     2</div><div class="line"> / \   / \</div><div class="line">9   6 3   1</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>思路非常简单，递归地翻转所有子树即可。在马桶上用iPad一次刷过了此题。直接上代码。</p>
+<p>C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for a binary tree node.</div><div class="line"> * struct TreeNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     struct TreeNode *left;</div><div class="line"> *     struct TreeNode *right;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="function"><span class="keyword">struct</span> TreeNode* <span class="title">invertTree</span><span class="params">(<span class="keyword">struct</span> TreeNode* root)</span> </span>&#123;</div><div class="line">    <span class="keyword">struct</span> TreeNode *temp;</div><div class="line">    <span class="keyword">if</span>(root == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</div><div class="line">    <span class="keyword">if</span>(root-&gt;left) invertTree(root-&gt;left);</div><div class="line">    <span class="keyword">if</span>(root-&gt;right) invertTree(root-&gt;right);</div><div class="line">    temp = root-&gt;left;</div><div class="line">    root-&gt;left = root-&gt;right;</div><div class="line">    root-&gt;right = temp;</div><div class="line">    <span class="keyword">return</span> root;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-invert-binary-tree/">http://kuangqi.me/programming/leetcode-invert-binary-tree/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;翻转一棵二叉树，例如将&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;     4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   /   \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  2     7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt; / \   / \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;1   3 6   9&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;翻转为&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;     4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;   /   \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  7     2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt; / \   / \&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;9   6 3   1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 003 Longest Substring Without Repeating Characters 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-longest-substring-without-repeating-characters/"/>
+    <id>http://kuangqi.me/programming/leetcode-longest-substring-without-repeating-characters/</id>
+    <published>2015-04-10T08:16:49.000Z</published>
+    <updated>2016-12-04T11:11:28.527Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一个字符串，求最长的不包含重复字符的连续子串的长度。例如字符串<code>abcabcbb</code>的最长连续子串是<code>abc</code>，其长度为3，返回3即可。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>第一反应是动态规划，想了一下发现不是。LeetCode给这个题的标签是“Hash Table”，我现在仍然不明白这道题跟哈希表与什么关系。是要用到一个数组才记录一些信息，但我觉得不是哈希表，所以我给这道题的归类为“其他类型”。</p>
+<p>这道题的思路其实很简单，无非就是枚举所有子串，然后验证这些串里面是否有重复的字符。只不过“枚举”和“验证”两个过程都可以加一点特技。完全不加特技的方法是：<strong>枚举子串起点、枚举子串终点、扫描子串验证是否有重复字符</strong>。和在一起就是$O(n^3)$的时间复杂度，我没试，我猜会超时。</p>
+<p>即使是最暴力的方法，在扫描验证的时候也需要一张表，来记录每个字符是否出现过，由于是8位<code>char</code>型，所以长度256的表就足够了，测试数据好像都是字母，不过还是开256的长度吧。其实这个表不光可以记录某个字母是否出现过，还可以记录它上次出现在什么位置。<strong>我们依次扫描输入字符串的每一个字符，同时记录下它们上一次出现的位置。</strong>扫描时，如果发现当前字符上次出现的位置在子串范围之内，就说明这个字符重复，如果在当前子串范围之外，则不重复。这样我们不需要重复扫描整个子串，就可以知道它其中是否有重复字符。这样我们就可以省掉“扫描验证”这个环节，将时间复杂度降到了$O(n^2)$。</p>
+<p>同样，我们也可以省掉“枚举起点”这个过程，将起点初始化为0，然后在起点为0的子串后面追加字符，直到不能追加为止（再追加就会产生重复），然后通过某种时间复杂度为$O(1)$的手段，将起点直接移动到一个合适的位置，使得当前字符得以追加到子串当中。直到追加完整个字符串的最后一个字符为止。在整个过程中，子串的长度会变长也会变短，但始终都没有重复字符，我们记录下整个过程中最长的那个长度，就是问题的答案了。显然，这样优化之后问题的时间复杂度降为了$O(n)$。</p>
+<p>说起来容易，那个传说中的时间复杂度为$O(1)$的“手段”是什么呢？其实很简单：我们用一个变量作为子串起点的游标，如果当前要追加的字符会导致重复，那我们就将重复点以及之前的所有字符全部舍弃，将记录起点的游标移动到与当前字符重复的那个字符的下一个字符。</p>
+<p>需要注意的是，起点游标的移动方向必须是单向的，也就是起点游标必须一直向右，如果向左则不能保证子串中无重复字符。我在这里WA了一次，就是因为没限制起点游标的移动方向。没明白这句话什么意思的童鞋，可以试试<code>abba</code>这个测试数据，最长子串是<code>ab</code>或者<code>ba</code>，长度都是2。</p>
+<p>另外还因为记录长度变量<code>maxLen</code>的初始化WA了一次，输入的字符串有可能为空串，空串的最长子串长度显然为0。</p>
+<p>C代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(<span class="keyword">char</span> *s)</span> </span>&#123;</div><div class="line">    <span class="keyword">int</span> len = <span class="built_in">strlen</span>(s);</div><div class="line">    <span class="keyword">int</span> pt = <span class="number">0</span>;</div><div class="line">    <span class="keyword">int</span> maxLen = <span class="number">-1</span>;</div><div class="line">    <span class="keyword">int</span> st[<span class="number">256</span>];</div><div class="line">    <span class="built_in">memset</span>(st, <span class="number">-1</span>, <span class="number">256</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; len; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(st[s[i]] != <span class="number">-1</span> &amp;&amp; st[s[i]] &gt;= pt)</div><div class="line">        &#123;</div><div class="line">            pt = st[s[i]] + <span class="number">1</span>;</div><div class="line">        &#125;</div><div class="line">        st[s[i]] = i;</div><div class="line">        <span class="keyword">if</span>(maxLen &lt; i - pt) maxLen = i - pt;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> maxLen + <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中<code>pt</code>就是起点游标，<code>st</code>就是记录<strong>某个字符上次出现的位置</strong>的数组，<code>st[s[i]] &gt;= pt</code>用于限制起点游标移动的方向，最后的<code>maxLen</code>值就是问题的答案。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-longest-substring-without-repeating-characters/">http://kuangqi.me/programming/leetcode-longest-substring-without-repeating-characters/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;给一个字符串，求最长的不包含重复字符的连续子串的长度。例如字符串&lt;code&gt;abcabcbb&lt;/code&gt;的最长连续子串是&lt;code&gt;abc&lt;/code&gt;，其长度为3，返回3即可。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 002 Add Two Numbers 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-add-two-numbers/"/>
+    <id>http://kuangqi.me/programming/leetcode-add-two-numbers/</id>
+    <published>2015-04-09T15:31:03.000Z</published>
+    <updated>2016-12-04T10:50:54.937Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>用两个单向链表给出两个整数。求两个整数的和，以链表形式返回。输入的和返回的链表顺序都是从低位到高位。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>递归遍历链表，依次求和即可。注意进位。最初没有很好地理解题意，以为是一个反转单向链表的问题，后来仔细读题后明白两个输入链表和一个输出链表都是从低位到高位的顺序，这样这个题目就很简单了。提交的时候Compile Error了几次，是因为新建节点的方式不对。由于<code>ListNode</code>结构体已经给出了一个构造函数，因此<code>new</code>的时候必须是<code>new ListNode(0)</code>这样给出一个初始值。一开始没有明白那个<code>ListNode(int x)</code>是什么意思，准确地说是没发现后面给出了这个函数的定义（空函数体<code>{}</code>）。</p>
+<p>另外，创建新节点时应该是有技巧的，要确定有下一位数才创建下一个节点，不要在计算最后一位数时创建多余的节点。在递归创建节点时，可以创建节点后再递归，也可以传入空节点然后在递归到下一层时创建节点。我采用的是后者，由于要改变上层递归过来的指针的指向（而不只是指针指向的内容），所以要使用一个双指针，也可以使用指针的引用。使用双指针时，要注意解除引用运算符<code>*</code>的优先级低于间接引用运算符<code>-&gt;</code>，因此在操作双指针的结构体时要在前面解除引用的时候加括号，例如<code>(*result)-&gt;val</code>。由于本人是C语言的脑残粉，所以就使用了这种指针满天飞的方式，请各位看官轻拍~</p>
+<p>编写的时候已经仔细考虑了进位、两个数不等长、最后一个节点等情况，所以解决了那个编译错误之后就一次AC了。</p>
+<p>C++代码：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/**</span></div><div class="line"> * Definition for singly-linked list.</div><div class="line"> * struct ListNode &#123;</div><div class="line"> *     int val;</div><div class="line"> *     ListNode *next;</div><div class="line"> *     ListNode(int x) : val(x), next(NULL) &#123;&#125;</div><div class="line"> * &#125;;</div><div class="line"> */</div><div class="line"><span class="keyword">class</span> Solution &#123;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">add</span><span class="params">(ListNode *d1, ListNode *d2, ListNode **result, <span class="keyword">int</span> carry)</span></span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(d1 == <span class="literal">NULL</span> &amp;&amp; d2 == <span class="literal">NULL</span> &amp;&amp; carry == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">        *result = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</div><div class="line">        (*result)-&gt;val = (d1 ? d1-&gt;val : <span class="number">0</span>) + (d2 ? d2-&gt;val : <span class="number">0</span>) + carry;</div><div class="line">        <span class="keyword">if</span>((*result)-&gt;val &gt;= <span class="number">10</span>)</div><div class="line">        &#123;</div><div class="line">            (*result)-&gt;val -= <span class="number">10</span>;</div><div class="line">            add(d1 ? d1-&gt;next : <span class="literal">NULL</span>, d2 ? d2-&gt;next : <span class="literal">NULL</span>, &amp;((*result)-&gt;next), <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            add(d1 ? d1-&gt;next : <span class="literal">NULL</span>, d2 ? d2-&gt;next : <span class="literal">NULL</span>, &amp;((*result)-&gt;next), <span class="number">0</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="function">ListNode *<span class="title">addTwoNumbers</span><span class="params">(ListNode *l1, ListNode *l2)</span> </span>&#123;</div><div class="line">        ListNode *first;</div><div class="line">        add(l1, l2, &amp;first, <span class="number">0</span>);</div><div class="line">        <span class="keyword">return</span> first;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-add-two-numbers/">http://kuangqi.me/programming/leetcode-add-two-numbers/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;用两个单向链表给出两个整数。求两个整数的和，以链表形式返回。输入的和返回的链表顺序都是从低位到高位。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LeetCode 001 Two Sum 题解</title>
+    <link href="http://kuangqi.me/programming/leetcode-two-sum/"/>
+    <id>http://kuangqi.me/programming/leetcode-two-sum/</id>
+    <published>2015-04-09T10:29:43.000Z</published>
+    <updated>2016-12-04T10:49:45.425Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一个不保证有序的数列<code>numbers</code>，在数列中找到2个数，使得两个数的和等于一个指定的数<code>target</code>，返回这两个数的索引<code>index1</code>和<code>index2</code>。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>依次尝试所有组合，需要$O(n^2)$的时间复杂度，这显然会导致超时。我们可以对序列进行排序，依次选择每一个数，然后用<code>target</code>减去当前的数，然后通过二分查找法在有序表中查找是否存在与当前数配对的另外一个数。这样就可以将时间复杂度降为$O(n\log n)$。</p>
+<p>由于排序后数的索引会发生变化，所以需要记录每个数排序之前的索引编号。可以将数和索引做成一个结构体，然后对结构体排序。</p>
+<p>在C语言的标准库中，有2个函数可帮我们完成这个目标，一个是快速排序函数<code>qsort</code>（<a href="http://www.cplusplus.com/reference/cstdlib/qsort/" target="_blank" rel="external">文档</a>），另一个是二分查找函数<code>bsearch</code>（<a href="http://www.cplusplus.com/reference/cstdlib/bsearch/" target="_blank" rel="external">文档</a>）。这两个函数都需要包含头文件<code>stdlib.h</code>。</p>
+<p>由于需要返回2个数，所以这道题的C语言函数要求返回一个指针，正确的做法是使用<code>malloc</code>在堆上分配内存，而返回局部变量的数组是行不通的。记住一句话：永远不要返回局部自动变量的指针。</p>
+<p>C语言源代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> num;</div><div class="line">    <span class="keyword">int</span> index;</div><div class="line">&#125; Entry;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *a, <span class="keyword">const</span> <span class="keyword">void</span> *b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> (*((Entry*)a)).num - (*((Entry*)b)).num;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> *<span class="title">twoSum</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> n, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">    Entry *arr = (Entry*)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(Entry));</div><div class="line">    <span class="keyword">int</span> *result = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</div><div class="line">    &#123;</div><div class="line">        arr[i].num = numbers[i];</div><div class="line">        arr[i].index = i + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    qsort(arr, n, <span class="keyword">sizeof</span>(Entry), cmp);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</div><div class="line">    &#123;</div><div class="line">        Entry key;</div><div class="line">        key.num = target - arr[i].num;</div><div class="line">        Entry *p = (Entry*)bsearch(&amp;key, arr, n, <span class="keyword">sizeof</span>(Entry), cmp);</div><div class="line">        <span class="keyword">if</span>(p != <span class="literal">NULL</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> index1 = arr[i].index, index2 = p-&gt;index;</div><div class="line">            result[<span class="number">0</span>] = index1 &lt; index2 ? index1 : index2;</div><div class="line">            result[<span class="number">1</span>] = index1 &gt; index2 ? index1 : index2;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">free</span>(arr);</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-two-sum/">http://kuangqi.me/programming/leetcode-two-sum/</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;题意&quot;&gt;&lt;a href=&quot;#题意&quot; class=&quot;headerlink&quot; title=&quot;题意&quot;&gt;&lt;/a&gt;题意&lt;/h2&gt;&lt;p&gt;给一个不保证有序的数列&lt;code&gt;numbers&lt;/code&gt;，在数列中找到2个数，使得两个数的和等于一个指定的数&lt;code&gt;target&lt;/code&gt;，返回这两个数的索引&lt;code&gt;index1&lt;/code&gt;和&lt;code&gt;index2&lt;/code&gt;。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Hexo Landscape主题的字体和JS库优化</title>
     <link href="http://kuangqi.me/tricks/hexo-optimizations-for-mainland-china/"/>
     <id>http://kuangqi.me/tricks/hexo-optimizations-for-mainland-china/</id>
@@ -2407,427 +2778,6 @@ AudioServicesPlaySystemSound(soundID);
     
       &lt;p&gt;第十二届“挑战杯”全国大学生课外学术科技作品竞赛终于落下帷幕，我们的项目《基于计算机视觉和移动计算的自习室使用情况实时报告系统》最终获得了全国三等奖的成绩。这并不是一个完美的结果，但却是对我们过去一年半的工作最好的总结。&lt;/p&gt;
 &lt;p&gt;2010年11月到2011年11月，在这一年的时间我们做的最有意义的工作，就是将这一片曾经无人问津的荒地，变成了一片前景广阔的蓝海。在这一年的时间里，我们将理论付诸实践，让梦想照进现实。我们的团队亲手将几页计划书，一个原始而初级设想，变成了一个看得见的产品。从“北创”计划成功立项到获得校级优秀项目顺利结项，从“京师杯”出线到“挑战杯”入围。我们走过了一段又一段不凡的历程。 &lt;/p&gt;
-    
-    </summary>
-    
-      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>第十二届全国“挑战杯”竞赛杂记</title>
-    <link href="http://kuangqi.me/essay/12th-challenge-cup-at-dlut/"/>
-    <id>http://kuangqi.me/essay/12th-challenge-cup-at-dlut/</id>
-    <published>2011-10-22T16:03:15.000Z</published>
-    <updated>2016-11-29T15:02:00.163Z</updated>
-    
-    <content type="html"><![CDATA[<p>2011年10月15日-20日，有点长的时间跨度，经历了很多很多的事情，没法写成记叙文了，干脆写成一段一段的杂记了…</p>
-<h2 id="10月14日下午-出发前"><a href="#10月14日下午-出发前" class="headerlink" title="10月14日下午   出发前"></a>10月14日下午   出发前</h2><p>师兄告诉我投影仪已经就绪了，下午果断翘掉毛概和信息安全，来团委会议室把系统统调一下。话说我们也真够大胆，把开发的计划一直排到了出发前的最后一天。以至于整个系统研发一年多以来，一直没有进行一次真正意义上的统调。两台电脑，一台手持设备，一台路由器，一台投影仪，这就是我们的家当了。师兄帮我买了一条非常装B的”逐行扫描VGA电缆”，我看它插头里有一根针跟别的不太一样，也没放在心上，接着投影仪上鼓捣了一阵也正常使用了，就没再想这事，而就是这根假冒伪劣的VGA线埋下了隐患…</p>
-<a id="more"></a>
-<p>统调一下还是发现了一些问题，一些开发中草草写就的地方，比如使用了绝对路径，在这样的调试中就会暴露出问题。为了简化布展时的调试工作，我们关闭了路由器的DHCP服务器，将IP地址设为了静态。总体来说调试的过程还算顺利，基本是按照我们的预想进行的。除了会议室中途有紧急会议，我们被迫搬了一次家…</p>
-<h2 id="10月14日-出发！"><a href="#10月14日-出发！" class="headerlink" title="10月14日  出发！"></a>10月14日  出发！</h2><p>队伍浩浩荡荡，两拨人已经坐上事先安排好的小汽车，我们几个则悲催的在打出租车…正处于晚高峰时期，出租车很不好找，还好我们提前了2小时出发…</p>
-<p>打出租车未果，我们决定徒步到积水潭坐地铁，正赶上新街口外大街堵车，我们果断徒步超越了被堵在马路上的那两拨坐上汽车的同学，最终的结果是我们同时到达了积水潭地铁站…</p>
-<p>我们在火车站还遇到了北航的挑战杯团队，后来得知那一车厢基本都是去参赛的…</p>
-<h2 id="10月14日-改程序…"><a href="#10月14日-改程序…" class="headerlink" title="10月14日  改程序…"></a>10月14日  改程序…</h2><p>到了火车上，电脑往小桌上一摆，改程序！服了吧！这在参赛的路上了，要演示的程序还没有准备好…陈昕昀和我都非常淡定…要改的是两个空座识别算饭的演示程序，现在的数据表结构跟当时的有少许不通，因此需要把更新数据库的语句改一下。我果断发现自己已经不会写UPDATE的SQL语句了…被昀牛BS…</p>
-<p>改好的语句还是不能执行，身经百战的我们第一个想到的问题就是—-中！文！编！码！！！果了个然！！！把SQL语句里的中文去掉就可以执行了…恶爆了…</p>
-<p>这里的一个小插曲，我后来才知道，那就是八卦的师兄师姐们一直在悄悄聆听我跟昀牛的谈话内容，结果却很失望…因为我们一直在纠结那个神棍的程序…</p>
-<h2 id="10月15日-到大连了"><a href="#10月15日-到大连了" class="headerlink" title="10月15日  到大连了"></a>10月15日  到大连了</h2><p>昨晚睡了大概睡了不到5小时…困…</p>
-<p>竟然在下雨，不给面子…微囧的是，我明明带了雨伞，但却没找着…后来到宿舍才发现雨伞藏在了一坨衣服的下面…</p>
-<p>接站的志愿者有不少，有专车接送，不久就到了大连理工大学。</p>
-<p>在车上，大牛们的讨论让我无奈。一个是三年国奖，还有几个专业第一第二，他们互相膜拜了半天，然后觉得无聊，转过头来问我：“况琪，你是你们专业第一吗?”…我只好躲到角落里去画圈圈了…</p>
-<h2 id="10月15日-崩盘"><a href="#10月15日-崩盘" class="headerlink" title="10月15日  崩盘"></a>10月15日  崩盘</h2><p>一到宿舍就给了我一个下马威，路由器竟然连不上了，提示连接超时…我以为是路上把天线弄坏了，但两位师兄表示连接无压力，我只好再怀疑自己的电脑了。上网查的结果是，Mac OS 10.7的Wi-Fi确实不稳定，有网友出现了一样的问题…解决方法各种神棍，其中一种是修改路由器的SSID，我尝试后发现有效。但是SSID从很霸气的BNUTZB(北师大挑战杯的缩写)变成了很2B的BNUTZB2…</p>
-<p>下午到了布展的现场，网络连接貌似是没啥问题了，但问题是投影仪识别不出来了。本以为是我不会操作Mac系统连接投影仪。但搞了十几分钟也不行，最后终于把目光投向了那根山寨的VGA线。不看不要紧，一看我勒个去，两个头一边弯了一根针，试图将其弯回来，断了……</p>
-<p>只好打电话求助万能的王品同学…一小时后一条新的VGA线出现在我们的眼前，调整投影仪后布展最终宣告完成…轻松之余转到旁边的北理的展位，跟伍艺大牛讲述了VGA线断针，同学紧急帮我去买的窘况，他竟然说：“我这里还剩下2条，你怎么不早跟我说…” </p>
-<p>我大囧！！</p>
-<h2 id="10月15日-熬夜做彩页"><a href="#10月15日-熬夜做彩页" class="headerlink" title="10月15日  熬夜做彩页"></a>10月15日  熬夜做彩页</h2><p>一直跟昀牛说要重新做个项目的宣传彩页，但这一拖就拖到大连来了…晚上吃晚饭就开始做个彩页，一直弄到晚上11点多。去学校下面的打印店打印，彩色激光！正反面4元一页，我一掷千金，打了15页。我做完彩页后还特别让昀牛检查了一下，结果后来发现有4个标点符号出现在了行首，在此BS一下…</p>
-<p>累的半死不活上了个大上坡回到寝室，还没上楼，发现手提袋落在打印店，于是回去取…当我再次回到宿舍时，发现大门已锁，只好敲窗叫看门大爷起床。被盘问+BS…</p>
-<h2 id="10月16日-公开展示之被高科技环绕"><a href="#10月16日-公开展示之被高科技环绕" class="headerlink" title="10月16日  公开展示之被高科技环绕"></a>10月16日  公开展示之被高科技环绕</h2><p>我们两台电脑外加一台投影，我觉得场面还过得去啦。再看旁边北理的项目，两台液晶电视…外加两三台台式机和一堆神马头盔式三维显示器…还有4块展板，2个展架，一个直径约1米带栏杆的圆形台子和一个1:1的人体模型…声光电齐上阵…太惊人了…</p>
-<p>问问那个作者是啥专业的，他悠悠的吐出俩字：光电…我服了！</p>
-<h2 id="10月16日-公开展示之彩页不够用"><a href="#10月16日-公开展示之彩页不够用" class="headerlink" title="10月16日   公开展示之彩页不够用"></a>10月16日   公开展示之彩页不够用</h2><p>我完全低估了观众的热情，15张彩页在开场后不到半小时就发完了。只好再去打印。万能的王品直接给我打印了100页…不过这次直接把价格砍到了2.6元一页…</p>
-<p>回来发的很猛，王品一声断喝，我们放慢了节奏，于是又有几十页精美的彩页免于被菜鸟的黑手蹂躏。事实证明正是此举，为我们的彩页保留了有生力量，使得我们的100页彩页坚持到了最后一天…</p>
-<h2 id="10月16日-公开展示之杨萌师姐当托"><a href="#10月16日-公开展示之杨萌师姐当托" class="headerlink" title="10月16日  公开展示之杨萌师姐当托"></a>10月16日  公开展示之杨萌师姐当托</h2><p>不知在什么时候，杨萌师姐混在一堆菜鸟当中当起了托~她对我一口一声”同学”，俨然是一副完全不认识我的样子。我很淡定的回答她提出的问题，小小师姐则在一旁笑到不行，昀牛也快不淡定了…</p>
-<p>师姐问问题的声音超大，很多人都被吸引了过来，按理来说这个托当的是相当的完美了，但是有一个小小的bug…那就是师姐胸前的校徽闪闪发亮啊啊啊，我胸前的校徽也闪闪发亮啊啊啊，交相辉映有木有！！上面写着一样的字啊！！北京师范大学有木有！！一个离师姐近的男生发现了端倪，立即就掩面离去了，哈哈哈！</p>
-<h2 id="10月16日-开幕式"><a href="#10月16日-开幕式" class="headerlink" title="10月16日  开幕式"></a>10月16日  开幕式</h2><p>晚上去参加开幕式，开幕式还是非常给力的。舞台灯光都很有专业水准。不过天太冷了，我们看了一半左右就先行撤退了。回来师兄屡次尝试去网上找开幕式的完整视频，但均未果…回来的路上听解放军师兄谈论了很多重口味的话题，发现曾经在宿舍里被公认的重口味话题在师兄口中都不足挂齿。只有更重没有最重…</p>
-<p>今天晚上终于洗上了澡…发现大连理工洗澡贵的要命，大概花了3元钱。那个计价器跳字的速度大概是北师大的3-4倍…还有打印是2毛起价，貌似也比北师大贵一倍。吃饭虽然是用票，不过听说他们的饭菜也不便宜。对比一下，还是北京好啊！！！</p>
-<h2 id="10月17日-封闭评审"><a href="#10月17日-封闭评审" class="headerlink" title="10月17日  封闭评审"></a>10月17日  封闭评审</h2><p>人算不如天算，这是我对今天发生的事情的一句话总结。</p>
-<p>昨天，我们做足了功课，谎称证件丢失，晚上10点多志愿者又送来一份新的证件，就是为了让陈昕昀在答辩时进场。今天，门口排队逐个签到，陈昕昀RP爆发没签到就混了进来。</p>
-<p>结果呢?某师姐的参赛证居然落在了宾馆！于是她死皮赖脸的要陈昕昀把证给她，于是陈昕昀就因为没证被清场了…</p>
-<p>我就无奈了…其实当时有几个人在场的不止我们一个项目，对面的轮椅和隔壁的三维显示器都是几个人在场。我们项目被清场我自然不会就此罢休，我对组委会的工作人员提出强烈抗议，要求其他项目也不能有多人在场。于是工作人员将火力转向了对面的脑机接口轮椅。要求那个被固定在轮椅中头戴电极帽打好导电膏的实验人员离场，他自然不会同意，一个人怎么可能又要答辩又要拖着电极帽控制轮椅…于是发生了争执…</p>
-<p>隔壁的哥们显然比较幸运，专家已经走到了他们的展位，他们展位三个人一个说话，一个扶着专家，一个帮专家戴上那个头盔显示器。配合的相当默契~而工作人员还在纠缠对面那个带着电极帽的人，鹬蚌相争渔翁得利，估计北理的张楠大牛得好好的请我吃一顿…华南理工的大哥，对不住了…</p>
-<h2 id="10月18日-封闭评审"><a href="#10月18日-封闭评审" class="headerlink" title="10月18日  封闭评审"></a>10月18日  封闭评审</h2><p>无人问津，无聊…跟周围的选手聊天，发现隔壁的师姐的作品程序规模是20万行…我们作品的代码量我没有统计过，不过应该在”千行”这个数量级上…顿时膜拜的五体投地…</p>
-<p>晚上去了星海广场，碰碰车玩的很爽！！第二天感觉右腿膝盖隐隐作痛，一看发现起了一块淤青，估计是昨晚碰碰车时撞的…</p>
-<h2 id="10月19日-玩"><a href="#10月19日-玩" class="headerlink" title="10月19日  玩"></a>10月19日  玩</h2><p>美美的睡了一觉，下午去了俄罗斯风情街，买东西需要疯狂的砍价。基本可以毫不费力的打上6折…晚上的颁奖典礼，，，只颁了特等奖…没我们的事情，估计是悲剧了…</p>
-<h2 id="10月20日-玩"><a href="#10月20日-玩" class="headerlink" title="10月20日  玩"></a>10月20日  玩</h2><p>圣亚海洋世界…好吧…我去过哈尔滨和大连的海洋世界，却没去过青岛的…表示无奈…晚上返程</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/essay/12th-challenge-cup-at-dlut/">http://kuangqi.me/essay/12th-challenge-cup-at-dlut/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;2011年10月15日-20日，有点长的时间跨度，经历了很多很多的事情，没法写成记叙文了，干脆写成一段一段的杂记了…&lt;/p&gt;
-&lt;h2 id=&quot;10月14日下午-出发前&quot;&gt;&lt;a href=&quot;#10月14日下午-出发前&quot; class=&quot;headerlink&quot; title=&quot;10月14日下午   出发前&quot;&gt;&lt;/a&gt;10月14日下午   出发前&lt;/h2&gt;&lt;p&gt;师兄告诉我投影仪已经就绪了，下午果断翘掉毛概和信息安全，来团委会议室把系统统调一下。话说我们也真够大胆，把开发的计划一直排到了出发前的最后一天。以至于整个系统研发一年多以来，一直没有进行一次真正意义上的统调。两台电脑，一台手持设备，一台路由器，一台投影仪，这就是我们的家当了。师兄帮我买了一条非常装B的”逐行扫描VGA电缆”，我看它插头里有一根针跟别的不太一样，也没放在心上，接着投影仪上鼓捣了一阵也正常使用了，就没再想这事，而就是这根假冒伪劣的VGA线埋下了隐患…&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>安全禁用Macbook的开机音效</title>
-    <link href="http://kuangqi.me/ios/disable-the-power-up-tone-on-mac/"/>
-    <id>http://kuangqi.me/ios/disable-the-power-up-tone-on-mac/</id>
-    <published>2011-09-10T11:37:23.000Z</published>
-    <updated>2016-11-29T15:02:00.174Z</updated>
-    
-    <content type="html"><![CDATA[<p>苹果系统开机时会发出“咣”的一声，这个音效本身没有什么美感可言，在安静的地方比如图书馆开机时更容易引起尴尬。然而苹果系统本身并未提供一个功能禁用这个音效。</p>
-<p>我写了这样一个脚本，可以禁用Macbook的开机音效。其原理是，开机音效声音的大小取决于关机前系统声音的大小，如果关机前是静音的，则开机音效也被静音。因此在关机之前执行一个脚本，将系统设为静音，开机后再执行一个脚本，将静音状态取消，即可实现完美去除开机音效。</p>
-<p>除此方法外，还有一些软件可以禁用开机音效，但这些软件通常是通过修改nvram的方式实现的，具有一定的危险性，而且兼容性也得不到保障，比如升级到Mac OS X Lion后这些软件就都失效了。而这段脚本则可以在所有系统上通用。</p>
-<a id="more"></a>
-<p><code>mute_on_startup.sh</code>脚本的内容如下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$USER</span>"</span> != <span class="string">'root'</span> ]; <span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">'You must run this script as root'</span></div><div class="line">    <span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"Try: \033[0;31;1msudo <span class="variable">$0</span> <span class="variable">$1</span>\033[0m instead"</span></div><div class="line">    <span class="built_in">exit</span> 1</div><div class="line"><span class="keyword">fi</span> </div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$1</span>"</span> == <span class="string">'restore'</span> ]; <span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">'Deleting script file...'</span></div><div class="line">    rm /Library/Scripts/mute-on.sh</div><div class="line">    rm /Library/Scripts/mute-off.sh</div><div class="line">    <span class="built_in">echo</span> <span class="string">'Deleting login script...'</span></div><div class="line">    defaults delete com.apple.loginwindow LoginHook</div><div class="line">    defaults delete com.apple.loginwindow LogoutHook</div><div class="line">    <span class="built_in">echo</span> <span class="string">'Done!'</span></div><div class="line">    <span class="built_in">exit</span> 1</div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$1</span>"</span> != <span class="string">''</span> ]; <span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">'Unknown argument(s)'</span></div><div class="line">    <span class="built_in">exit</span> 1</div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="built_in">echo</span> <span class="string">'Creating script...'</span></div><div class="line">bash -c <span class="string">'cat &gt; /Library/Scripts/mute-on.sh &lt;&lt;EOF</span></div><div class="line">#!/bin/bash</div><div class="line">osascript -e '<span class="built_in">set</span> volume with output muted<span class="string">'</span></div><div class="line">EOF</div><div class="line">'</div><div class="line">bash -c <span class="string">'cat &gt; /Library/Scripts/mute-off.sh &lt;&lt;EOF</span></div><div class="line">#!/bin/bash</div><div class="line">osascript -e '<span class="built_in">set</span> volume without output muted<span class="string">'</span></div><div class="line">EOF</div><div class="line">'</div><div class="line"><span class="built_in">echo</span> <span class="string">'Grantng execution privilege...'</span></div><div class="line">chmod u+x /Library/Scripts/mute-on.sh</div><div class="line">chmod u+x /Library/Scripts/mute-off.sh</div><div class="line"><span class="built_in">echo</span> <span class="string">'Creating login script...'</span></div><div class="line">sudo defaults write com.apple.loginwindow LogoutHook /path/to/mute-on.sh</div><div class="line">sudo defaults write com.apple.loginwindow LoginHook /path/to/mute-off.sh</div><div class="line"><span class="built_in">echo</span> <span class="string">'Done!'</span></div><div class="line"><span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"To retore the modify, try: \033[0;31;1msudo <span class="variable">$0</span> restore\033[0m"</span></div></pre></td></tr></table></figure>
-<p>使用方法：</p>
-<p>赋予执行权限并执行脚本</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">chmod u+x mute_on_startup.sh</div><div class="line">sudo ./mute_on_startup.sh</div></pre></td></tr></table></figure>
-<p>如果要恢复开机音效，请执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo mute_on_startup.sh restore</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/disable-the-power-up-tone-on-mac/">http://kuangqi.me/ios/disable-the-power-up-tone-on-mac/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;苹果系统开机时会发出“咣”的一声，这个音效本身没有什么美感可言，在安静的地方比如图书馆开机时更容易引起尴尬。然而苹果系统本身并未提供一个功能禁用这个音效。&lt;/p&gt;
-&lt;p&gt;我写了这样一个脚本，可以禁用Macbook的开机音效。其原理是，开机音效声音的大小取决于关机前系统声音的大小，如果关机前是静音的，则开机音效也被静音。因此在关机之前执行一个脚本，将系统设为静音，开机后再执行一个脚本，将静音状态取消，即可实现完美去除开机音效。&lt;/p&gt;
-&lt;p&gt;除此方法外，还有一些软件可以禁用开机音效，但这些软件通常是通过修改nvram的方式实现的，具有一定的危险性，而且兼容性也得不到保障，比如升级到Mac OS X Lion后这些软件就都失效了。而这段脚本则可以在所有系统上通用。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>大学是青春的足迹——再谈文化知识与科学素养</title>
-    <link href="http://kuangqi.me/essay/campus-life-is-a-pearl/"/>
-    <id>http://kuangqi.me/essay/campus-life-is-a-pearl/</id>
-    <published>2011-09-09T15:43:36.000Z</published>
-    <updated>2016-11-29T15:02:00.171Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote>
-<p>“三年前，我能做三角函数，解多元高次方程，能背文言文，虽然我英语不太好，但我也知道either or 和neither nor，知道辛亥革命的意义,会画大气环流图~再往前，我能背化学元素表，知道氧化还原反应和中和反应，看的懂电路图，知道牛顿三大定律，知道植物细胞有细胞壁而动物细胞没有~现在我就是个文盲”——转自人人网</p>
-</blockquote>
-<p>今天看到不少同学转发了这样一条状态，想想自己读大学也有两年了，不禁有一些感慨。正赶上中秋假期，时间略有富余，遂发文议论一下。</p>
-<p>这条状态的作者抒发了自己的感慨和无奈，我是一个文盲，这句话有戏谑的成分，但是却是真切的感受。诚然，我不能像高中时那样熟练的进行三角恒等变换、不记得氧化还原反应的配平方法、不知道辛亥革命的意义、也没法全文背诵《兰亭序》了。但是遗忘终究不能被阻止，当曾经滚瓜烂熟的知识变得生疏，它真的就什么都没有留下吗？在一次跟老同学聊天的过程中，我说我已经有两年没有看过什么文学作品了。课本、专业书籍以及社交网络、即时通讯软件中的垃圾信息已经让我应接不暇。理工科的学生似乎不应该有太丰富的情绪和感悟，偶尔感悟一下竟被周围的同学批为成装文艺，装逼……然而，大学究竟有没有让我成为一个文盲？</p>
-<a id="more"></a>
-<p>这个问题，我想我是有清楚的答案的，我的回答就是“没有”。我觉得在过去的两年中，我经历了20多年来最神奇的转变和进步。每次升学、每次环境的改变，都是一份宝贵的人生经历。我的价值观在初中时逐步形成，我的18岁在高中的校园里度过。大学会是我一生中最宝贵的学习机会，是我提升自己功力的黄金时期。北师大不乏声名显赫的学术泰斗，北师大的图书馆规模2.5倍于青岛市图书馆，这里我们有机会接触业界前沿的技术和专家，有机会参与国内甚至国际上顶尖的赛事和会议。这些都是得天独厚的我们取之不尽的宝库。</p>
-<p>想想过去的我，我只不过遗忘了一些无关紧要的概念和数据。据说就连爱因斯坦也没法准确的回答出空气中的声速。然而我们在这两年中又收获了什么呢？我不敢对大学生这个群体妄下定论，我只能说说我自己。</p>
-<p>两年前，我踌躇满志的来到师傅的软件公司，三天时间就编写完了玫瑰图绘制和卫星云图压缩两个程序，更是让我自信心爆棚。然而在面对“等高线绘制”，以及后来的“报文解析”和“锋面图绘制”几个任务时，我却一筹莫展，直到三周后离开时也没得到什么进展。然而现在我再来回想这段经历时，我发现在报文解析程序中曾经花了几天时间设计出来的自以为得意的数据结构，其实与编译原理课上学到符号表有点类似，只不过没有符号表那么好用。曾经认为是不可能完成的锋面图，其实只不过是计算机图形学中最基本的Hermite曲线。</p>
-<p>再来看看曾经让我得意的东西，高中时跟松哥一起写的二值图像降噪程序，获得过全国二等奖，保送上大学，何其神气！前段时间同学说想学OpenCV图像处理，我说你就把我高中时保送的那个算法写一遍吧。说了这话我心里也有点痒痒，心想不妨自己也试试写写那3年前的程序，过过瘾也好。然而事实并没有让我过瘾，我用了不到10分钟，28行代码就完成了曾经那个超过650行的程序。从未接触过图像处理的队友也在几小时内完成了这个程序。现在再来看看那个算法，想想当时焦头烂额夜不能寐的经历，真是一声冷笑啊！</p>
-<p>在前几天，跟挑战杯竞赛的队友谈论了人流量计数的算法，之前一直对直方图缺陷的处理没有头绪。队友说，老师建议我们用数字滤波试试。我当即恍然大悟，说是啊，对原直方图做个离散傅里叶变换，滤掉高频量，再变逆变换回来，这个问题应该就可以解决啊！说完这番话我自己都有点不自信，想当年复变函数学的很烂，期末突击终于低空飘过。如今将傅里叶挂在嘴上实在不是我的风格。我虽然已经不记得那个复变函数的积分应该怎么做了，但我知道它能干什么，什么场合可以用。我想这个就是传说中的“素养”吧。</p>
-<p>在大学中学接触到的东西确实是我之前不敢想的。我们可以在实验室中亲手操作曾经获得过诺贝尔奖的密立根油滴实验，还有为喜爱的加菲猫形象拍摄激光全息照片并亲手冲洗出来。制作一台6管的超外差收音机居然只是电子工艺实验课的入门实验，期末设计是自己制作一个抢答器。在高中时，我曾因师兄将一个游戏手柄改装成一个误差高达50ms的抢答器而膜拜的五体投地，而如今我可以从一张白纸出发，将一堆集成电路搭成一个抢答器。指着自己示波器上那些别人看来眼花缭乱的曲线得意的炫耀，是只有理工科学生才能体会的欢乐。</p>
-<p>高中时曾因为背单词的事情跟父母发生争执。我指着高中英语书单词表上的第一个单词大喊：你看，这是什么破单词，concrete！混凝土！我将来研究计算机跟混凝土有什么关系！我打赌我一辈子也不会用到这个该死的concrete！然而进入大学后，我了解到了Knuth大神的经典著作Concrete Mathematics（具体数学），赫然将我曾经鄙视的concrete写在了标题上，我才意识到了曾经的想法实在是too simple, sometimes naive!</p>
-<p>曾经抵触英语的我在大二上学期为实验室翻译了CUDA by Example的第五章，两万多字的文本。终于在前几天在跟同学讨论到一份英文文档<em>只有</em>45页时遭到强烈的鄙视。</p>
-<p>明白自己的无知，是取得进步和突破的第一步。小学时，当我自学完网页三剑客时，我得意的跟妈妈说，在计算机领域，只有两个领域我没有涉及了，一是编程，二是三维图形。好一个只有，这个“只有”值得我用一生的时间去追去和探索。初中时我建起自己的网上论坛，还跟同学一起学习C语言。才发现编程貌似不像网页三剑客那么简单。当我进入高中，初来乍到的我认识周围的同学时，发现了坐在我前面的松哥是从6岁多开始学编程的，现在会C++，C#，Pascal，VB等好几种编程语言，连for循环还不会的我顿时膜拜的五体投地。当我进入大学，信誓旦旦的跟妈妈说会争取提前一年，甚至提前两年毕业。因为那时我以为专业课都几乎不用学了。但后来我发现我的老本在大一下C++课完成时，已经彻底吃完了。刚入学时，当大家都纠结于C语言的复杂时，已经用了三四年C语言的我得意洋洋。然而期末考试我考了94分，班里却有好几位从前没接触过编程的同学得到了100分。我终于明白了牛人无处不在。</p>
-<p>如今当我徜徉在图书馆的书架前，踮起脚看清书脊上密密麻麻的文字。当我坐在北京GNOME用户组的聚会的饭桌上，听着那些公司里哪怕是最普通的IT从业者的口中也说着我完全听不懂的专业名词，我终于明白了在这片自己曾经摸爬滚打多年并自认为小有成就的领域里，我只是一个呱呱坠地的婴儿、一个无知的白痴。1997年接触计算机，如今网龄已经是14年了吧。然而这只是一个开始，读大学两年我学到的东西，比之前12年的总和还要多很多。</p>
-<p>做过一些朋友传给我的无聊的点名游戏，里面经常遇到的一个问题就是“你对什么事最后悔”，“如果你能穿越你会穿越到之前的哪个时间点”。我想我不后悔，如果要我再选择一次，我仍然会选择上大学，上我能上的最好的大学。如果真的要给我一粒后悔药，我打算把大学里的基础课再学的好一些。</p>
-<p>也许学习新的东西就不可避免的导致从前的一些引以为豪的东西被遗忘，我想时间已经帮我们做出了最优化的选择，也许高中那些知识有不少已经还给了老师，但我想，高中教育给我们留下的素养，是不会随时间的过往而遗忘的。我对素养的理解，就是用自己的知识推理和解决自己从来没有见过的问题的能力。就是这样的科学素养，让我们面对“食盐防辐射”的谣言时不为所动，让我们面对铺天盖地的商业宣传和砖家指导时三思而后行。</p>
-<p>如果问我中国的大学还能不能上，本科四年是不是真的学不到啥东西，是不是大学毕业后比中专生强不到哪里去。我想我上面的论述已经给出了毋庸置疑的答案。我曾经就这个问题跟室友发生了激烈的争执。但我坚定不移的认为大学生要用自己的努力让大学没有白读。</p>
-<p>有很多同学问过我关于就业的打算，我的回答从来是“不知道”。我不知道自己将来会去哪里从事什么样的工作。但我一点都不为自己将来的就业担心。大学是心无旁骛提升自己功力的时期，不是去企业溜须拍马寻找捷径的时期。说的具体一些，如果作为一位IT从业者，我带着10万行的编程经验，我可以自信的出现在任何一家IT公司的面试官前。舍友驳斥我说没几个人能找到自己专业对口的工作。我想这只有两种可能性，一是他真的不喜欢大学的专业，所以毕业后改行，二是他在专业技能还差的太远。我喜欢自己的专业，所以不会是第一种可能性。我要在4年的时间内利用北师大这种全国都罕有的资源将自己的专业技能提升到一个令人信服的水平、让普通的中专生望尘莫及的高度。那么我凭什么会找不到工作、去跟中专生去抢饭碗呢？</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/essay/campus-life-is-a-pearl/">http://kuangqi.me/essay/campus-life-is-a-pearl/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;“三年前，我能做三角函数，解多元高次方程，能背文言文，虽然我英语不太好，但我也知道either or 和neither nor，知道辛亥革命的意义,会画大气环流图~再往前，我能背化学元素表，知道氧化还原反应和中和反应，看的懂电路图，知道牛顿三大定律，知道植物细胞有细胞壁而动物细胞没有~现在我就是个文盲”——转自人人网&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;今天看到不少同学转发了这样一条状态，想想自己读大学也有两年了，不禁有一些感慨。正赶上中秋假期，时间略有富余，遂发文议论一下。&lt;/p&gt;
-&lt;p&gt;这条状态的作者抒发了自己的感慨和无奈，我是一个文盲，这句话有戏谑的成分，但是却是真切的感受。诚然，我不能像高中时那样熟练的进行三角恒等变换、不记得氧化还原反应的配平方法、不知道辛亥革命的意义、也没法全文背诵《兰亭序》了。但是遗忘终究不能被阻止，当曾经滚瓜烂熟的知识变得生疏，它真的就什么都没有留下吗？在一次跟老同学聊天的过程中，我说我已经有两年没有看过什么文学作品了。课本、专业书籍以及社交网络、即时通讯软件中的垃圾信息已经让我应接不暇。理工科的学生似乎不应该有太丰富的情绪和感悟，偶尔感悟一下竟被周围的同学批为成装文艺，装逼……然而，大学究竟有没有让我成为一个文盲？&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="我笔我心" scheme="http://kuangqi.me/categories/essay/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Mac OS X系统下显示隐藏文件</title>
-    <link href="http://kuangqi.me/ios/show-hidden-files-in-os-x/"/>
-    <id>http://kuangqi.me/ios/show-hidden-files-in-os-x/</id>
-    <published>2011-09-09T11:13:58.000Z</published>
-    <updated>2016-11-29T15:02:00.188Z</updated>
-    
-    <content type="html"><![CDATA[<p>显示隐藏文件：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">defaults write com.apple.finder AppleShowAllFiles -bool true</div><div class="line">KillAll Finder</div></pre></td></tr></table></figure>
-<p>恢复隐藏</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">defaults write com.apple.finder AppleShowAllFiles -bool false</div><div class="line">KillAll Finder</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/show-hidden-files-in-os-x/">http://kuangqi.me/ios/show-hidden-files-in-os-x/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;显示隐藏文件：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/
-    
-    </summary>
-    
-      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>修理MacBook的多点触控板</title>
-    <link href="http://kuangqi.me/embedded/repair-the-multitouch-pad/"/>
-    <id>http://kuangqi.me/embedded/repair-the-multitouch-pad/</id>
-    <published>2011-08-08T09:30:42.000Z</published>
-    <updated>2016-11-29T15:02:00.187Z</updated>
-    
-    <content type="html"><![CDATA[<p>MacBook用了两年多了，触控板貌似出了点问题。必须要非常用力的按才有效，如果轻轻按，虽然能发出咔哒的响声，但电脑没有任何反应。到苹果零售店的“天才吧”检测后，工作人员建议我把触控板整个换掉，要300+大洋，我随即表示放弃维修。</p>
-<p>因为我知道这种现象在鼠标上非常常见，故障原因无非是按键下面的微动开关老化失灵了。很多动手能力强的玩家会自己更换鼠标上的微动开关，从而以低廉的成本让昂贵的鼠标焕发新生。但是MacBook的Multi-Touch Track pad触控板的微动开关是个什么样子？如何更换？通过搜索我并没有找到类似的案例。只能靠自己了。</p>
-<a id="more"></a>
-<p>我先阅读了一些关于MacBook拆解的文章，通过这些文章我可以对整个电脑的结构有一个整体且细致的了解。再加上观察和思考，我们完全可以自己修复触控板的微动开关。</p>
-<p>要做的第一步当然是把触控板从电脑上拆下来。具体的操作可以参考国外一个著名的DIY网站iFixit上的<a href="http://www.ifixit.com/Guide/Repair/MacBook-Unibody-Model-A1278-Upper-Case-Replacement/6029/" target="_blank" rel="external">Step by Step</a></p>
-<p>这个教程讲的是更换MacBook的前面板，我们只要做其中的几部就可以了，需要做的步骤有：</p>
-<ul>
-<li>Step1-Step5：打开电脑的后盖</li>
-<li>Step19-Step20：拆下中间的隔板。这步不是必须的，我没有做这一步，感觉将修好的触控板装回去的时候稍微有些困难。</li>
-<li>Step34：撬下触控板插在主板上的排线。我没有那个塑料棒，就用指甲扣下来了，貌似很容易弄下来。</li>
-<li>Step36：卸下压住排线的挡板</li>
-<li>Step45-Step47：拆下固定触控板的6颗螺丝，并拆下触控板。注意下面那颗大的螺丝是不用拆的，那个螺丝用于调节按键的触感。这六颗螺丝是非常特殊的人字花螺丝（英文叫1.4 mm Y0 Tri-wing screw），这种螺丝刀估计不好找。我用的是一盒30头的多用螺丝刀，其中有一把勉强可以拆卸。</li>
-</ul>
-<p>拆下板子就要开始修了，下面进入正题：</p>
-<p>拆下来的触控板是这样的，红圈处就是微动开关 </p>
-<p><img src="/images/multitouch-pad-1.jpg" alt=""></p>
-<p>再来一张微动开关的特写。这个微动开关跟我们平时见到的鼠标的微动开关很不一样。这个微动开关的结构要简单得多。仔细观察，发现微动开关周围有一层透明的胶纸，用美工刀仔细的将胶纸撬起，然后用镊子轻轻撕下来。发现就是一块比较厚的透明胶带。 </p>
-<p><img src="/images/multitouch-pad-2.jpg" alt=""></p>
-<p>撕下胶带后发现这个微动开关的关键部件就是那块银色的金属小圆片。它呈一个弧面，而且由弹性材料制成。按起来会发出咔哒咔哒的声响。同时会将下面的电路连通。</p>
-<p><img src="/images/multitouch-pad-3.jpg" alt=""></p>
-<p>再给这个小圆片来个特写，我用手指托着它— —||</p>
-<p><img src="/images/multitouch-pad-4.jpg" alt=""></p>
-<p>我发现这个小圆片仍然很有弹性，按起来会发出清脆的声响。但是小圆片内表面的中心位置上貌似有一些黑色的脏东西。我猜想触控板按键失灵的罪魁祸首是小圆片内表面和电路板上的氧化层或者其它脏东西。我用橡皮和棉棒仔细清理了小圆片的内表面和电路板上的金色圆盘，并用美工刀轻轻的刮了一下小圆片与电路板接触的边缘。最后将其按原样贴回电路板上，将电脑组装起来。</p>
-<p>组装的过程中要注意的问题是触控板的定位。将那六颗螺丝拧进螺丝孔，不要完全拧紧。然后在正反两面用双手调节触控板在电脑铝质面板中的位置，使得触控板上下左右的缝隙基本相同。用手按压触控板的左下角和右下角，感受一下触感。应该感到按键非常流畅，而不应该感到触控板的边缘与铝质的面板摩擦。定位好之后将六颗螺丝拧紧。我第一次做的时候就是直接将螺丝拧紧了，后来发现触控板会与面板间发生摩擦，甚至将按键卡住。只好将螺丝拧松后再次调整。这里提醒各位朋友了。</p>
-<p>开机试一下，惊喜的发现触控板的按键已经恢复正常了。哈哈，有类似问题的朋友也来试一下吧！</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/embedded/repair-the-multitouch-pad/">http://kuangqi.me/embedded/repair-the-multitouch-pad/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;MacBook用了两年多了，触控板貌似出了点问题。必须要非常用力的按才有效，如果轻轻按，虽然能发出咔哒的响声，但电脑没有任何反应。到苹果零售店的“天才吧”检测后，工作人员建议我把触控板整个换掉，要300+大洋，我随即表示放弃维修。&lt;/p&gt;
-&lt;p&gt;因为我知道这种现象在鼠标上非常常见，故障原因无非是按键下面的微动开关老化失灵了。很多动手能力强的玩家会自己更换鼠标上的微动开关，从而以低廉的成本让昂贵的鼠标焕发新生。但是MacBook的Multi-Touch Track pad触控板的微动开关是个什么样子？如何更换？通过搜索我并没有找到类似的案例。只能靠自己了。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="软硬兼施" scheme="http://kuangqi.me/categories/embedded/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>在Mac OS系统下配置CTeX+XeLaTeX方案处理中文文档</title>
-    <link href="http://kuangqi.me/ios/config-ctex-xelatex-in-os-x/"/>
-    <id>http://kuangqi.me/ios/config-ctex-xelatex-in-os-x/</id>
-    <published>2011-08-07T07:28:48.000Z</published>
-    <updated>2016-11-29T15:02:00.172Z</updated>
-    
-    <content type="html"><![CDATA[<p>我的软件环境是：</p>
-<ul>
-<li>操作系统：Mac OS X Lion 10.7</li>
-<li>TeX系统：MacTeX 2011</li>
-</ul>
-<p>理论上来说，更新版本的软件应该也可以工作</p>
-<p>CTeX包提供了较为完善的中文支持，排版的方案（例如段落缩进）也符合中国人的习惯，但是CTeX是基于Windows设计的，在移植到Mac时会出现一些小问题。主要是字体的问题，CTeX中默认使用的SimSun等字体在Mac OS中并不存在，取而代之的是“华文宋体”等华文系列的字体。因此如果不配置，会因找不到字体而出现编译错误。另外，在Windows中常用的“隶书”和“幼圆”两种字体，在Mac OS中根本不存在，也没有可以替换的字体。</p>
-<a id="more"></a>
-<p>对于缺失的隶书和幼圆，我们使用Windows中的字体，可以在<a href="http://tinker-bot.googlecode.com/files/cfonts.tar.gz" target="_blank" rel="external">这里</a>下载。我们只用到其中的simli.ttf和simyou.ttf这两个字体。另外的4的Adobe字体在我的系统中已经自带（也可能是我安装Photoshop时装上的？）</p>
-<p>打开应用程序中的“字体册”，点“所有字体”，再在菜单栏中点“文件”-“添加字体”，选择从刚下载的压缩包中解压出的simli.ttf和simyou.ttf，你也可以点击“中文”标签来检查一下四个Adobe字体是否已经自带，如果没有，就在添加字体时把它们也加进来。默认情况下字体会安装到你的用户文件夹下，如果你希望计算机上所有的用户都可以使用这些字体，可以在字体册偏好设置里设置将其安装到系统字体文件夹中（我是这么做的）。当然这需要你有root的口令。</p>
-<p>安装好字体后需要修改一下配置文件，在应用程序中打开终端，输入下列命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /usr/<span class="built_in">local</span>/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-winfonts.def</div></pre></td></tr></table></figure>
-<p>（如果您不会用vim就换个编辑器— —||，比如nano） </p>
-<p>输入密码后将其内容替换为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">\setCJKmainfont[BoldFont=&#123;STHeiti&#125;,ItalicFont=STKaiti]&#123;STSong&#125;</div><div class="line">\setCJKsansfont&#123;STHeiti&#125;</div><div class="line">\setCJKmonofont&#123;STFangsong&#125;</div><div class="line"></div><div class="line">\setCJKfamilyfont&#123;zhsong&#125;&#123;STSong&#125;</div><div class="line">\setCJKfamilyfont&#123;zhhei&#125;&#123;STHeiti&#125;</div><div class="line">\setCJKfamilyfont&#123;zhkai&#125;&#123;STKaiti&#125;</div><div class="line">\setCJKfamilyfont&#123;zhfs&#125;&#123;STFangsong&#125;</div><div class="line">\setCJKfamilyfont&#123;zhli&#125;&#123;LiSu&#125;</div><div class="line">\setCJKfamilyfont&#123;zhyou&#125;&#123;YouYuan&#125;</div><div class="line"></div><div class="line">\newcommand*&#123;\songti&#125;&#123;\CJKfamily&#123;zhsong&#125;&#125; % 宋体</div><div class="line">\newcommand*&#123;\heiti&#125;&#123;\CJKfamily&#123;zhhei&#125;&#125;   % 黑体</div><div class="line">\newcommand*&#123;\kaishu&#125;&#123;\CJKfamily&#123;zhkai&#125;&#125;  % 楷书</div><div class="line">\newcommand*&#123;\fangsong&#125;&#123;\CJKfamily&#123;zhfs&#125;&#125; % 仿宋</div><div class="line">\newcommand*&#123;\lishu&#125;&#123;\CJKfamily&#123;zhli&#125;&#125;    % 隶书</div><div class="line">\newcommand*&#123;\youyuan&#125;&#123;\CJKfamily&#123;zhyou&#125;&#125; % 幼圆</div><div class="line"></div><div class="line">\endinput</div></pre></td></tr></table></figure>
-<p>同理修改另外一个配置文件，命令是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vim /usr/local/texlive/2011/texmf-dist/tex/latex/ctex/fontset/ctex-xecjk-adobefonts.def</div></pre></td></tr></table></figure>
-<p>加入两行以支持隶书和幼圆，修改后的内容为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">\setCJKmainfont[BoldFont=Adobe Heiti Std,ItalicFont=Adobe Kaiti Std]&#123;Adobe Song Std&#125;</div><div class="line">\setCJKsansfont&#123;Adobe Heiti Std&#125;</div><div class="line">\setCJKmonofont&#123;Adobe Fangsong Std&#125;</div><div class="line"></div><div class="line">\setCJKfamilyfont&#123;zhsong&#125;&#123;Adobe Song Std&#125;</div><div class="line">\setCJKfamilyfont&#123;zhhei&#125;&#123;Adobe Heiti Std&#125;</div><div class="line">\setCJKfamilyfont&#123;zhfs&#125;&#123;Adobe Fangsong Std&#125;</div><div class="line">\setCJKfamilyfont&#123;zhkai&#125;&#123;Adobe Kaiti Std&#125;</div><div class="line">\setCJKfamilyfont&#123;zhli&#125;&#123;LiSu&#125;</div><div class="line">\setCJKfamilyfont&#123;zhyou&#125;&#123;YouYuan&#125;</div><div class="line"></div><div class="line">\newcommand*&#123;\songti&#125;&#123;\CJKfamily&#123;zhsong&#125;&#125; % 宋体</div><div class="line">\newcommand*&#123;\heiti&#125;&#123;\CJKfamily&#123;zhhei&#125;&#125;   % 黑体</div><div class="line">\newcommand*&#123;\kaishu&#125;&#123;\CJKfamily&#123;zhkai&#125;&#125;  % 楷书</div><div class="line">\newcommand*&#123;\fangsong&#125;&#123;\CJKfamily&#123;zhfs&#125;&#125; % 仿宋</div><div class="line">\newcommand*&#123;\lishu&#125;&#123;\CJKfamily&#123;zhli&#125;&#125;    % 隶书</div><div class="line">\newcommand*&#123;\youyuan&#125;&#123;\CJKfamily&#123;zhyou&#125;&#125; % 幼圆</div><div class="line"></div><div class="line">\endinput</div></pre></td></tr></table></figure>
-<p>下面我们来测试配置，使用TeXShop作为IDE，代码存为UTF-8编码，以XeLaTeX编译。</p>
-<p>测试文档使用xiaoyong的<a href="http://blog.xiaoyong.org/?p=85" target="_blank" rel="external">高层方案</a>，内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">\documentclass[UTF8]&#123;ctexart&#125; % 采用Mac字体</div><div class="line">%\documentclass[UTF8,adobefonts]&#123;ctexart&#125; % 采用Adobe字体</div><div class="line"></div><div class="line">%以上两行分别测试华文字体和Adobe字体，请交替使用</div><div class="line"></div><div class="line">\title&#123;\LaTeX 中文设置之高层方案&#125;</div><div class="line">\author&#123;xiaoyong&#125;</div><div class="line">\date&#123;\today&#125;</div><div class="line"> </div><div class="line">\begin&#123;document&#125;</div><div class="line">\maketitle</div><div class="line"> </div><div class="line">\begin&#123;center&#125;</div><div class="line">  1. 字体示例：\\</div><div class="line">  \begin&#123;tabular&#125;&#123;c|c&#125;</div><div class="line">    \hline</div><div class="line">    \textbf&#123;\TeX 命令&#125; &amp; \textbf&#123;效果&#125;\\</div><div class="line">    \hline</div><div class="line">    \verb|&#123;\songti 宋体&#125;| &amp; &#123;\songti 宋体&#125;\\</div><div class="line">    \hline</div><div class="line">    \verb|&#123;\heiti 黑体&#125;| &amp; &#123;\heiti 黑体&#125;\\</div><div class="line">    \hline</div><div class="line">    \verb|&#123;\fangsong 仿宋&#125;| &amp; &#123;\fangsong 仿宋&#125;\\</div><div class="line">    \hline</div><div class="line">    \verb|&#123;\kaishu 楷书&#125;| &amp; &#123;\kaishu 楷书&#125;\\</div><div class="line">    \hline</div><div class="line">    \verb|&#123;\lishu 隶书&#125;| &amp; &#123;\lishu 隶书&#125;\\</div><div class="line">    \hline</div><div class="line">    \verb|&#123;\youyuan 幼圆&#125;| &amp; &#123;\youyuan 幼圆&#125;\\</div><div class="line">    \hline</div><div class="line">  \end&#123;tabular&#125;</div><div class="line">\end&#123;center&#125;</div><div class="line"> </div><div class="line">\begin&#123;center&#125;</div><div class="line">  2. 字号示例：\\</div><div class="line">  &#123;\zihao&#123;0&#125;初号&#125;</div><div class="line">  &#123;\zihao&#123;1&#125;一号&#125;</div><div class="line">  &#123;\zihao&#123;2&#125;二号&#125;</div><div class="line">  &#123;\zihao&#123;3&#125;三号&#125;</div><div class="line">  &#123;\zihao&#123;4&#125;四号&#125;</div><div class="line">  &#123;\zihao&#123;5&#125;五号&#125;</div><div class="line">  &#123;\zihao&#123;6&#125;六号&#125;</div><div class="line">  &#123;\zihao&#123;7&#125;七号&#125;</div><div class="line">  &#123;\zihao&#123;8&#125;八号&#125;</div><div class="line">\end&#123;center&#125;</div><div class="line"> </div><div class="line">\end&#123;document&#125;</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/config-ctex-xelatex-in-os-x/">http://kuangqi.me/ios/config-ctex-xelatex-in-os-x/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;我的软件环境是：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;操作系统：Mac OS X Lion 10.7&lt;/li&gt;
-&lt;li&gt;TeX系统：MacTeX 2011&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;理论上来说，更新版本的软件应该也可以工作&lt;/p&gt;
-&lt;p&gt;CTeX包提供了较为完善的中文支持，排版的方案（例如段落缩进）也符合中国人的习惯，但是CTeX是基于Windows设计的，在移植到Mac时会出现一些小问题。主要是字体的问题，CTeX中默认使用的SimSun等字体在Mac OS中并不存在，取而代之的是“华文宋体”等华文系列的字体。因此如果不配置，会因找不到字体而出现编译错误。另外，在Windows中常用的“隶书”和“幼圆”两种字体，在Mac OS中根本不存在，也没有可以替换的字体。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>垃圾软件OIer C++深度分析及破解指南</title>
-    <link href="http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/"/>
-    <id>http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/</id>
-    <published>2011-08-02T18:34:50.000Z</published>
-    <updated>2016-11-29T15:02:00.169Z</updated>
-    
-    <content type="html"><![CDATA[<p>今天是8月3日，一个有那么一点点纪念价值的日子。3年前的今天，我在哈尔滨第三中学完成了第9届全国中小学电脑制作活动的现场答辩并参加了颁奖典礼。今天跟同学聊到这件事，想到电脑制作竞赛这几年应该也是进行的如火如荼，于是搜索了一下。果然，今年已经是第12届了，直接看获奖名单的程序设计分支，居然有3个山东的作品。想想我当年“零的突破”，自嘲一下……</p>
-<p>说正事，获奖名单的第一个作品叫《OIer C++》，看起来好高端，估计是一个C++的编译器，带着膜拜之情Google了一下，发现我想错了，只是一个IDE而已……更重要的是，这个IDE，一个高中生做的IDE，居然还要收费20元……官方网站上的下载链接都是死链，情何以堪。再看产品介绍中浮夸的文字，不用下载我也对这个作品的德性有点估计了。</p>
-<a id="more"></a>
-<p>在第三方网站上下载到了这个软件，安装完成，一打开就是一个浮夸的启动画面，然后要求输入用户名和注册码，否则连软件界面都见不到。我随便输入一个，卡了几秒，当即提示错误，并没有要求重启验证。被小我三届的孩子恶搞我当然不会就此罢休。心想非破了这个软件不可。网站上一再的强调使用者的计算机必须安装.Net Framework 3.5，不出意外的话这个程序就是用C#或者VB.Net写的了。想想上次逆向.Net程序，应该是大一上学期恶搞英语学习大厅的时候了。翻出当年的“武器”.Net Reflector，好久不用都过期了，升级了一下终于打开了。</p>
-<p>二话不说把主程序拖进去，分析过程很顺畅，软件确实是.Net编写的，代码没有经过混淆，所有标识符清晰可见。虽然目前还没能进去软件的主界面，但从逆向的结果来看，整个软件只有5个对话框，如此简单的程序也能卖钱，让我很是好奇。</p>
-<p>先看注册窗口，找到了注册按钮的事件处理程序</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">registryButton_Click</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">string</span> str = <span class="string">"http://115.47.219.143/product/test/"</span>;</div><div class="line"></div><div class="line">    <span class="keyword">try</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> WebClient().DownloadData(<span class="keyword">string</span>.Format(<span class="string">"&#123;0&#125;?name=&#123;1&#125;&amp;number=&#123;2&#125;"</span>, str, <span class="keyword">this</span>.nameTextBox.Text, <span class="keyword">this</span>.serialNumberTextBox.Text));</div><div class="line">        <span class="keyword">string</span> str2 = Encoding.ASCII.GetString(bytes);</div><div class="line">        <span class="keyword">if</span> (str2 == (<span class="keyword">this</span>.nameTextBox.Text + <span class="keyword">this</span>.serialNumberTextBox.Text + <span class="string">"ABCD"</span>))</div><div class="line">        &#123;</div><div class="line">            File.WriteAllText(<span class="string">@"C:\Documents and Settings\All Users\201.dat"</span>, <span class="string">"8888"</span>);</div><div class="line">            <span class="keyword">base</span>.Close();</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">str2 == (<span class="keyword">this</span>.nameTextBox.Text + <span class="keyword">this</span>.serialNumberTextBox.Text + <span class="string">"DCBA"</span></span>))</span></div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"还未收到付款"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"不正确"</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">catch</span> (WebException exception)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span> (exception.Status == WebExceptionStatus.NameResolutionFailure)</div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"请检查网络连接"</span>);</div><div class="line">        &#125;</div><div class="line">        <span class="function"><span class="keyword">else</span> <span class="title">if</span> (<span class="params">exception.Status == WebExceptionStatus.ProtocolError</span>)</span></div><div class="line">        &#123;</div><div class="line">            MessageBox.Show(<span class="string">"服务器错误，请下次重试"</span>);</div><div class="line">        &#125;</div><div class="line">        MessageBox.Show(exception.Status.ToString());</div><div class="line">        MessageBox.Show(exception.Message);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>第一句话就吓我一跳，我擦居然是网络验证的，心想这下完蛋了，算法注册没戏，估计要爆破了。再往下看，我差点吐血……这是一个清晰的分支结构：1.注册成功 2.用户验证成功但未付款  3.用户不存在，失败</p>
-<p>亮点在注册成功的那个分支：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">File.WriteAllText(<span class="string">@"C:\Documents and Settings\All Users\201.dat"</span>, <span class="string">"8888"</span>);</div></pre></td></tr></table></figure>
-<p>牛逼啊！！注册成功要做的事情居然是在<code>C:\Documents and Settings\All Users</code>目录下创建一个名为<code>201.dat</code>的文件，文件的内容是<code>8888</code></p>
-<p>孩子，还8888呢，你想钱想疯了吧……</p>
-<p>不敢相信注册就这么简单，不如看看启动时软件是如何判断是否已经注册的。<code>StartForm</code>这个类看名字应该是启动画面吧，果然不出所料，用于检测注册状态的代码是：</p>
-<figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">StartForm_Shown</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.FindInstall())</div><div class="line">    &#123;</div><div class="line">        MessageBox.Show(<span class="string">"请在http://www.n8lm.cn/ 下载正版n8lm版OIerC++安装程序。"</span>, <span class="string">"警告"</span>, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);</div><div class="line">        Application.Exit();</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">this</span>.FindCopyright())</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">new</span> RegistryDialog().ShowDialog();</div><div class="line">    &#125;</div><div class="line">    OptionSetting.Init();</div><div class="line">    OptionSetting.LoadOption();</div><div class="line">    Thread.Sleep(<span class="number">0x3e8</span>);</div><div class="line">    <span class="keyword">base</span>.Close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这里调用了两个函数，如果发现曾经装过软件，那就警告退出。如果没注册就弹出注册窗口。看了核心的东西就在<code>FindCopyright</code>里面了。最后请大家注意<code>Thread.Sleep(0x3e8);</code>这句话，怎么样，浮夸吧！！<code>0x3e8</code>翻译成十进制是<code>1000</code>，这句话就负责将线程阻塞1秒钟，目的是让启动画面多显示一会儿。也就是说启动画面背后并没有做什么工作，而只是单纯的在那儿卡1秒钟……</p>
-<p>继续说<code>FindCopyright</code>，这个函数的定义是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">private bool FindCopyright()</div><div class="line">&#123;</div><div class="line">    string str;</div><div class="line">    try</div><div class="line">    &#123;</div><div class="line">        str = File.ReadAllText(@&quot;C:\Documents and Settings\All Users\201.dat&quot;);</div><div class="line">    &#125;</div><div class="line">    catch (FileNotFoundException)</div><div class="line">    &#123;</div><div class="line">        return false;</div><div class="line">    &#125;</div><div class="line">    return (str == &quot;8888&quot;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>怎么样，跪了吧！验证是否注册的方式就是读取<code>C:\Documents and Settings\All Users\201.dat</code>，然后判断文件内容是否为<code>8888</code>。</p>
-<p>我默默的手动创建了这个文件，再打开，没有任何问题，软件成功启动了。</p>
-<p>话说一篇讲破解的文章应该就此结束了，不过我还是想继续喷一下这个破软件。在我试用这个软件5分钟的时间内，我至少发现了3处错别字，可见这个软件是草草写就。点关闭按钮时不会退出，而是最小化到系统托盘，我想不明白此举的意义何在。当我从菜单中点关闭时，软件直接退出，完全无视我写了一半没保存的代码。再次打开时，没有手动保存的更改就丢失了。</p>
-<p>你有可能要说了，作为一个高中生，能做出这么个东西就不错了。但是这款软件没有让我看到任何值得肯定的东西，也没有发现作者任何有意义的工作。</p>
-<p>我查看了软件的安装文件夹，其中<code>DotNetSkin.dll</code>文件是一个皮肤组件，在该软件中应该是用于显示苹果风格的界面，值得一提的是，<code>DotNetSkin</code>是一款收费软件，最便宜的正版也需要150美金。OIer C++的作者应该是使用了<code>DotNetSkin</code>的破解版。这样也好意思出来收钱，实在是不可理喻！</p>
-<p>再看<code>ICSharpCode.TextEditor.dll</code>，根据名字猜想这个dll应该提供了软件中的代码高亮显示编辑器，网上搜索证实了我的猜想。这个控件是开源的，基于MIT许可证分发。MIT许可证要求使用者必须在产品中注明原作者并保留版权声明。然而在OIer C++软件中我没有找到任何关于<code>ICSharpCode.TextEditor</code>的版权声明，全是作者自己的声明。</p>
-<p>在另外一个文件夹中，我发现了<code>ptoc.exe</code>，这个程序用于将Pascal语言转换为C语言，而这个程序也是现有的工具，并非作者自己实现。</p>
-<p>至此，作者标榜的全部“特色功能”要么是现成的，要么是盗版的。而就是这样一个垃圾软件竟然在全国中小学电脑制作活动中获得了二等奖，并堂而皇之的在网上叫卖，实在是贻笑大方。</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/">http://kuangqi.me/programming/analysis-and-crack-of-oier-cpp/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;今天是8月3日，一个有那么一点点纪念价值的日子。3年前的今天，我在哈尔滨第三中学完成了第9届全国中小学电脑制作活动的现场答辩并参加了颁奖典礼。今天跟同学聊到这件事，想到电脑制作竞赛这几年应该也是进行的如火如荼，于是搜索了一下。果然，今年已经是第12届了，直接看获奖名单的程序设计分支，居然有3个山东的作品。想想我当年“零的突破”，自嘲一下……&lt;/p&gt;
-&lt;p&gt;说正事，获奖名单的第一个作品叫《OIer C++》，看起来好高端，估计是一个C++的编译器，带着膜拜之情Google了一下，发现我想错了，只是一个IDE而已……更重要的是，这个IDE，一个高中生做的IDE，居然还要收费20元……官方网站上的下载链接都是死链，情何以堪。再看产品介绍中浮夸的文字，不用下载我也对这个作品的德性有点估计了。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="编程之美" scheme="http://kuangqi.me/categories/programming/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>iOS应用程序去广告方法</title>
-    <link href="http://kuangqi.me/ios/remove-ads-in-ios-app/"/>
-    <id>http://kuangqi.me/ios/remove-ads-in-ios-app/</id>
-    <published>2011-08-02T06:31:23.000Z</published>
-    <updated>2016-11-29T15:02:00.186Z</updated>
-    
-    <content type="html"><![CDATA[<p>iOS中的不少应用程序都嵌入了广告，免费应用中尤其常见。比如一些免费游戏，还有我常用的韦氏词典……这些广告的特点是在有网络时才会出现，因此可以通过修改hosts表的方法来阻断应用下载广告。</p>
-<p>由于需要修改设备的系统文件，所以设备必须要先越狱，然后用Cydia下载一个文件管理工具，我用的是iFile。</p>
-<p>修改<code>/private/etc/</code>目录下的hosts文件，在末尾加上</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">127.0.0.1    r.admob.com</div><div class="line">127.0.0.1    analytics.admob.com</div><div class="line">127.0.0.1    p.admob.com</div></pre></td></tr></table></figure>
-<p>再试试吧~是不是不会出现广告啦</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/remove-ads-in-ios-app/">http://kuangqi.me/ios/remove-ads-in-ios-app/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;iOS中的不少应用程序都嵌入了广告，免费应用中尤其常见。比如一些免费游戏，还有我常用的韦氏词典……这些广告的特点是在有网络时才会出现，因此可以通过修改hosts表的方法来阻断应用下载广告。&lt;/p&gt;
-&lt;p&gt;由于需要修改设备的系统文件，所以设备必须要先越狱，然后用Cydia下载
-    
-    </summary>
-    
-      <category term="果粉手札" scheme="http://kuangqi.me/categories/ios/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Macbook维修记</title>
-    <link href="http://kuangqi.me/essay/repair-my-macbook-at-genius-bar/"/>
-    <id>http://kuangqi.me/essay/repair-my-macbook-at-genius-bar/</id>
-    <published>2011-08-01T14:56:11.000Z</published>
-    <updated>2016-11-29T15:02:00.187Z</updated>
-    
-    <content type="html"><![CDATA[<p>前几天终于明白了我Macbook后盖不容易盖上的原因了，居然是电池变形了！今天中午就到了北京，昨天晚上就预约了三里屯苹果零售店的“天才吧”，下午就把本子抱过去了。</p>
-<p>话说三里屯Apple Store的火爆程度真是超乎我的想象，上下两层人们摩肩接踵，喧哗声不绝于耳。</p>
-<p>好在我有预约，前面几个MM都因为没有预约HLL的悲剧了。去了就跟“天才吧”的技术人员反映了电池鼓胀变形，后盖难以盖上的问题，他把我机器的序列号输入进去一看，这机器是2008年末的，如今已经超过保修期1年零147天，当即表示维修需要收费。</p>
-<a id="more"></a>
-<p>换电池吧亲~苹果原装的哦亲~零售价只要998元哦亲~如果在这里更换，可以享受782元的“超低优惠价”哦亲~还可以免去高达259元的人工费哦亲~心动了吧！！赶快行动吧~！</p>
-<p>坑爹呢这是！因此我与技术服务人员展开了辩论。技术人员很淡定的表示：这块电池的寿命已经到了。我指出，检测软件探测到电池的循环次数仅为142次，远远低于500~1000次的设计循环次数。他貌似没法解释为啥循环次数这么少电池却出现了这种问题，于是拿出一些专业名词忽悠我，他说就算插着电没用电池，只要电池装在电脑里，电池就是有损耗的，而这个损耗不会体现在循环次数上。他还说电池起到一个稳压作用，防止在电压不稳时主板被击穿啥的。我觉得他说的这个跟在线式UPS的原理貌似非常接近，跟笔记本电脑貌似扯不上什么边。于是当即对其讲述的真实性表示了怀疑。但他表现出专业且不容质疑的姿态，于是我按照GRE写作的套路做出了一个让步。我说，即使你说的这个是正确的，也就是电池确实在正常使用中产生了损耗，那也应该表现为电池容量的减少，而绝不应该表现为电池体积的增大以至于难以塞进电脑里。况且根据软件给出的数据，这块电池的满电容量为3500多毫安时，而这块电池的设计容量是4100mAh，其使用中产生的容量损耗不足20%，可见电池在电量上还处于良好的状态，而并非他说的已经到了使用寿命。</p>
-<p>他貌似也发现我不太好骗，于是就在电脑上尝试那个维修配件报价的各个选项，并告诉我不管以何种方式报修，收费都是782元，系统里固定了，没法改。同时他还表示，如果过保时间很短，比如一个月，说不定可以争取免费维修（陆牛的硬盘线就是一个案例），但我的过保时间太久，已经有一年多，因此难以免费更换。这么一说还说被我发现了问题，看来那个系统并非“定死了”，过保时间短还有机动的空间。于是我要求他请示其上级领导，并反复表示这块电池出现这种问题并非正常使用的损耗，而是其本身包含的缺陷所致。他貌似并不想去请示那个该死的领导。这个时候已经过去40多分钟，按理来说本次预约只有15分钟的时间。后面预约的人也来了，已经有3个人在等候，他也迫于压力去问了一下传说中的“主管”，果然有戏，一会儿他回来表示由于继续使用鼓胀的电池可能存在安全隐患，可以为我免费更换一块新的电池。</p>
-<p>于是，我就真的免费换上了一块新的电池。。。</p>
-<p>再来看看新电池的数据，循环次数是0，设计容量4300mAh，比之前那块的4100mAh大一点，而可用的容量更是达到了4510mAh，超过设计容量4%，而电池上的序列号也与软件读取到的吻合。毫无疑问，这是一块全新的苹果原装电池。</p>
-<h4 id="总结（成功的关键）："><a href="#总结（成功的关键）：" class="headerlink" title="总结（成功的关键）："></a>总结（成功的关键）：</h4><ol>
-<li><p>我去的是苹果零售店(Apple Store)而并非苹果授权经销商(Apple Authorized Reseller)，这两种苹果商店虽然看起来都是卖苹果电脑的，但实际上存在本质的差别。简单的来说，零售店是苹果公司开的，授权经销商是私人开的，花钱买个授权证书，就成了授权经销商。各种电子市场上挂着大大的苹果标志的，基本上都是授权经销商，他们唯利是图，以卖产品为主要目的，技术力量也相对薄弱。如果遇到这种问题通常就是换配件，或者送去厂里维修，想让他们给你免费换配件是不可能的，他们没有足够的权限想换就换，想免费就免费。而苹果零售店就要正规很多，通常有“天才吧”提供免费的技术支持，还有各种苹果使用技巧和软件入门的免费讲座。他们有足够的财力摆放大量的产品供用户体验。美中不足的是苹果零售店在全国范围内只有4家，北京上海各两家，具体的信息可以在苹果的官方网站上查到。</p>
-</li>
-<li><p>面对装逼技术人员的忽悠，一定要保持头脑清晰，明确此行的主要目的，不在细枝末节上过分纠缠。不要被所谓的专业技术吓到。当然为了能更有力的反驳其误导性的观点，一定的专业知识还是需要的。比如我就照着他们的专用检测软件测出的数据说话，他根本没法提出啥反对意见。</p>
-</li>
-<li><p>对非技术性问题采取的策略是死皮赖脸死缠烂打死马当活马医</p>
-</li>
-<li><p>一定的人品和良好的形象</p>
-</li>
-</ol>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/essay/repair-my-macbook-at-genius-bar/">http://kuangqi.me/essay/repair-my-macbook-at-genius-bar/</a></p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;前几天终于明白了我Macbook后盖不容易盖上的原因了，居然是电池变形了！今天中午就到了北京，昨天晚上就预约了三里屯苹果零售店的“天才吧”，下午就把本子抱过去了。&lt;/p&gt;
-&lt;p&gt;话说三里屯Apple Store的火爆程度真是超乎我的想象，上下两层人们摩肩接踵，喧哗声不绝于耳。&lt;/p&gt;
-&lt;p&gt;好在我有预约，前面几个MM都因为没有预约HLL的悲剧了。去了就跟“天才吧”的技术人员反映了电池鼓胀变形，后盖难以盖上的问题，他把我机器的序列号输入进去一看，这机器是2008年末的，如今已经超过保修期1年零147天，当即表示维修需要收费。&lt;/p&gt;
     
     </summary>
     

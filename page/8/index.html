@@ -112,6 +112,474 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="outer">
         <section id="main">
   
+    <article id="post-a-bug-in-vc6-template" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/a-bug-in-vc6-template/" class="article-date">
+  <time datetime="2010-10-02T18:39:31.000Z" itemprop="datePublished">2010年10月03日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/programming/a-bug-in-vc6-template/">Visual C++ 6.0友元函数模板需要注意的Bug</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>晕，一个破链表程序还要面向对象，搞到半夜，一会是编译错误一会是链接错误错误。</p>
+<p>按照C++国际标准，重载的友元函数声明(以流操作符为例)必须写成这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span> &lt;&lt; &lt;T&gt;(ostream &amp;, <span class="keyword">const</span> List&lt;T&gt; &amp;);</div></pre></td></tr></table></figure>
+<p>按照VC6的狗屁标准必须写成这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">friend</span> ostream&amp; <span class="keyword">operator</span> &lt;&lt;(ostream &amp;, <span class="keyword">const</span> List&lt;T&gt; &amp;);</div></pre></td></tr></table></figure>
+<p>否则会提示一些不知所云的错误，如下：</p>
+        
+          <p class="article-more-link">
+            <a href="/programming/a-bug-in-vc6-template/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-a-comment-on-aftershock" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/essay/a-comment-on-aftershock/" class="article-date">
+  <time datetime="2010-07-27T15:50:45.000Z" itemprop="datePublished">2010年07月27日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/essay/a-comment-on-aftershock/">《唐山大地震》吐槽影评</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天去看了国产片《唐山大地震》，总体感觉良好，至少不能说失望。不过还是有一些让我不爽，国产片啊……</p>
+<p>下面就来说道说道电影的一些细节，做一次铁石心肠的评论者。可能涉嫌剧透~~~先声明了啊！</p>
+<p>有人说看完感动的泪流满面，我倒是感觉这个片子很多可以感人的地方都被跳过了。反而是“就买人寿保险吧”这些雷人话语让人哭笑不得。</p>
+<p>影片的开始部分还是不错的，表现的很随意，很生活。姐姐方登非常威猛，直接放倒一个小哥，保护了弟弟。但是这个段篇幅不短的镜头貌似并未给下文埋下伏笔。</p>
+        
+          <p class="article-more-link">
+            <a href="/essay/a-comment-on-aftershock/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-caught-the-thief" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/essay/caught-the-thief/" class="article-date">
+  <time datetime="2010-07-27T14:03:54.000Z" itemprop="datePublished">2010年07月27日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/essay/caught-the-thief/">小贼哪里跑！——自行车失而复得记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这件事发生有一段时间了，一直没来得及写。觉得还是值得记录下来，现在补上吧。2010年7月16日早晨八点，我走出宿舍准备骑车去上实践周的课程。可是找了半天竟然没有找到我的自行车。心想真是老了，车子停哪都忘了。我不信邪，将宿舍门口的停车区转了个遍，还是没有发现车子的踪迹。时间紧迫，只好先步行去教室了。</p>
+<p>在路上我仔细回想了昨天的与车子的种种情形，记得晚上吃晚饭还骑车去科技楼ATM提款并给校园卡充值，回来就把车子停在靠近宿舍门的位置，再就没有出过宿舍了。随着回忆，昨天的情景渐渐清晰。我断定车子是被盗了。</p>
+        
+          <p class="article-more-link">
+            <a href="/essay/caught-the-thief/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-using-videoinput-library-in-opencv" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/image-processing/using-videoinput-library-in-opencv/" class="article-date">
+  <time datetime="2010-07-11T14:50:13.000Z" itemprop="datePublished">2010年07月11日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/image-processing/">绘云描鲤</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/image-processing/using-videoinput-library-in-opencv/">OpenCV使用VideoInput库从摄像头捕获视频</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>OpenCV具有强大的图像处理功能，处理视频也是毫不逊色。只是其自带的HighGUI并非是具有工业强度的模块，不适合最终提供给客户，仅仅是方便程序开发阶段的调试。其中跟视频捕获相关的<code>cvCreateCameraCapture</code>或<code>cvCaptureFromCAM</code>函数可以方便的从摄像头捕获视频，但这两个函数在Windows中都是由较为低效的VFW机制实现的，不适合在最终产品中使用。</p>
+<p>在Windows中使用DirectShow可以高效的从摄像头捕获视频，但使用较为复杂。OpenCV中文网的YuShiQi提供了一个基于DirectShow实现的摄像头捕获类，但试用后效果一般，速度并没有明显的提高。<br>新版的OpenCV（OpenCV 2.0及以后版本）提供了第三方的VideoInput库，该库实现了基于DirectShow的视频捕获，使用方便、功能强大，速度也很快。另外还有一个意外发现——腾讯QQ的视频捕获貌似用的也是这个库哦~~</p>
+        
+          <p class="article-more-link">
+            <a href="/image-processing/using-videoinput-library-in-opencv/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-add-icons-to-programs-dev-by-codeblocks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/add-icons-to-programs-dev-by-codeblocks/" class="article-date">
+  <time datetime="2010-05-05T14:19:27.000Z" itemprop="datePublished">2010年05月05日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/programming/add-icons-to-programs-dev-by-codeblocks/">为用Code::Blocks写的程序添加图标</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <p>使用Code::Blocks写出来的界面程序的图标是个默认的DOS图标，很想把它换成一个自己定义的图标。经过尝试，发现使用.rc资源文件可以轻松实现这点。</p>
+<p>新建一个icon.rc资源文件，加入一行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MAINICON ICON &quot;Icon_1.ico&quot;</div></pre></td></tr></table></figure>
+<p>然后把Icon_1.ico拷贝到当前目录，接着把icon1.rc文件添加到项目中去，最后编译即可。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/add-icons-to-programs-dev-by-codeblocks/">http://kuangqi.me/programming/add-icons-to-programs-dev-by-codeblocks/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-a-discussion-on-programming-conventions" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/a-discussion-on-programming-conventions/" class="article-date">
+  <time datetime="2010-03-19T15:14:53.000Z" itemprop="datePublished">2010年03月19日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/programming/a-discussion-on-programming-conventions/">对编程语言中变量命名和代码缩进规范的讨论</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>风格优美的程序，读起来就像读一篇流畅的文章。清晰易懂又给人以美感。</p>
+<p>看着教材和例程中糟糕的编码风格，再看着同学发来的，模仿那些的拙劣的编码。我决定写出这篇文章，谈一谈我对编程规范的拙见。</p>
+<h2 id="关于变量命名"><a href="#关于变量命名" class="headerlink" title="关于变量命名"></a>关于变量命名</h2><p>这个问题是本文准备讨论的重点。先来总结一下变量命名的几大常用方法。</p>
+        
+          <p class="article-more-link">
+            <a href="/programming/a-discussion-on-programming-conventions/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-what-a-mass" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/essay/what-a-mass/" class="article-date">
+  <time datetime="2010-03-15T14:37:04.000Z" itemprop="datePublished">2010年03月15日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/essay/what-a-mass/">最近有点混乱</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>开学两周了，该静下来思考一下了。总的来说，这学期要比上学期更有目标了。但该为这些目标做哪些努力，似乎还并不明朗。</p>
+<p>开学第一周，高数继续狂轰滥炸，只能边复习边学新课。物理还好，微分符号出来吓唬人，无视之！第一节讲导论和发展史，吓死人。第一节讲向量，像数学课。后面就是经典力学，也好应付。电子科学导论的老师很有老师的气质，讲的也很详细，感觉不错。C++老师貌似很NB，只是讲课很紧张，像个初来乍到的新生。布置的作业“约瑟夫问题”，难度超过了我的预料，让我对北师大信科燃起一丝希望。电路课比较纠结，节奏比较快，作业也有难度，准备去买本习题解答……对了，还有“全球变暖”选修课。不错的课程，挺牛的老师。</p>
+        
+          <p class="article-more-link">
+            <a href="/essay/what-a-mass/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-note-on-cpp-vector" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/note-on-cpp-vector/" class="article-date">
+  <time datetime="2010-03-07T07:32:12.000Z" itemprop="datePublished">2010年03月07日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/programming/note-on-cpp-vector/">C++ STL学习笔记之容器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天去OJ刷水题，与其说去刷题，不如说是去学C++标准库。现将学习成果记录下来。</p>
+<h2 id="使用map容器进行单词统计"><a href="#使用map容器进行单词统计" class="headerlink" title="使用map容器进行单词统计"></a>使用map容器进行单词统计</h2><p>题目地址：<a href="http://acm.bnu.edu.cn/contest/problem_show.php?pid=4045">http://acm.bnu.edu.cn/contest/problem_show.php?pid=4045</a></p>
+<p>大意：统计一篇文章中每个单词的出现次数。将大于3次的单词按字典序输出。</p>
+<p>分析：传统方法要自己实现单词查找操作，还要对单词进行排序。调试复杂，代码长度通常会超过1000字节。</p>
+<p>使用C++的<code>map</code>容器实现，无需用户实现查找操作，由于<code>map</code>容器在标准库中通常以树结构实现，所以其元素的顺序不是由用户管理的。换句话说，无论如何插入元素，在用户看来元素都是有序的。由于<code>map</code>树形结构的特点，不能使用下标顺序访问元素，而需要使用迭代器遍历。</p>
+        
+          <p class="article-more-link">
+            <a href="/programming/note-on-cpp-vector/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-friend-crises" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/essay/friend-crises/" class="article-date">
+  <time datetime="2010-03-02T01:54:46.000Z" itemprop="datePublished">2010年03月02日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/essay/friend-crises/">好友危机</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 今天试用了一个QQ外挂。这个外挂有一个特色功能，就是分析好友关系。能批量的检测你所有的好友，可以检测出对方是否已经将你从他好友名单中删除。觉得有意思，就试了一下。</p>
+<p>真是不测不知道，一测吓一跳。已经将我删除的好友排成一长串。估计有几十个。这其中有一些陌生的网友，自己都不知道是怎么加上的。一直占据着我的好友名单，从未联系过。我没有随手将他们删除，我还在试图珍惜这些陌路人。然而我却不知道，自己的名字，连在对方好友名单中占据一个16像素的小格子的资格都不够。 这其中也有很多熟人，有联系不多的同班同学，也有曾经并肩战斗的挚交好友。他们为什么会将我删除？难道是软件的误报？然而我想错了。</p>
+        
+          <p class="article-more-link">
+            <a href="/essay/friend-crises/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
     <article id="post-watch-imax-avatar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/essay/watch-imax-avatar/" class="article-date">
@@ -162,480 +630,9 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 
   
-    <article id="post-a-tool-to-create-codeblocks-project" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/programming/a-tool-to-create-codeblocks-project/" class="article-date">
-  <time datetime="2010-01-29T15:36:55.000Z" itemprop="datePublished">2010年01月29日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/programming/">编程之美</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/programming/a-tool-to-create-codeblocks-project/">快速建立CodeBlocks工程的小工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CodeBlocks是一个优秀的集成开发环境。不过我们初学者通常只用它写写简单的程序，这些程序往往只有一个源文件。直接打开Cpp源文件虽然可以编译，但无法加断点调试。如果要调试，则要建立一个工作空间和一个工程，步骤较为繁琐。今天写了个小程序，能快速为单一的源文件建立CodeBlocks工程，极大简化了小程序的调试工作。</p>
-        
-          <p class="article-more-link">
-            <a href="/programming/a-tool-to-create-codeblocks-project/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-shi-quan-jiu-mei" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/shi-quan-jiu-mei/" class="article-date">
-  <time datetime="2010-01-21T12:52:15.000Z" itemprop="datePublished">2010年01月21日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/shi-quan-jiu-mei/">十全九美</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我是一个怎样的人？我时常问自己这个问题。记得高中的时候，我作为信息部的代表接受了学妹的采访，学妹给我的定义是——完美主义者。</p>
-<p>我是不是一个完美主义者？人究竟该不该成为一个完美主义者？完美，究竟是不是最美？每个人都在追求着自己的梦想，没有梦想是生命是可怕的。然而当失败和痛苦一次又一次的挑战你脆弱的神经，我们追求完美的心理底线，究竟还能坚持多久？</p>
-<p>记得几年前看过的一部叫《十全九美》的电影。情节貌似没有特别吸引人之处，但却对这部电影的标题记忆犹新。十全九美，究竟是得过且过的消极思想，还是知足常乐的积极心态呢？</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/shi-quan-jiu-mei/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-a-2009-year-end-summary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/a-2009-year-end-summary/" class="article-date">
-  <time datetime="2009-12-31T15:11:41.000Z" itemprop="datePublished">2009年12月31日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/a-2009-year-end-summary/">站在2009的尾巴上思考</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天看到很多人的《年终盘点》，有敬爱的恩师也有亲爱的同学。很欣喜的看到他们有各种进步，各种感悟。觉得将来回头看看曾经那些拙劣的文字应该也是一件很有意思的事情。我也就这么回忆一下，就当留个纪念吧。</p>
-<p>一月，是比较纠结的一个月。清晰的记得1月3日开始的奔波。北航、中科大、北师大。记得在寒冷的冬天跟爸爸妈妈来到北京，是在早晨，天还不亮。从北京站出来，坐了一会儿车，然后就走近了天安门广场，这应该是我第一次目睹都城肃穆的中轴线，本想看升旗仪式，但天气太冷时间也太早只好作罢。初次进京，还品尝了正宗的北京烤鸭，在出租车上目睹了宏伟的国家体育场，体验了方便快捷的地铁，最后还见识了三号航站楼。大概是7号吧，爸爸驱车带我去济南参加了中科大的面试，过程比较平淡，只记得面试题目很纠结。由于前面成绩没出，我如期参加了北京师范大学的保送生考试。记得语文数学都不难，印象深刻的是那个综合能力测试，一晚上300道题目，涂卡涂到手抽筋，还有那个30分钟110道题的智商测试，都给我留下了刻骨铭心的记忆……</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/a-2009-year-end-summary/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-nb-china-mobile" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/nb-china-mobile/" class="article-date">
-  <time datetime="2009-10-03T07:42:44.000Z" itemprop="datePublished">2009年10月03日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/nb-china-mobile/">NB的中国移动</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p> 2009年10月2日上午，上网查手机业务状态，我的手机居然无缘无故多出个GPRS半年包。打10086电话咨询：</p>
-<p>我：我的手机什么有个GPRS半年包？跟套餐的20MB流量累加吗？</p>
-<p>10086：对，现在您每月的流量是50MB</p>
-<p>我：可是我从来没办过这个业务啊~~</p>
-<p>10086：您是9月6日办理的该业务。</p>
-<p>我：可是我的卡是12号开始用的啊……</p>
-<p>10086：您的卡是9月3号启用的。</p>
-<p>我：可是12号开学的时候我才拿到卡，我是亲手把卡从卡托抠下来的~~ 可是……</p>
-<p>10086：您<strong>不用担心</strong>，半年包的25元钱<strong>已经扣过</strong>了……</p>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/essay/nb-china-mobile/">http://kuangqi.me/essay/nb-china-mobile/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-tiananmen-travels" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/tiananmen-travels/" class="article-date">
-  <time datetime="2009-10-03T07:41:50.000Z" itemprop="datePublished">2009年10月03日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/tiananmen-travels/">夜游天安门</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>听说10月1日太乱。所以就没敢出去。今天是2009年10月2日。与舍友一同夜游天安门。</p>
-<p>晚上7：30出发。听信了班主任的错误指导，乘坐22路公交车前往前门。在离前门还有3站的地方遭遇堵车。无奈下车步行。</p>
-<p>下车后抱怨：早知道坐地铁了……手机GPS在这时候发挥了重要作用。走了一会，看到一个地铁站。与同学一商量，决定再坐一站地铁。跟着拥挤的人群进了地铁，还有复杂的安检。明明比较搞笑，在安检等他的包出来，却怎么也不出来。我们在远处等他，以为他带什么危险品被扣下了。过去一看，他的脸上出现一个囧字，然后跟我们说他包里还有钥匙、美女照片什么的。我一看，你包这不在地上吗？！明明的脸立即反色，呈现出^_^.然后屁颠屁颠的跟着我们跑了。</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/tiananmen-travels/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-bnu-diary" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/bnu-diary/" class="article-date">
-  <time datetime="2009-09-16T16:10:52.000Z" itemprop="datePublished">2009年09月17日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/bnu-diary/">北师大日记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="2009年9月11号"><a href="#2009年9月11号" class="headerlink" title="2009年9月11号"></a>2009年9月11号</h2><p>在火车上睡了一晚上。早晨5点50到达北京。</p>
-<p>行李一览：大旅行箱1个，16kg；小旅行箱1个，15kg；编织袋1个，10kg；书包3个，重量不明……</p>
-<p>到院系“报到”后，开始为我迷失的校园卡奔波。院里说去学生处，学生处说去教务处。教务处告诉我保送生由于信息不全，都没有校园卡，要明天才能补办……期间学校工作人员均态度冷漠，一副高高在上，爱理不理的态度让我很不爽。</p>
-<p>然后开始整理宿舍。找啊找，走了20分钟终于找到了。一看宿舍注册需要照片，可照片在宾馆，只好再回去。于是步行20分钟×2…</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/bnu-diary/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-try-to-be-a-cook" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/try-to-be-a-cook/" class="article-date">
-  <time datetime="2009-07-28T16:29:30.000Z" itemprop="datePublished">2009年07月29日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/try-to-be-a-cook/">我今天做了个炒面！</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在南京期间吃的就是不如家里。话说众口难调。其实两口就挺难调的了。我师傅吃的特别淡，我口味不算重都觉得不大行。。。上次吃面条跟没放盐一样，他竟吃的津津有味。。。这次，逵逵哥出差了。吃饭就更糊弄了。</p>
-<p>今天我决定“露一手”，家中只有面条。也只能做面条了。师傅的“清淡”做法我已经领教过。为了吃的更顺口些。我提出今天的面条由我来做。我说做炒面。师傅说好吧。然后问我：你在家做过吗？我下意识的“嗯”了一下。</p>
-<p>我说做过你信？告诉你吧。我在学校食堂看过！话说一等人不用教，作为21世纪，90后新青年……扯远了。回到炒面。从冰箱里拿出干面条，总不能直接炒吧。那不成了爆米花？我猜应该先放水里煮一下。好吧，接上一锅凉水，开始烧（家里也没有热水），烧啊烧。。。终于开了。面下锅，转上两圈。估计时间差不多了。把水倒掉（不小心还倒出一根面条），面倒到盘子里。本想水淋淋的怎么炒，一转眼水就没了，面粘到一起了。回想学校的面也有这个问题，看来无关大局。面条太长了不好。于是拿刀在中间切了一下。</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/try-to-be-a-cook/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-acquire-the-trigger-of-menu" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/programming/acquire-the-trigger-of-menu/" class="article-date">
-  <time datetime="2009-06-26T14:48:08.000Z" itemprop="datePublished">2009年06月26日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/programming/">编程之美</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/programming/acquire-the-trigger-of-menu/">C#判断ContextMenuStrip右键菜单的来源</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有时候，为了提高性能和节约资源，我们会为多个控件，指定同一个右键弹出菜单，这时，通常会产生一个需求：判断当前的弹出菜单是从哪个控件上弹出来，也就是“是由哪个控件的右键点击触发的”，以便于做进一步的控制。</p>
-<p>在.NET当中，实现起来是非常简单的，假设弹出菜单为<code>ContextMenuStrip1</code>，则只需要在 该菜单的<code>Opening</code>事件进行判断处理即可。</p>
-        
-          <p class="article-more-link">
-            <a href="/programming/acquire-the-trigger-of-menu/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-my-graduation-speech" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/my-graduation-speech/" class="article-date">
-  <time datetime="2009-06-10T11:33:26.000Z" itemprop="datePublished">2009年06月10日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/my-graduation-speech/">高中毕业感言</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>尊敬的各位领导，各位来宾，敬爱的恩师，亲爱的同学们，上午好！</p>
-<p>三年前，我在校门口宏伟的阶梯下抬头仰望我的梦想；</p>
-<p>而如今，我在静思湖依依的垂柳旁回头留恋我的母校。 </p>
-<p>三年中，我们绽放了精彩：</p>
-<p>绿荫场上，我们释放沸腾的青春；</p>
-<p>大舞台上，我们演绎多彩的校园。</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/my-graduation-speech/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -646,7 +643,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -666,15 +663,15 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
           </li>
         
           <li>
-            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+            <a href="/programming/lcs-made-simple/">最长公共子序列（LCS）问题完全解析</a>
           </li>
         
           <li>
-            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+            <a href="/programming/leetcode-number-of-1-bits/">LeetCode 191 Number of 1 Bits 题解</a>
           </li>
         
           <li>
-            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+            <a href="/programming/leetcode-remove-element/">LeetCode 027 Remove Element 题解</a>
           </li>
         
       </ul>

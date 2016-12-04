@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>LeetCode 001 Two Sum 题解 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="题意给一个不保证有序的数列numbers，在数列中找到2个数，使得两个数的和等于一个指定的数target，返回这两个数的索引index1和index2。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LeetCode 001 Two Sum 题解">
+<meta property="og:url" content="http://kuangqi.me/programming/leetcode-two-sum/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="题意给一个不保证有序的数列numbers，在数列中找到2个数，使得两个数的和等于一个指定的数target，返回这两个数的索引index1和index2。">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-12-04T10:49:45.425Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LeetCode 001 Two Sum 题解">
+<meta name="twitter:description" content="题意给一个不保证有序的数列numbers，在数列中找到2个数，使得两个数的和等于一个指定的数target，返回这两个数的索引index1和index2。">
+<meta name="twitter:image" content="http://kuangqi.me/images/cc.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-leetcode-two-sum" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/leetcode-two-sum/" class="article-date">
+  <time datetime="2015-04-09T10:29:43.000Z" itemprop="datePublished">2015年04月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LeetCode 001 Two Sum 题解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+
+        <h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一个不保证有序的数列<code>numbers</code>，在数列中找到2个数，使得两个数的和等于一个指定的数<code>target</code>，返回这两个数的索引<code>index1</code>和<code>index2</code>。</p>
+<a id="more"></a>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>依次尝试所有组合，需要$O(n^2)$的时间复杂度，这显然会导致超时。我们可以对序列进行排序，依次选择每一个数，然后用<code>target</code>减去当前的数，然后通过二分查找法在有序表中查找是否存在与当前数配对的另外一个数。这样就可以将时间复杂度降为$O(n\log n)$。</p>
+<p>由于排序后数的索引会发生变化，所以需要记录每个数排序之前的索引编号。可以将数和索引做成一个结构体，然后对结构体排序。</p>
+<p>在C语言的标准库中，有2个函数可帮我们完成这个目标，一个是快速排序函数<code>qsort</code>（<a href="http://www.cplusplus.com/reference/cstdlib/qsort/" target="_blank" rel="external">文档</a>），另一个是二分查找函数<code>bsearch</code>（<a href="http://www.cplusplus.com/reference/cstdlib/bsearch/" target="_blank" rel="external">文档</a>）。这两个函数都需要包含头文件<code>stdlib.h</code>。</p>
+<p>由于需要返回2个数，所以这道题的C语言函数要求返回一个指针，正确的做法是使用<code>malloc</code>在堆上分配内存，而返回局部变量的数组是行不通的。记住一句话：永远不要返回局部自动变量的指针。</p>
+<p>C语言源代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> <span class="keyword">struct</span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> num;</div><div class="line">    <span class="keyword">int</span> index;</div><div class="line">&#125; Entry;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">cmp</span><span class="params">(<span class="keyword">const</span> <span class="keyword">void</span> *a, <span class="keyword">const</span> <span class="keyword">void</span> *b)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">return</span> (*((Entry*)a)).num - (*((Entry*)b)).num;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> *<span class="title">twoSum</span><span class="params">(<span class="keyword">int</span> numbers[], <span class="keyword">int</span> n, <span class="keyword">int</span> target)</span> </span>&#123;</div><div class="line">    Entry *arr = (Entry*)<span class="built_in">malloc</span>(n * <span class="keyword">sizeof</span>(Entry));</div><div class="line">    <span class="keyword">int</span> *result = (<span class="keyword">int</span>*)<span class="built_in">malloc</span>(<span class="number">2</span> * <span class="keyword">sizeof</span>(<span class="keyword">int</span>));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</div><div class="line">    &#123;</div><div class="line">        arr[i].num = numbers[i];</div><div class="line">        arr[i].index = i + <span class="number">1</span>;</div><div class="line">    &#125;</div><div class="line">    qsort(arr, n, <span class="keyword">sizeof</span>(Entry), cmp);</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; i++)</div><div class="line">    &#123;</div><div class="line">        Entry key;</div><div class="line">        key.num = target - arr[i].num;</div><div class="line">        Entry *p = (Entry*)bsearch(&amp;key, arr, n, <span class="keyword">sizeof</span>(Entry), cmp);</div><div class="line">        <span class="keyword">if</span>(p != <span class="literal">NULL</span>)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">int</span> index1 = arr[i].index, index2 = p-&gt;index;</div><div class="line">            result[<span class="number">0</span>] = index1 &lt; index2 ? index1 : index2;</div><div class="line">            result[<span class="number">1</span>] = index1 &gt; index2 ? index1 : index2;</div><div class="line">            <span class="keyword">return</span> result;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="built_in">free</span>(arr);</div><div class="line">    <span class="keyword">return</span> result;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/leetcode-two-sum/">http://kuangqi.me/programming/leetcode-two-sum/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/programming/leetcode-add-two-numbers/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          LeetCode 002 Add Two Numbers 题解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/tricks/hexo-optimizations-for-mainland-china/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hexo Landscape主题的字体和JS库优化</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/programming/lcs-made-simple/">最长公共子序列（LCS）问题完全解析</a>
+          </li>
+        
+          <li>
+            <a href="/programming/leetcode-number-of-1-bits/">LeetCode 191 Number of 1 Bits 题解</a>
+          </li>
+        
+          <li>
+            <a href="/programming/leetcode-remove-element/">LeetCode 027 Remove Element 题解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

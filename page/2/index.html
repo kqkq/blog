@@ -112,6 +112,456 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
       <div class="outer">
         <section id="main">
   
+    <article id="post-leetcode-two-sum" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/leetcode-two-sum/" class="article-date">
+  <time datetime="2015-04-09T10:29:43.000Z" itemprop="datePublished">2015年04月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/programming/leetcode-two-sum/">LeetCode 001 Two Sum 题解</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="题意"><a href="#题意" class="headerlink" title="题意"></a>题意</h2><p>给一个不保证有序的数列<code>numbers</code>，在数列中找到2个数，使得两个数的和等于一个指定的数<code>target</code>，返回这两个数的索引<code>index1</code>和<code>index2</code>。</p>
+        
+          <p class="article-more-link">
+            <a href="/programming/leetcode-two-sum/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-hexo-optimizations-for-mainland-china" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/hexo-optimizations-for-mainland-china/" class="article-date">
+  <time datetime="2015-02-12T06:54:02.000Z" itemprop="datePublished">2015年02月12日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hexo博客系统的作者来自台湾，因此在这个系统中也使用了一些不符合大陆实际情况的服务，除了留言板、分享按钮等无关大雅的东西之外，直接影响网站打开速度和呈现效果的东西就是来自Google的字体和JavaScript库了，由于Google在大陆基本处于被阻断的状态，所以我们有必要对其中涉及Google服务的地方进行替换。另外，如果使用Windows系统访问，会发现页面上的字体默认为宋体，丑陋的字体也严重影响了访客浏览的体验，我们也需要对跨平台的字体呈现效果进行优化。</p>
+<p>Hexo的Landscape主题对Google的引用主要有2个，第一是使用了在Google上托管的jQuery库，第二是使用了Google的Source Code Pro字体。在Google被封锁后，大部分网友推荐使用360的CDN，也就是useso.com的库，但我经过测试后发现360的CDN在国外的访问速度极慢。网友之所以推荐360的CDN，是因为它可以简单的直接替换Google的服务，只需要改一下域名，URL的其余部分都无需改动。而我发现提供jQuery的国内互联网厂商比比皆是，而提供Google Code Pro字体的除了360还没有找到。因此我希望能够将这两个问题分别解决，而不是用useso一替换了之。</p>
+        
+          <p class="article-more-link">
+            <a href="/tricks/hexo-optimizations-for-mainland-china/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-enable-table-of-contents-on-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/enable-table-of-contents-on-hexo/" class="article-date">
+  <time datetime="2015-02-09T14:02:24.000Z" itemprop="datePublished">2015年02月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Hexo博客系统的核心支持生成目录（Table of Contents），但其默认的主题Landscape并不支持目录的显示。我们只需对Landscape的主题文件稍作修改并添加一点目录的CSS就可以在文章前面显示友好的目录了。</p>
+<h2 id="修改Landscape主题的ejs文件"><a href="#修改Landscape主题的ejs文件" class="headerlink" title="修改Landscape主题的ejs文件"></a>修改Landscape主题的ejs文件</h2><p>我们首先要编辑文章显示页面的模板，也就是<code>themes/landscape/layout/_partial/article.ejs</code>文件。为了将目录生成在正文之前，我们首先在这个文件中找到<code>&lt;%- post.content %&gt;</code>，并在<strong>这一行之前</strong>加入如下代码：</p>
+        
+          <p class="article-more-link">
+            <a href="/tricks/enable-table-of-contents-on-hexo/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-open-macdown-when-add-a-new-post" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/open-macdown-when-add-a-new-post/" class="article-date">
+  <time datetime="2015-02-09T07:25:42.000Z" itemprop="datePublished">2015年02月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>为Hexo添加博客时需要在终端输入命令<code>hexo new post &quot;Post title&quot;</code>，输入之后需要手动定位到<code>source/_posts</code>中的相关文件，这个目录比较深，定位比较麻烦，而<code>_posts</code>目录下可能有上百个文件，找到刚刚添加的那个也得费点劲，如果能在键入新建文章的命令之后能自动打开刚刚新建的文件，那样就方便多了。</p>
+<p>GitHub上也有人也提出了<a href="https://github.com/hexojs/hexo/issues/1007">同样的想法</a>，Hexo的作者给出了一个解决方法，就是在Hexo博客的根目录下的<code>scripts</code>目录中新建一个JavaScript脚本（如果没有<code>scripts</code>目录则手动创建一个），在其中捕获<code>new</code>事件。</p>
+        
+          <p class="article-more-link">
+            <a href="/tricks/open-macdown-when-add-a-new-post/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-build-a-ultimaker-original-printer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/build-a-ultimaker-original-printer/" class="article-date">
+  <time datetime="2015-02-02T08:11:46.000Z" itemprop="datePublished">2015年02月02日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/build-a-ultimaker-original-printer/">Ultimaker Original 3D打印机DIY手记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一时兴起决定自己DIY一台3D打印机，现在网上的开源3D打印机还是不少的，基于DLP、激光的虽然高大上，但是机构精密、调试复杂，成本也比较高，所以我们基本还是考虑选一个<a href="http://en.wikipedia.org/wiki/Fused_deposition_modeling">FDM技术</a>的。FDM技术就是将加热熔融的塑料丝从挤出嘴（喷头）中挤出，然后移动喷头来一层层地构建三维的实体。具体技术细节就不赘述了。</p>
+<h2 id="方案选择"><a href="#方案选择" class="headerlink" title="方案选择"></a>方案选择</h2><p>既然选择了相对简单的FDM技术，在机型的选择上就一定要高大上，简陋的RepRap系列、并联臂结构的机型就不考虑了。至少应该有个外壳，看起来像个完整的产品，如果线缆横飞，机构外露，感觉就低端了很多，更像一个不成熟的实验品。目前商业化的机型当中开源的不多，大概只有Ultimaker和MakerBot两种，MakerBot只有Thing-O-Matic一款开源机型，后来就走向了闭源。而Ultimaker的大部分机型基本都是开源的，包括最初的Ultimaker Original以及比较新的Ultimaker 2.</p>
+<p>更重要的是，Ultimaker系列3D打印机采用了更先进的机构设计，主要体现就是其远程挤出机。挤出机当中有步进电机、齿轮、轴承、弹簧、滚花螺栓等机械部件，算是一组相对较大的机构。MakerBot的设计是将挤出机背在打印头上，因此MakerBot的打印头比较笨重，因而跑不快。Ultimaker的设计是在机器的背面设计了一个远程挤出机，将打印材料通过一根鲍登管以送丝的方式送入打印头，这样就把挤出机从活动的打印头上剥离了出来，打印头也就轻便了许多，这个设计使得Ultimaker的打印头移动速度可以达到300mm/s，这是MakerBot的90mm/s望尘莫及的。因此我们就打算组装一台Ultimaker。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/build-a-ultimaker-original-printer/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-hexo-banner-auto-switcher" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/hexo-banner-auto-switcher/" class="article-date">
+  <time datetime="2014-07-08T16:24:19.000Z" itemprop="datePublished">2014年07月09日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/tricks/hexo-banner-auto-switcher/">自动随机切换Hexo博客的banner图片</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>个人网站最重要的是什么？个性！hexo自带的landscape是个不错的主题，首先呈现在眼前的就是高度为300像素的大banner，一个精美的banner无疑会一下抓住访客的眼球，建立起对全站的第一印象。</p>
+<p>landscape主题的banner虽然很大，但是只能是一张静态图片，略显死板。如果我们能对其稍加改造，让banner图片自动地随机切换为一些预设的图片，一定会是一件很酷的事情。下面我们就来动手实现这个设想！</p>
+        
+          <p class="article-more-link">
+            <a href="/tricks/hexo-banner-auto-switcher/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-fix-open-with-dialog" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/tricks/fix-open-with-dialog/" class="article-date">
+  <time datetime="2014-07-08T15:49:32.000Z" itemprop="datePublished">2014年07月08日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/tricks/fix-open-with-dialog/">无法更改文件打开方式的解决办法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前段时间将Cadence 16.5更新到16.6之后，之前指定过打开方式的brd、pad、dra等文件无法双击打开，试图重新指定打开方式也无效。在“打开方式”窗口中点击“浏览”按钮，定位到<code>C:\Cadence\SPB_16.6\tools\pcb\bin\allegro.exe</code>之后，Allegro的图标并未出现在“打开方式”的列表中。</p>
+<p>导致这个问题的原因是我们之前添加过<code>allegro.exe</code>，此程序的路径变更（从SPB_16.5目录变成了SPB_16.6目录）之后，就会导致“打开方式”无法添加。解决这个问题的方法是：</p>
+        
+          <p class="article-more-link">
+            <a href="/tricks/fix-open-with-dialog/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-range-function-in-javascript" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/range-function-in-javascript/" class="article-date">
+  <time datetime="2014-05-12T15:41:53.000Z" itemprop="datePublished">2014年05月12日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/programming/range-function-in-javascript/">在JavaScript中实现类似于Python的range()函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Python中的<code>range()</code>函数（<a href="https://docs.python.org/2/library/functions.html#range">文档</a>）可以生成由一个范围内的整数有序排列所构成的数组，这在很多情况下是十分方便的。而JavaScript中并没有这样一个函数，除了每次手写<code>for</code>循环之外，我们还可以手动实现自己的<code>range()</code>，提高可读性的同时实现了代码的复用。在StackOverflow上的<a href="http://stackoverflow.com/questions/8273047/javascript-function-similar-to-python-range">一篇帖子</a>中，对这个问题给出了很好的回答。整理如下：</p>
+        
+          <p class="article-more-link">
+            <a href="/programming/range-function-in-javascript/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
+    <article id="post-silkscreen-in-allegro" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/embedded/silkscreen-in-allegro/" class="article-date">
+  <time datetime="2014-04-30T16:39:55.000Z" itemprop="datePublished">2014年05月01日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/embedded/silkscreen-in-allegro/">如何在Allegro PCB Editor中正确地添加丝印</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Allegro PCB Editor中，很多Class和Subclass都包含了丝印层，那么要如何添加和管理丝印层，又应该如何正确地生成丝印层的光绘文件呢？我们常用的丝印层位于下列Class/Subclass当中。</p>
+<h2 id="Board-Geometry-Silkscreen"><a href="#Board-Geometry-Silkscreen" class="headerlink" title="Board Geometry - Silkscreen"></a>Board Geometry - Silkscreen</h2><p>板级的丝印层，一般用于添加板子上的说明性文字标注、版权信息、产品或公司Logo等等。</p>
+<h2 id="Package-Geometry-Silkscreen"><a href="#Package-Geometry-Silkscreen" class="headerlink" title="Package Geometry - Silkscreen"></a>Package Geometry - Silkscreen</h2><p>器件级的丝印层，用于器件本身的标注，比如标注集成电路的1号引脚、标注电解电容和二极管的极性等等。这些丝印信息一般情况下由器件封装自带，所以很少在PCB中手动修改，如果封装中的丝印信息有误，应该直接修改器件封装中的信息，这样才便于复用。</p>
+        
+          <p class="article-more-link">
+            <a href="/embedded/silkscreen-in-allegro/#more">继续阅读</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+
+  
     <article id="post-arduino-in-action-translators-preface" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/essay/arduino-in-action-translators-preface/" class="article-date">
@@ -161,490 +611,9 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
 
 
   
-    <article id="post-add-weibo-show-in-hexo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/tricks/add-weibo-show-in-hexo/" class="article-date">
-  <time datetime="2014-03-22T04:23:40.000Z" itemprop="datePublished">2014年03月22日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/tricks/">工巧匠心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/tricks/add-weibo-show-in-hexo/">在Hexo博客中添加微博秀</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在博客上添加一个微博秀是件挺酷的事情，但作为一名前端小白，这事儿着实让我折腾了一阵。下面所有操作以默认的landscape主题为例。</p>
-<p>首先，我们要登录<a href="http://app.weibo.com/tool/weiboshow">新浪微博开放平台</a>来获取微博秀的代码。然后新建<code>themes/landscape/layout/_widget/weibo.ejs</code>这个文件，将刚刚获取到的代码添加到这个文件中。最后编辑<code>themes/landscape/_config.yml</code>，在<code>widgets:</code>标签后面的适当位置添加<code>- weibo</code>。这样微博秀应该就可以显示在你的博客上了。</p>
-<p>如果显示区域空白，有可能是因为你使用<code>localhost</code>访问导致的。使用本地IP地址<code>127.0.0.1</code>来访问就没问题了。</p>
-<p>正常情况下，这篇文章就应该结束了，但对于一个强迫症患者来说，这篇文章才刚刚开始……</p>
-        
-          <p class="article-more-link">
-            <a href="/tricks/add-weibo-show-in-hexo/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-ios-development-without-idp" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/ios-development-without-idp/" class="article-date">
-  <time datetime="2014-03-14T10:47:36.000Z" itemprop="datePublished">2014年03月14日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/ios-development-without-idp/">Xcode 5 + iOS 7免证书(iDP)真机调试与生成IPA全攻略</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>众所周知，在Xcode上开发的程序只能在模拟器中运行，如果要放到真机上则要花费99美金购买开发者证书iDP。这严重阻碍了我等草根开发者探索的脚步。写个小程序，同学间分享一下这个小小的愿望都不能满足，自然不能善罢甘休。</p>
-<p>在没有iDP的情况下，要想将程序放到iPhone上调试，并最终发布IPA用于分享，需要以下几个步骤：</p>
-<ol>
-<li>自己为自己颁发一个证书用于为生成的程序签名</li>
-<li>修改工程配置以及Xcode的配置文件和二进制文件以阻止其验证和签名</li>
-<li>通过自定义生成步骤，用伪造的证书为应用程序签名</li>
-<li>使用一点小trick来生成IPA文件</li>
-</ol>
-        
-          <p class="article-more-link">
-            <a href="/ios/ios-development-without-idp/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-flush-dns-cache-on-osx" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/flush-dns-cache-on-osx/" class="article-date">
-  <time datetime="2014-03-11T17:50:56.000Z" itemprop="datePublished">2014年03月12日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/flush-dns-cache-on-osx/">在Mac OS X下刷新DNS缓存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p>与Windows不同的是，各版本的Mac OS X系统刷新DNS缓存的方法是不一样的。</p>
-<ol>
-<li><p>对于Tiger或更低版本 Mac OS：</p>
-<pre><code>sudo lookupd -flushcache
-</code></pre></li>
-<li><p>对于Leopard和Snow Leopard：</p>
-<pre><code>sudo dscacheutil -flushcache
-</code></pre></li>
-<li><p>对于Lion、Mountain Lion和Mavericks：</p>
-<pre><code>sudo killall -HUP mDNSResponder
-</code></pre></li>
-</ol>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/flush-dns-cache-on-osx/">http://kuangqi.me/ios/flush-dns-cache-on-osx/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-allegro-pcb-thermal-pad" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/embedded/allegro-pcb-thermal-pad/" class="article-date">
-  <time datetime="2013-07-12T14:52:56.000Z" itemprop="datePublished">2013年07月12日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/embedded/allegro-pcb-thermal-pad/">Allegro PCB Editor与十字花焊盘有关的技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>花焊盘又称热焊盘、热风焊盘等。其作用是减少焊盘在焊接中向外散热，以防止因过度散热而导致的虚焊。在Allegro中，添加GND铺铜后，默认就会为相关的焊盘创建十字连接。但有时候自动添加的连接并非我们理想中的连接，我们可以对其进行细致的调节，使其满足我们的需求。</p>
-<h2 id="调节十字连线宽度"><a href="#调节十字连线宽度" class="headerlink" title="调节十字连线宽度"></a>调节十字连线宽度</h2><p>默认的连线宽度是约束管理器中设置的线宽最小值，但这个最小值看起来有些单薄，但如果增大约束管理器中的最小值，又可能导致高密度的芯片地线处产生DRC错误。点击Shape - Global Dynamic Params…，在弹出的Global Dynamic Shape Parameters对话框中点击Thermal relief connects选项卡，可以通过下方的Use fixed thermal width of项目指定十字连接的宽度，或者通过Use thermal width oversize of来指定十字连接的宽度在约束管理器线宽设定值的基础上再增加多少。</p>
-        
-          <p class="article-more-link">
-            <a href="/embedded/allegro-pcb-thermal-pad/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-cc3000-host-driver-porting-guide" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/embedded/cc3000-host-driver-porting-guide/" class="article-date">
-  <time datetime="2013-06-16T17:47:44.000Z" itemprop="datePublished">2013年06月17日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/embedded/cc3000-host-driver-porting-guide/">CC3000驱动移植中的几个陷阱</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="文档中的一个小错误"><a href="#文档中的一个小错误" class="headerlink" title="文档中的一个小错误"></a>文档中的一个小错误</h2><p><code>wlan_ioctl_get_scan_results</code>函数用于返回WLAN扫描的结果，每调用一次返回一个结果。返回的数据结构在文档中给出，但是这里文档写错了。。。Result entry前的56bytes应该是42bytes，而每次的结果总有有4+4+42=50(bytes)。把下面的结果加起来，也会发现各项的和是42而不是56. 这本来只是手册上的一个笔误，但在编程时，大家通常会使用一个结构体来接收返回的数据，如果这个字节数不对的话，就会影响内存对齐，从而导致返回的结果错误。这里，我使用的结构体定义如下：</p>
-        
-          <p class="article-more-link">
-            <a href="/embedded/cc3000-host-driver-porting-guide/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-wifi-scaning-on-os-x" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/ios/wifi-scaning-on-os-x/" class="article-date">
-  <time datetime="2013-06-01T15:37:53.000Z" itemprop="datePublished">2013年06月01日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/ios/">果粉手札</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/ios/wifi-scaning-on-os-x/">Mac系统下的Wi-Fi扫描命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-        <!-- Table of Contents -->
-        
-
-        <p>在Mac系统下扫描WiFi接入点，可以列出SSID，BSSID，RSSI等详细信息<br>命令如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s</div></pre></td></tr></table></figure>
-<hr>
-<p><strong>版权声明</strong></p>
-<p><img src="/images/cc.png" alt=""></p>
-<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
-<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
-<p>本文永久链接：<a href="http://kuangqi.me/ios/wifi-scaning-on-os-x/">http://kuangqi.me/ios/wifi-scaning-on-os-x/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-history-panel-in-photoshop" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/image-processing/history-panel-in-photoshop/" class="article-date">
-  <time datetime="2013-05-23T05:34:32.000Z" itemprop="datePublished">2013年05月23日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/image-processing/">绘云描鲤</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/image-processing/history-panel-in-photoshop/">Photoshop“历史”和“撤销”功能使用技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>今天看到有同学吐槽Photoshop的撤销功能不顺手，以至于到了骂Adobe的脑子被驴踢了的程度，底下的回复更是群情激昂，怒斥PS二逼。。。PS是一个庞大复杂的系统，经过二十多年的发展，其各项设计已经被精雕细琢，几乎无可挑剔了。所以如果你真的遇到PS特别特别不顺手，特别特别二逼的操作时，也许更应该考虑一下是否有更好的办法。下面我就针对“撤销”这一常用的操作新手容易遇到的一些问题做一个汇总和解答。</p>
-<h2 id="1-为什么Ctrl-Z只能撤销一步？！"><a href="#1-为什么Ctrl-Z只能撤销一步？！" class="headerlink" title="1. 为什么Ctrl+Z只能撤销一步？！"></a>1. 为什么Ctrl+Z只能撤销一步？！</h2><p>这基本上是PS新手最经常问到的问题。Ctrl+Z快捷键的作用是交换当前状态和上一步的状态，这个快捷键跟Windows中其它软件，比如Word的快捷键类似却有所不同，所以如果用Word的思路考虑PS，那这个快捷键确实够二逼。不过这个快捷键这样设计是有道理的，因为撤销一步要比撤销多步更常用，而且切换对比这一步的效果跟刚才的效果这个功能也很常用。比如我画画的时候加了一笔，我想对比一下加这一笔好不好，那我就会反复的按Ctrl+Z来对比。而撤销多步的功能一般不常用，即使用到，也不是为了撤销两步三步，而是很多步，对于怎样方便的一下子撤销很多步，PS另作了考虑，这个我们一会儿再说。这个是统计规律，是从大量的设计师的设计实践中总结出来的，Ctrl+Z撤销一步的设置能一直保留十几年，是有其事实依据的。</p>
-        
-          <p class="article-more-link">
-            <a href="/image-processing/history-panel-in-photoshop/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-23rd-birthday" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/essay/23rd-birthday/" class="article-date">
-  <time datetime="2013-05-08T15:59:59.000Z" itemprop="datePublished">2013年05月08日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/essay/">我笔我心</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/essay/23rd-birthday/">23岁生日之最</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-最早"><a href="#1-最早" class="headerlink" title="1. 最早"></a>1. 最早</h2><p>李雪大神早在5月6日中午就发来祝福~荣登本年度最早祝福！</p>
-<h2 id="2-“最”早"><a href="#2-“最”早" class="headerlink" title="2. “最”早"></a>2. “最”早</h2><p>陶富美童鞋早上8:04发来一条洋气的iMessage~荣登当日最早~</p>
-<h2 id="3-最Geek"><a href="#3-最Geek" class="headerlink" title="3. 最Geek"></a>3. 最Geek</h2><p>昀牛祝我“密码日快乐”，我只想说一句——“你赢了！！！”。昀牛毫无疑问的荣获最Geek奖。。。</p>
-        
-          <p class="article-more-link">
-            <a href="/essay/23rd-birthday/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
-    <article id="post-note-on-stm32-rtc-oscillator" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/embedded/note-on-stm32-rtc-oscillator/" class="article-date">
-  <time datetime="2013-04-28T06:10:21.000Z" itemprop="datePublished">2013年04月28日</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/embedded/">软硬兼施</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/embedded/note-on-stm32-rtc-oscillator/">STM32 RTC晶振起振指南</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>STM32的RTC晶振经常出现不起振的问题，这已经是业界共识了。。。很多人在各种电子论坛上求助类似于“求高手指点！RTC晶振不起振怎么办”的问题，而其答案基本可以概括为“这次高手帮不了你了”</p>
-<p>更有阴谋论者提出让人啼笑皆非的解释——STM32的RTC晶振不起振是ST与晶振厂商串通后故意搞出来的，目的是提高某晶振厂商高端晶振的销量。。。</p>
-<p>最近做的几块板子也用到了STM32的RTC，前后两版一共做了大概6片，幸运的是并未遇到晶振不起振的现象。而我采用的是3毛钱一个的普通晶振，并未选用传说中低负载高精度晶振。。。后来在另外一片实验性质的板子上首次遇到了晶振不起振的问题，而且做了2片都不起振，这才让我意识到这个问题的严重性。</p>
-        
-          <p class="article-more-link">
-            <a href="/embedded/note-on-stm32-rtc-oscillator/#more">继续阅读</a>
-          </p>
-        
-      
-    </div>
-    <footer class="article-footer">
-      
-        
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </section>
@@ -655,7 +624,7 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">12</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
     </div>
   </div>
 
@@ -675,15 +644,15 @@ document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3
           </li>
         
           <li>
-            <a href="/tricks/hexo-optimizations-for-mainland-china/">Hexo Landscape主题的字体和JS库优化</a>
+            <a href="/programming/lcs-made-simple/">最长公共子序列（LCS）问题完全解析</a>
           </li>
         
           <li>
-            <a href="/tricks/enable-table-of-contents-on-hexo/">为Hexo博客添加目录</a>
+            <a href="/programming/leetcode-number-of-1-bits/">LeetCode 191 Number of 1 Bits 题解</a>
           </li>
         
           <li>
-            <a href="/tricks/open-macdown-when-add-a-new-post/">在为Hexo博客添加文章时自动打开编辑器</a>
+            <a href="/programming/leetcode-remove-element/">LeetCode 027 Remove Element 题解</a>
           </li>
         
       </ul>

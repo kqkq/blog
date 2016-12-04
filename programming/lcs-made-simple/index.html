@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>最长公共子序列（LCS）问题完全解析 | The Bloom of Youth | 锦瑟华年</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题描述给定两个字符串，输出两个串最长公共子序列的长度。例如字符串abcdgh和字符串aedfhr的最长公共子序列是adh，它的长度是3.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最长公共子序列（LCS）问题完全解析">
+<meta property="og:url" content="http://kuangqi.me/programming/lcs-made-simple/index.html">
+<meta property="og:site_name" content="The Bloom of Youth | 锦瑟华年">
+<meta property="og:description" content="问题描述给定两个字符串，输出两个串最长公共子序列的长度。例如字符串abcdgh和字符串aedfhr的最长公共子序列是adh，它的长度是3.">
+<meta property="og:image" content="http://kuangqi.me/images/print-lcs.png">
+<meta property="og:image" content="http://kuangqi.me/images/cc.png">
+<meta property="og:updated_time" content="2016-12-04T11:59:25.187Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="最长公共子序列（LCS）问题完全解析">
+<meta name="twitter:description" content="问题描述给定两个字符串，输出两个串最长公共子序列的长度。例如字符串abcdgh和字符串aedfhr的最长公共子序列是adh，它的长度是3.">
+<meta name="twitter:image" content="http://kuangqi.me/images/print-lcs.png">
+<meta name="twitter:creator" content="@kuangqi">
+  
+    <link rel="alternative" href="/atom.xml" title="The Bloom of Youth | 锦瑟华年" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+
+  <link rel="stylesheet" href="/css/style.css">
+  
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-49728497-1', 'kuangqi.me');
+  ga('require', 'displayfeatures');
+  ga('send', 'pageview');
+
+</script>
+
+
+  
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3Fdcfa4b01ced33f05267029a75257dabb' type='text/javascript'%3E%3C/script%3E"));
+</script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+</head>
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">The Bloom of Youth | 锦瑟华年</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">那些刻骨铭心的日子原本就云淡风轻</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">主页</a>
+        
+          <a class="main-nav-link" href="/archives">存档</a>
+        
+          <a class="main-nav-link" href="/works">作品集</a>
+        
+          <a class="main-nav-link" href="/about">关于我</a>
+        
+          <a class="main-nav-link" href="/arduino">《Arduino魔法书》专题页面</a>
+        
+          <a class="main-nav-link" href="https://coding.net/u/kqkq/p/blog/git">本博客源代码</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-github-link" class="nav-icon" href="https://github.com/kqkq" target="_blank" title="GitHub"></a>
+        
+        
+          <a id="nav-weibo-link" class="nav-icon" href="http://weibo.com/kqwd" target="_blank" title="Sina Weibo"></a>
+        
+        
+          <a id="nav-renren-link" class="nav-icon" href="http://www.renren.com/240043689" target="_blank" title="RenRen"></a>
+        
+        
+          <a id="nav-twitter-link" class="nav-icon" href="https://twitter.com/kuangqi" target="_blank" title="Twitter"></a>
+        
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://kuangqi.me"></form>
+      </div>
+    </div>
+  </div>
+  <script>
+    
+    var d = new Date();
+    var m = d.getMinutes();
+    var num = Math.ceil((m + 1) / (60 / 6));
+    document.getElementById("banner").style.backgroundImage = "url(/css/images/banner" + num + ".jpg)";
+    
+</script>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-lcs-made-simple" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/programming/lcs-made-simple/" class="article-date">
+  <time datetime="2015-07-31T16:00:00.000Z" itemprop="datePublished">2015年08月01日</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/programming/">编程之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      最长公共子序列（LCS）问题完全解析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+        <!-- Table of Contents -->
+        
+            <div id="toc" class="toc-article">
+              <strong class="toc-title">文章目录</strong>
+              <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#问题描述"><span class="toc-number">1.</span> <span class="toc-text">问题描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#问题分析"><span class="toc-number">2.</span> <span class="toc-text">问题分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#复杂度分析"><span class="toc-number">3.</span> <span class="toc-text">复杂度分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编程实现"><span class="toc-number">4.</span> <span class="toc-text">编程实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#题目代码"><span class="toc-number">5.</span> <span class="toc-text">题目代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#教学代码"><span class="toc-number">6.</span> <span class="toc-text">教学代码</span></a></li></ol>
+            </div>
+        
+
+        <h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>给定两个字符串，输出两个串最长公共子序列的长度。例如字符串<code>abcdgh</code>和字符串<code>aedfhr</code>的最长公共子序列是<code>adh</code>，它的长度是3.</p>
+<a id="more"></a>
+<p>在线评测：</p>
+<ul>
+<li>原始问题（单个字符，EOF结尾）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=16&amp;page=show_problem&amp;problem=1346" target="_blank" rel="external">UVaOJ 10405</a></li>
+<li>原始问题（单个整数）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=12&amp;page=show_problem&amp;problem=1007" target="_blank" rel="external">UVaOJ 10066</a></li>
+<li>原始问题（单个字符，井号结尾）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=13&amp;page=show_problem&amp;problem=1133" target="_blank" rel="external">UVaOJ 10192</a></li>
+<li>输出具体方案（字符串）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=7&amp;page=show_problem&amp;problem=472" target="_blank" rel="external">UVaOJ 531</a></li>
+<li>原始问题+小预处理（需特别注意审题！）：<a href="https://uva.onlinejudge.org/index.php?option=com_onlinejudge&amp;Itemid=8&amp;category=114&amp;page=show_problem&amp;problem=47" target="_blank" rel="external">UVaOJ 111</a></li>
+<li>要求序列必须连续：<a href="http://acm.hdu.edu.cn/showproblem.php?pid=1403" target="_blank" rel="external">HDU 1403</a></li>
+</ul>
+<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>$LCS[A_i, B_j]$代表序列$A$的前$i$个字母和序列$B$的前$j$个字母的最长公共子序列长度。如果$A_i = B_j$，则最长公共子序列的值在之前的基础上增加1，即$LCS[A_i, B_j] = LCS[A_{i-1}, B_{j-1}] + 1$。若$A_i \neq B_j$，则最长公共子序列的长度不能增加，所以当前最长子序列的长度还是之前的长度。长度有可能是$LCS[A_{i-1}, B_j]$，也可能是$LCS[A_i, B_{j-1}]$，我们取两者中较大的一个即可。当然，如果$A_i$或者$B_j$有任意一个是空串，则LCS显然为0.</p>
+<p>综上，最长公共子序列问题的状态转移方程为：</p>
+<p>$$<br>LCS[A_i, B_i] =<br>\left{<br>\begin{array}{rcl}<br>0 &amp;,&amp; (i=0或j=0)\<br>LCS[A_{i-1}, B_{j-1}] + 1 &amp;,&amp;(A_i=B_i)\<br>\max(LCS[A_{i}, B_{j-1}], LCS[A_{i-1}, B_{j}]) &amp;,&amp; (A_i \neq B_i)<br>\end{array}<br>\right.<br>$$</p>
+<p>如果要求最长公共子序列必须连续（即最长公共子串），则状态转义方程为：</p>
+<p>$$<br>LCCS[A_i, B_i] =<br>\left{<br>\begin{array}{rcl}<br>0 &amp;,&amp; (i=0或j=0或A_i \neq B_i)\<br>LCCS[A_{i-1}, B_{j-1}] + 1 &amp;,&amp;(A_i=B_i)<br>\end{array}<br>\right.<br>$$</p>
+<p><strong>特别注意：此处$LCCS[A_i, B_i]$表示的是以$A_i$和$B_i$作为结尾（最后一个字符）的最长连续公共子串的长度。即$A_i$和$B_i$这两个字符必须包含在最长公共子串之中。这与非连续版本的要求（$A_i$和$B_i$只表示两个串的最后一个字符，这量个字符不一定在最长公共子序列之中）是有所不同的。该问题最后的答案也不是<code>dp</code>数组的右下角，而是整个<code>dp</code>数组中的最大值。</strong></p>
+<p>如果需要输出具体的最长公共子序列，可以借助另外一个数组记录公共子序列不断延长的过程，并通过递归的方法在该数组中找到最长子序列延长的位置，并输出这个序列。</p>
+<p><img src="/images/print-lcs.png" alt=""></p>
+<p>如图，在每次为<code>dp</code>数组复制时，同时为记录方向的数组<code>bd</code>赋值，$A_i = B_j$时，赋值为“↖”。$A_i \neq B_j$时，<code>DP[i - 1][j]</code>较大时赋值为“↑”，<code>DP[i][j - 1]</code>较大时赋值为“←”。这个箭头其实是记录了最长公共子序列在两个输入字符串上延长的方式。我们可以选择右下角为起点，递归直到到达左边缘或上边缘，然后在回溯时输出所有标有“↖”处对应的字符即可。</p>
+<p>如果需要输出所有的最长公共子序列，则应在构建<code>bd</code>数组时记录$LCS[A_{i-1}, B_i] = LCS[A_i, B_{i-1}]$的情形，这种情况下说明最长公共子序列有多个，需要对每一个子序列执行类似于深度优先搜索的操作，从而分别构建。具体实现请见文章最后的教学代码。</p>
+<p>构建<code>bd</code>数组只是为了方便编程实现，也方便理解。实际上<code>dp</code>数组已经包含了全部信息，所有在实际编程中<code>bd</code>数组也可以省略。具体代码见编程实现一节。</p>
+<h2 id="复杂度分析"><a href="#复杂度分析" class="headerlink" title="复杂度分析"></a>复杂度分析</h2><p>对于长度为$M$的串$A$和长度为$N$的串$B$而言，计算最长公共子序列长度的时间复杂度和空间复杂度均为$O(M \times N)$. 如果不需要输出具体方案，则可以只保留<code>dp</code>数组最近的2行，使用 <em>滚动数组</em> 进行优化，将空间复杂度降为$O(\min(M,N))$. 根据<code>dp</code>数组构建最优解的时间复杂度为$O(M+N)$. </p>
+<h2 id="编程实现"><a href="#编程实现" class="headerlink" title="编程实现"></a>编程实现</h2><p>上式中的<code>i</code>、<code>j</code>等变量表示字符时的取值范围是1～N，而等于0时表示取0个字符，而不是第0个字符，取零个字符即空串。而在C语言中，并没有“取<br>0个字符”这一操作。但是算法却要求在LCS二维数组中记录空串时LCS为零的情形。解决这种情形的方法有3种：</p>
+<ol>
+<li>在A、B两个字符串的第0位置添加任意字符，DP数组加一圈，循环[1, Len]，然后通过if判断手动在A[0]和B[0]时填0. 此方法可读性最高且最接近数学上的定义，但要在函数之外预处理字符串，适合学习使用。</li>
+<li>DP数组加一圈，而A、B串保持原状，循环[1, Len]，但在每次访问字符串时要给字符串下标减一，以满足C字符串从0开始的要求。注意此方法中字符串的长度比DP数组每一维的长度不相等，而是少1. 此方法代码最简洁，函数代码可以整体记忆及套用，适合竞赛使用。</li>
+<li>DP数组不动，串A、B也保持原状，循环[0, Len)，但要在每次访问DP数组时判断下标是否为-1，若为-1则用问号表达式返回0. 此方法代码最复杂但可节约少量空间，不推荐使用。</li>
+</ol>
+<p>为了输出具体的最长公共子序列，我们还可以在生成<code>dp</code>数组的同时记录一个<code>bd</code>数组，用数字1、2、3依次代表“←”、“↑”、“↖”。核心代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>])</div><div class="line">&#123;</div><div class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">    bd[i][j] = <span class="number">3</span>;</div><div class="line">    <span class="keyword">continue</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>])</div><div class="line">&#123;</div><div class="line">    dp[i][j] = dp[i - <span class="number">1</span>][j];</div><div class="line">    bd[i][j] = <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line"><span class="keyword">else</span></div><div class="line">&#123;</div><div class="line">    dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">    bd[i][j] = <span class="number">1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在有了<code>bd</code>数组之后，就可以方便地递归输出一个具体的最长公共子序列，输出的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">void construct(int la, int lb)</div><div class="line">&#123;</div><div class="line">    if(la == 0 || lb == 0) return;</div><div class="line">    if(bd[la][lb] == 3)</div><div class="line">    &#123;</div><div class="line">        construct(la - 1, lb - 1);</div><div class="line">        printf(&quot;%s&quot;, a[la - 1]);</div><div class="line">    &#125;</div><div class="line">    else if(bd[la][lb] == 2)</div><div class="line">    &#123;</div><div class="line">        construct(la - 1, lb);</div><div class="line">    &#125;</div><div class="line">    else</div><div class="line">    &#123;</div><div class="line">        construct(la, lb - 1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当然<code>bd</code>数组并不是必需的，<code>dp</code>数组其实已经包含了所需的所有信息。使用<code>dp</code>数组构建最长公共子序列的代码稍微繁杂一些，基本就是将求解过程的条件判断重新写一遍。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">construct</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(a[la - <span class="number">1</span>] == b[lb - <span class="number">1</span>])</div><div class="line">    &#123;</div><div class="line">        construct(la - <span class="number">1</span>, lb - <span class="number">1</span>);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%s"</span>, a[la - <span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dp[la][lb] == dp[la - <span class="number">1</span>][lb])</div><div class="line">    &#123;</div><div class="line">        construct(la - <span class="number">1</span>, lb);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        construct(la, lb - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>或者也可以写成：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">construct</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(a[la - <span class="number">1</span>] == b[lb - <span class="number">1</span>])</div><div class="line">    &#123;</div><div class="line">        construct(la - <span class="number">1</span>, lb - <span class="number">1</span>);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%s"</span>, a[la - <span class="number">1</span>]);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(dp[la][lb] == dp[la - <span class="number">1</span>][lb])</div><div class="line">        &#123;</div><div class="line">            construct(la - <span class="number">1</span>, lb);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span></div><div class="line">        &#123;</div><div class="line">            construct(la, lb - <span class="number">1</span>);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样写代码更复杂一点，但形式与计算<code>dp</code>数组时更为接近。</p>
+<h2 id="题目代码"><a href="#题目代码" class="headerlink" title="题目代码"></a>题目代码</h2><p>UVaOJ 10405 方法1：</p>
+<p>字符串前追加一个无用字符，<code>dp</code>数组加一圈。<code>lcs()</code>函数代码与数学表达式完全一致，注意<code>main()</code>函数中读入数据和求长度的方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">1010</span>];</div><div class="line"><span class="keyword">char</span> b[<span class="number">1010</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">1010</span>][<span class="number">1010</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i] == b[j]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i][j - <span class="number">1</span>] &gt; dp[i - <span class="number">1</span>][j] ?</div><div class="line">                dp[i][j - <span class="number">1</span>] : dp[i - <span class="number">1</span>][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gets(a + <span class="number">1</span>) == <span class="literal">NULL</span>) <span class="keyword">break</span>;</div><div class="line">        gets(b + <span class="number">1</span>);</div><div class="line">        a[<span class="number">0</span>] = <span class="string">' '</span>;</div><div class="line">        b[<span class="number">0</span>] = <span class="string">' '</span>;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lcs(a, <span class="built_in">strlen</span>(a) - <span class="number">1</span>, b, <span class="built_in">strlen</span>(b) - <span class="number">1</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10405 方法2：</p>
+<p>字符串保持原状，<code>dp</code>数组加一圈，此为最常用且简洁的方式，算法导论上也以此方式描述。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">1010</span>];</div><div class="line"><span class="keyword">char</span> b[<span class="number">1010</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">1010</span>][<span class="number">1010</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i][j - <span class="number">1</span>] &gt; dp[i - <span class="number">1</span>][j] ? </div><div class="line">                            dp[i][j - <span class="number">1</span>] : dp[i - <span class="number">1</span>][j];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gets(a) == <span class="literal">NULL</span>) <span class="keyword">break</span>;</div><div class="line">        gets(b);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lcs(a, <span class="built_in">strlen</span>(a), b, <span class="built_in">strlen</span>(b)));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10405 方法3：</p>
+<p>字符串和<code>dp</code>数组均保持原状，需要使用较为复杂的逻辑处理可能存在的下标越界问题。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">1010</span>];</div><div class="line"><span class="keyword">char</span> b[<span class="number">1010</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">1010</span>][<span class="number">1010</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i] == b[j])</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(i == <span class="number">0</span> || j == <span class="number">0</span>) dp[i][j] = <span class="number">1</span>;</div><div class="line">                <span class="keyword">else</span> dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = (j == <span class="number">0</span> ? <span class="number">0</span> : dp[i][j - <span class="number">1</span>]) &gt; (i == <span class="number">0</span> ? <span class="number">0</span> : dp[i - <span class="number">1</span>][j]) ? </div><div class="line">                            (j == <span class="number">0</span> ? <span class="number">0</span> : dp[i][j - <span class="number">1</span>]) : (i == <span class="number">0</span> ? <span class="number">0</span> : dp[i - <span class="number">1</span>][j]);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la - <span class="number">1</span>][lb - <span class="number">1</span>];</div><div class="line">&#125;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(gets(a) == <span class="literal">NULL</span>) <span class="keyword">break</span>;</div><div class="line">        gets(b);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, lcs(a, <span class="built_in">strlen</span>(a), b, <span class="built_in">strlen</span>(b)));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10066:</p>
+<p>字符输入变整数输入，改<code>lcs()</code>函数的数据类型即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> a[<span class="number">110</span>], b[<span class="number">110</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">int</span> *a, <span class="keyword">int</span> la, <span class="keyword">int</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>] ?</div><div class="line">                            dp[i - <span class="number">1</span>][j] : dp[i][j - <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">int</span> n1, n2;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> cs = <span class="number">1</span>; ; cs++)</div><div class="line">    &#123;</div><div class="line">        <span class="built_in">scanf</span>(<span class="string">"%d %d"</span>, &amp;n1, &amp;n2);</div><div class="line">        <span class="keyword">if</span>(n1 == <span class="number">0</span> || n2 == <span class="number">0</span>) <span class="keyword">break</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n1; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;a[i]);</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n2; i++) <span class="built_in">scanf</span>(<span class="string">"%d"</span>, &amp;b[i]);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Twin Towers #%d\n"</span>, cs);</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Number of Tiles : %d\n\n"</span>, lcs(a, n1, b, n2));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 10192:</p>
+<p>规定井号为输入的结束，主函数中简单处理即可。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> a[<span class="number">110</span>], b[<span class="number">110</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>]) dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">            <span class="keyword">else</span> dp[i][j] = dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>] ?</div><div class="line">                            dp[i - <span class="number">1</span>][j] : dp[i][j - <span class="number">1</span>];</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> cs = <span class="number">1</span>; ; cs++)</div><div class="line">    &#123;</div><div class="line">        gets(a);</div><div class="line">        <span class="keyword">if</span>(a[<span class="number">0</span>] != <span class="string">'#'</span>) gets(b);</div><div class="line">        <span class="keyword">else</span> <span class="keyword">break</span>;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"Case #%d: you can visit at most %d cities.\n"</span>, cs, lcs(a, <span class="built_in">strlen</span>(a), b, <span class="built_in">strlen</span>(b)));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>UVaOJ 531:</p>
+<p>要求输出具体的最长公共子序列，且序列的每个元素为一个字符串（单词）。下列代码已经通过注释的方式给出了使用<code>bd</code>数组和不用<code>bd</code>数组的两种实现方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">char</span> wds_a[<span class="number">110</span>][<span class="number">35</span>];</div><div class="line"><span class="keyword">char</span> wds_b[<span class="number">110</span>][<span class="number">35</span>];</div><div class="line"><span class="keyword">int</span> dp[<span class="number">110</span>][<span class="number">110</span>];</div><div class="line"><span class="comment">//int bd[110][110];</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> a[][<span class="number">35</span>], <span class="keyword">int</span> la, <span class="keyword">char</span> b[][<span class="number">35</span>], <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="built_in">strcmp</span>(a[i - <span class="number">1</span>], b[j - <span class="number">1</span>]) == <span class="number">0</span>)</div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                bd[i][j] = <span class="number">3</span>;</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>])</div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j];</div><div class="line">                bd[i][j] = <span class="number">2</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">                bd[i][j] = <span class="number">1</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">construct</span><span class="params">(<span class="keyword">int</span> depth, <span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">strcmp</span>(wds_a[la - <span class="number">1</span>], wds_b[lb - <span class="number">1</span>]) == <span class="number">0</span>) <span class="comment">//Construct without [bd] array</span></div><div class="line">    <span class="comment">//if(bd[la][lb] == 3) //Construct with [bd] array</span></div><div class="line">    &#123;</div><div class="line">        construct(depth + <span class="number">1</span>, la - <span class="number">1</span>, lb - <span class="number">1</span>);</div><div class="line">        <span class="comment">//printf("[%d]", la);</span></div><div class="line">        <span class="built_in">printf</span>(<span class="string">"%s"</span>, wds_a[la - <span class="number">1</span>]);</div><div class="line">        <span class="keyword">if</span>(depth == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">        <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">" "</span>);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(dp[la][lb] == dp[la - <span class="number">1</span>][lb])  <span class="comment">//Construct without [bd] array</span></div><div class="line">    <span class="comment">//else if(bd[la][lb] == 2) //Construct with [bd] array</span></div><div class="line">    &#123;</div><div class="line">        construct(depth, la - <span class="number">1</span>, lb);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        construct(depth, la, lb - <span class="number">1</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">char</span> str[<span class="number">35</span>];</div><div class="line">    <span class="keyword">while</span>(<span class="number">1</span>)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">int</span> la = <span class="number">0</span>, lb = <span class="number">0</span>;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; ; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(<span class="built_in">scanf</span>(<span class="string">"%s"</span>, str) == EOF) <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">            <span class="keyword">if</span>(str[<span class="number">0</span>] == <span class="string">'#'</span>) <span class="keyword">break</span>;</div><div class="line">            <span class="built_in">strcpy</span>(wds_a[i], str);</div><div class="line">            la++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; ; i++)</div><div class="line">        &#123;</div><div class="line">            <span class="built_in">scanf</span>(<span class="string">"%s"</span>, str);</div><div class="line">            <span class="keyword">if</span>(str[<span class="number">0</span>] == <span class="string">'#'</span>) <span class="keyword">break</span>;</div><div class="line">            <span class="built_in">strcpy</span>(wds_b[i], str);</div><div class="line">            lb++;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">int</span> len = lcs(wds_a, la, wds_b, lb);</div><div class="line">        construct(<span class="number">0</span>, la, lb);</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="教学代码"><a href="#教学代码" class="headerlink" title="教学代码"></a>教学代码</h2><p>输入两个字符串，输出两个字符串的最长公共子序列的长度，并列出所有的最长公共子序列，最后以图形化的形式输出用于构建最优解的<code>bd</code>数组。代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"></div><div class="line"><span class="keyword">int</span> dp[<span class="number">100</span>][<span class="number">100</span>];</div><div class="line"><span class="keyword">char</span> a[<span class="number">100</span>], b[<span class="number">100</span>];</div><div class="line"><span class="keyword">int</span> bd[<span class="number">100</span>][<span class="number">100</span>];</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">lcs</span><span class="params">(<span class="keyword">char</span> *a, <span class="keyword">int</span> la, <span class="keyword">char</span> *b, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="built_in">memset</span>(dp, <span class="number">0</span>, <span class="keyword">sizeof</span>(dp));</div><div class="line">    <span class="built_in">memset</span>(bd, <span class="number">0</span>, <span class="keyword">sizeof</span>(bd));</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            <span class="keyword">if</span>(a[i - <span class="number">1</span>] == b[j - <span class="number">1</span>])</div><div class="line">            &#123;</div><div class="line">                dp[i][j] = dp[i - <span class="number">1</span>][j - <span class="number">1</span>] + <span class="number">1</span>;</div><div class="line">                bd[i][j] = <span class="number">3</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">else</span></div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &gt; dp[i][j - <span class="number">1</span>])</div><div class="line">                &#123;</div><div class="line">                    dp[i][j] = dp[i - <span class="number">1</span>][j];</div><div class="line">                    bd[i][j] = <span class="number">2</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] &lt; dp[i][j - <span class="number">1</span>])</div><div class="line">                &#123;</div><div class="line">                    dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">                    bd[i][j] = <span class="number">1</span>;</div><div class="line">                &#125;</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(dp[i - <span class="number">1</span>][j] == dp[i][j - <span class="number">1</span>])</div><div class="line">                &#123;</div><div class="line">                    dp[i][j] = dp[i][j - <span class="number">1</span>];</div><div class="line">                    bd[i][j] = <span class="number">4</span>;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> dp[la][lb];</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printlcs</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb, <span class="keyword">int</span> depth, <span class="built_in">std</span>::<span class="built_in">string</span> s)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">if</span>(la == <span class="number">0</span> || lb == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">if</span>(bd[la][lb] == <span class="number">3</span>)</div><div class="line">    &#123;</div><div class="line">        s = a[la - <span class="number">1</span>] + s;</div><div class="line">        printlcs(la - <span class="number">1</span>, lb - <span class="number">1</span>, depth - <span class="number">1</span>, s);</div><div class="line">        <span class="keyword">if</span>(depth == <span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"*%s\n"</span>, s.c_str());</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span></div><div class="line">    &#123;</div><div class="line">        <span class="keyword">if</span>(bd[la][lb] == <span class="number">2</span>)</div><div class="line">        &#123;</div><div class="line">            printlcs(la - <span class="number">1</span>, lb, depth, s);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(bd[la][lb] == <span class="number">1</span>)</div><div class="line">        &#123;</div><div class="line">            printlcs(la, lb - <span class="number">1</span>, depth, s);</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(bd[la][lb] == <span class="number">4</span>)</div><div class="line">        &#123;</div><div class="line">            printlcs(la - <span class="number">1</span>, lb, depth, s);</div><div class="line">            printlcs(la, lb - <span class="number">1</span>, depth, s);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">void</span> <span class="title">printbd</span><span class="params">(<span class="keyword">int</span> la, <span class="keyword">int</span> lb)</span></span></div><div class="line">&#123;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">-1</span>; i &lt;= la; i++)</div><div class="line">    &#123;</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">-1</span>; j &lt;= lb; j++)</div><div class="line">        &#123;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span>(i == <span class="number">-1</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(j == <span class="number">-1</span>) <span class="built_in">printf</span>(<span class="string">" ＼"</span>);</div><div class="line">                <span class="keyword">else</span> <span class="keyword">if</span>(j == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"|b:"</span>);</div><div class="line">                <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"&#123;%c&#125;"</span>, b[j - <span class="number">1</span>]);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            <span class="keyword">if</span>(j == <span class="number">-1</span>)</div><div class="line">            &#123;</div><div class="line">                <span class="keyword">if</span>(i == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"a: "</span>);</div><div class="line">                <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"&#123;%c&#125;"</span>, a[i - <span class="number">1</span>]);</div><div class="line">                <span class="keyword">continue</span>;</div><div class="line">            &#125;</div><div class="line">            </div><div class="line">            <span class="keyword">if</span>(bd[i][j] == <span class="number">0</span>) <span class="built_in">printf</span>(<span class="string">"[0]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">1</span>) <span class="built_in">printf</span>(<span class="string">"[&lt;]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">2</span>) <span class="built_in">printf</span>(<span class="string">"[^]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">3</span>) <span class="built_in">printf</span>(<span class="string">"[\\]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(bd[i][j] == <span class="number">4</span>) <span class="built_in">printf</span>(<span class="string">"[Y]"</span>);</div><div class="line">            <span class="keyword">else</span> <span class="built_in">printf</span>(<span class="string">"[%d]"</span>, bd[i][j]);</div><div class="line">        &#125;</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line">&#123;</div><div class="line">    gets(a);</div><div class="line">    gets(b);</div><div class="line">    <span class="keyword">int</span> la = <span class="built_in">strlen</span>(a);</div><div class="line">    <span class="keyword">int</span> lb = <span class="built_in">strlen</span>(b);</div><div class="line">    <span class="keyword">int</span> len = lcs(a, la, b, lb);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"------------------------\n"</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"LCS-Length = %d\n"</span>, len);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"List of LCS(s):\n"</span>);</div><div class="line">    printlcs(la, lb, len, <span class="string">""</span>);</div><div class="line">    <span class="built_in">printf</span>(<span class="string">"--------bd table--------\n"</span>);</div><div class="line">    printbd(la, lb);</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>测试输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ABCBDAB</div><div class="line">BDCABA</div></pre></td></tr></table></figure>
+<p>程序输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">------------------------</div><div class="line">LCS-Length = 4</div><div class="line">List of LCS(s):</div><div class="line">*BCBA</div><div class="line">*BCAB</div><div class="line">*BDAB</div><div class="line">--------bd table--------</div><div class="line"> ＼|b:&#123;B&#125;&#123;D&#125;&#123;C&#125;&#123;A&#125;&#123;B&#125;&#123;A&#125;</div><div class="line">a: [0][0][0][0][0][0][0]</div><div class="line">&#123;A&#125;[0][Y][Y][Y][\][&lt;][\]</div><div class="line">&#123;B&#125;[0][\][&lt;][&lt;][Y][\][&lt;]</div><div class="line">&#123;C&#125;[0][^][Y][\][&lt;][Y][Y]</div><div class="line">&#123;B&#125;[0][\][Y][^][Y][\][&lt;]</div><div class="line">&#123;D&#125;[0][^][\][Y][Y][^][Y]</div><div class="line">&#123;A&#125;[0][^][^][Y][\][Y][\]</div><div class="line">&#123;B&#125;[0][\][^][Y][^][\][Y]</div></pre></td></tr></table></figure>
+<p>其中<code>&lt;</code>表示左箭头，<code>^</code>表示上箭头，<code>\</code>表示左上箭头，<code>Y</code>表示分支（向上或向左都可以，需要分别搜索两条路径）。搜索的起点应设为右下角。</p>
+<hr>
+<p><strong>版权声明</strong></p>
+<p><img src="/images/cc.png" alt=""></p>
+<p><a href="http://kuangqi.me">The Bloom of Youth</a> by <a href="http://kuangqi.me/about">KUANG Qi</a> is licensed under a <a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">Creative Commons BY-NC-ND 4.0 International License</a>.<br>由<a href="http://kuangqi.me/about">况琪</a>创作并维护的<a href="http://kuangqi.me">锦瑟华年</a>博客采用<a href="http://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="external">创作共用保留署名-非商业-禁止演绎4.0国际许可证</a>。</p>
+<p>本文首发于<a href="http://kuangqi.me">The Bloom of Youth | 锦瑟华年</a>博客（ <a href="http://kuangqi.me">http://kuangqi.me</a> ），版权所有，侵权必究。</p>
+<p>本文永久链接：<a href="http://kuangqi.me/programming/lcs-made-simple/">http://kuangqi.me/programming/lcs-made-simple/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+        
+<div class="bdsharebuttonbox"><a href="#" class="_bds_more" data-cmd="more">分享本文</a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_renren" data-cmd="renren" title="分享到人人网"></a><a href="#" class="bds_douban" data-cmd="douban" title="分享到豆瓣网"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_fbook" data-cmd="fbook" title="分享到Facebook"></a><a href="#" class="bds_twi" data-cmd="twi" title="分享到Twitter"></a><a href="#" class="bds_mail" data-cmd="mail" title="分享到邮件分享"></a><a href="#" class="bds_print" data-cmd="print" title="分享到打印"></a><a href="#" class="bds_copy" data-cmd="copy" title="分享到复制网址"></a><a class="bds_count" data-cmd="count"></a></div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"24"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/tricks/append-a-copyright-info-after-every-post/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          为Hexo博客的每一篇文章自动追加版权信息
+        
+      </div>
+    </a>
+  
+  
+    <a href="/programming/leetcode-number-of-1-bits/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">LeetCode 191 Number of 1 Bits 题解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+
+
+<section id="comments">
+	<div class="ds-thread"></div>
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"kqkq"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = 'http://static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		|| document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/tricks/">工巧匠心</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/essay/">我笔我心</a><span class="category-list-count">30</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/ios/">果粉手札</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/image-processing/">绘云描鲤</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/programming/">编程之美</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/embedded/">软硬兼施</a><span class="category-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/embedded/in-depth-analysis-on-arduino-eslov/">Arduino ESLOV深度解析</a>
+          </li>
+        
+          <li>
+            <a href="/tricks/append-a-copyright-info-after-every-post/">为Hexo博客的每一篇文章自动追加版权信息</a>
+          </li>
+        
+          <li>
+            <a href="/programming/lcs-made-simple/">最长公共子序列（LCS）问题完全解析</a>
+          </li>
+        
+          <li>
+            <a href="/programming/leetcode-number-of-1-bits/">LeetCode 191 Number of 1 Bits 题解</a>
+          </li>
+        
+          <li>
+            <a href="/programming/leetcode-remove-element/">LeetCode 027 Remove Element 题解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+    
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Weibo show</h3>
+    <div class="widget-weibo">
+      <iframe width="100%" height="500" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=1&ptype=1&speed=0&skin=2&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=1839031723&verifier=2dad15cd&colors=dddddd,dddddd,4473924,0069a4,dddddd&dpc=1"></iframe>
+    </div>
+  </div>
+
+  
+    <div class="widget-wrap">
+  <h3 class="widget-title">LINKS</h3>
+  <div class="widget">
+  <ul class="entry">
+  <li><a href="http://kqwd.blog.163.com/" title="老博客">网易老博客</a>：一座终将失守的空城</li>
+  <li><a href="http://blanboom.org/" title="Blanboom">Blanboom</a>：折腾不止，是为创客</li>
+  </ul>
+  </div>
+</div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 况琪<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">主页</a>
+  
+    <a href="/archives" class="mobile-nav-link">存档</a>
+  
+    <a href="/works" class="mobile-nav-link">作品集</a>
+  
+    <a href="/about" class="mobile-nav-link">关于我</a>
+  
+    <a href="/arduino" class="mobile-nav-link">《Arduino魔法书》专题页面</a>
+  
+    <a href="https://coding.net/u/kqkq/p/blog/git" class="mobile-nav-link">本博客源代码</a>
+  
+</nav>
+    
+
+<script src="http://apps.bdimg.com/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof jQuery == 'undefined') {
+  document.write(unescape("%3Cscript src='/js/jquery-2.0.3.min.js' type='text/javascript'%3E%3C/script%3E"));
+}
+// ]]>
+</script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>
